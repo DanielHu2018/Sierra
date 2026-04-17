@@ -18,11 +18,11 @@
 
 ### Constraints & Controls
 
-- [ ] **CTRL-01**: User can adjust a Cost vs. Risk priority slider that affects route weighting
-- [ ] **CTRL-02**: User can toggle Co-Location preference (favor existing infrastructure corridors)
-- [ ] **CTRL-03**: User can toggle Eminent Domain avoidance
-- [ ] **CTRL-04**: User can toggle Ecology Avoidance (maximize avoidance of habitat/ESA zones)
-- [ ] **CTRL-05**: User can select Voltage type from a dropdown
+- [x] **CTRL-01**: User can adjust a Cost vs. Risk priority slider that affects route weighting
+- [x] **CTRL-02**: User can toggle Co-Location preference (favor existing infrastructure corridors)
+- [x] **CTRL-03**: User can toggle Eminent Domain avoidance
+- [x] **CTRL-04**: User can toggle Ecology Avoidance (maximize avoidance of habitat/ESA zones)
+- [x] **CTRL-05**: User can select Voltage type from a dropdown
 
 ### Routing Engine
 
@@ -152,11 +152,11 @@
 | MAP-08 | Phase 1 | Complete |
 | DATA-01 | Phase 1 | Complete |
 | DATA-02 | Phase 1 | Complete |
-| CTRL-01 | Phase 1 | Pending |
-| CTRL-02 | Phase 1 | Pending |
-| CTRL-03 | Phase 1 | Pending |
-| CTRL-04 | Phase 1 | Pending |
-| CTRL-05 | Phase 1 | Pending |
+| CTRL-01 | Phase 1 | Complete |
+| CTRL-02 | Phase 1 | Complete |
+| CTRL-03 | Phase 1 | Complete |
+| CTRL-04 | Phase 1 | Complete |
+| CTRL-05 | Phase 1 | Complete |
 | AI-01 | Phase 2 | Pending |
 | AI-02 | Phase 2 | Complete |
 | AI-03 | Phase 2 | Complete |

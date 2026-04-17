@@ -129,7 +129,7 @@ Phase 1 and Phase 2 execute in parallel, then: 1+2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Map Canvas | 3/6 | In Progress|  |
+| 1. Foundation & Map Canvas | 4/6 | In Progress|  |
 | 2. Offline Data Pipeline & AI Core | 2/4 | In Progress | - |
 | 3. Routing Engine & Core Demo Loop | 0/9 | Not started | - |
 | 4. PDF Dossier Export | 0/7 | Not started | - |
