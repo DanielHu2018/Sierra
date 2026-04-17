@@ -14,9 +14,8 @@ function visibilityProp(isVisible: boolean): 'visible' | 'none' {
 
 export function OverlayLayers() {
   const overlays = useAppStore((s) => s.overlays);
-  // overlays.frictionHeatmap is read from store but renders nothing in Phase 1
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _frictionHeatmap = overlays.frictionHeatmap;
+  // overlays.frictionHeatmap is acknowledged but renders nothing in Phase 1
+  void overlays.frictionHeatmap;
 
   const ercotLayerProps: LayerProps = {
     id: 'ercot-grid',

@@ -1,4 +1,4 @@
-import type { GeoJSON } from 'geojson';
+import type * as GeoJSON from 'geojson';
 
 export interface RouteResult {
   id: 'A' | 'B' | 'C';

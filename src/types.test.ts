@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { RouteResult, AppState } from '../types';
+import type { RouteResult, AppState } from './types';
 
 describe('types contract', () => {
   it('RouteResult matches required shape', () => {
