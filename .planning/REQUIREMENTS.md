@@ -7,13 +7,13 @@
 
 ### Map & Geospatial UI
 
-- [ ] **MAP-01**: User sees a full-screen Texas map on load with satellite and terrain baselayer options (Mapbox GL JS v3, no login required)
-- [ ] **MAP-02**: User can drop a Source pin by clicking the map; label appears and map recenters
-- [ ] **MAP-03**: User can drop a Destination pin by clicking the map; label appears and map recenters
-- [ ] **MAP-04**: User can toggle ERCOT grid overlay on/off
-- [ ] **MAP-05**: User can toggle state/private land boundary overlay on/off
-- [ ] **MAP-06**: User can toggle wildlife habitat overlay on/off
-- [ ] **MAP-07**: User can toggle topography overlay on/off
+- [x] **MAP-01**: User sees a full-screen Texas map on load with satellite and terrain baselayer options (Mapbox GL JS v3, no login required)
+- [x] **MAP-02**: User can drop a Source pin by clicking the map; label appears and map recenters
+- [x] **MAP-03**: User can drop a Destination pin by clicking the map; label appears and map recenters
+- [x] **MAP-04**: User can toggle ERCOT grid overlay on/off
+- [x] **MAP-05**: User can toggle state/private land boundary overlay on/off
+- [x] **MAP-06**: User can toggle wildlife habitat overlay on/off
+- [x] **MAP-07**: User can toggle topography overlay on/off
 - [x] **MAP-08**: All overlay GeoJSON layers are pre-simplified (mapshaper ≤10%) to prevent browser freeze at Texas scale
 
 ### Constraints & Controls
@@ -142,13 +142,13 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MAP-01 | Phase 1 | Pending |
-| MAP-02 | Phase 1 | Pending |
-| MAP-03 | Phase 1 | Pending |
-| MAP-04 | Phase 1 | Pending |
-| MAP-05 | Phase 1 | Pending |
-| MAP-06 | Phase 1 | Pending |
-| MAP-07 | Phase 1 | Pending |
+| MAP-01 | Phase 1 | Complete |
+| MAP-02 | Phase 1 | Complete |
+| MAP-03 | Phase 1 | Complete |
+| MAP-04 | Phase 1 | Complete |
+| MAP-05 | Phase 1 | Complete |
+| MAP-06 | Phase 1 | Complete |
+| MAP-07 | Phase 1 | Complete |
 | MAP-08 | Phase 1 | Complete |
 | DATA-01 | Phase 1 | Complete |
 | DATA-02 | Phase 1 | Complete |

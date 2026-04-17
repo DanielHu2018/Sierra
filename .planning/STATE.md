@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-05-PLAN.md (sidebar UI controls, TopNav, 8 tests passing)
-last_updated: "2026-04-17T23:32:51.678Z"
+stopped_at: Completed 01-04-PLAN.md (MapCanvas, PinMarkers, OverlayLayers, MapControls)
+last_updated: "2026-04-17T23:33:26.213Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 30
-  completed_plans: 8
+  completed_plans: 9
   percent: 13
 ---
 
@@ -71,6 +71,7 @@ Progress: [███░░░░░░░] 27%
 | Phase 01-foundation-map-canvas P01 | 4min | 2 tasks | 17 files |
 | Phase 01-foundation-map-canvas P02 | 1 | 2 tasks | 4 files |
 | Phase 01-foundation-map-canvas P05 | 3 | 2 tasks | 13 files |
+| Phase 01-foundation-map-canvas P04 | 12 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -98,6 +99,8 @@ Recent decisions affecting current work:
 - [Phase 01-foundation-map-canvas]: Inline styles for design token colors to prevent Tailwind v4 purge stripping dynamic values
 - [Phase 01-foundation-map-canvas]: RadioGroup sr-only pattern for hidden radio inputs enables getByLabelText accessibility queries
 - [Phase 01-foundation-map-canvas]: ToggleSwitch uses role=switch + aria-label on button element for testability via getByRole
+- [Phase 01-foundation-map-canvas]: 01-04: GeoJSON layers loaded by URL string from public/ dir (not ES module import) — Source data prop accepts URL natively
+- [Phase 01-foundation-map-canvas]: 01-04: mapStyle stored in AppStore interface only (not AppState types.ts) — UI-only state
 
 ### Pending Todos
 
@@ -110,6 +113,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-17T23:32:51.669Z
-Stopped at: Completed 01-05-PLAN.md (sidebar UI controls, TopNav, 8 tests passing)
+Last session: 2026-04-17T23:33:26.204Z
+Stopped at: Completed 01-04-PLAN.md (MapCanvas, PinMarkers, OverlayLayers, MapControls)
 Resume file: None
