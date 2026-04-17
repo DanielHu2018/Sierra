@@ -1,1 +1,85 @@
 @import "tailwindcss";
+
+@theme {
+  --color-background: #131313;
+  --color-surface: #131313;
+  --color-surface-dim: #131313;
+  --color-surface-container-lowest: #0E0E0E;
+  --color-surface-container-low: #1C1B1B;
+  --color-surface-container: #201F1F;
+  --color-surface-container-high: #2A2A2A;
+  --color-surface-container-highest: #353534;
+  --color-surface-bright: #393939;
+  --color-primary: #A7C8FF;
+  --color-primary-container: #3291FF;
+  --color-secondary: #FFBC7C;
+  --color-tertiary: #E8B3FF;
+  --color-on-surface: #E5E2E1;
+  --color-on-surface-variant: #C1C6D7;
+  --color-outline: #8B90A0;
+  --color-outline-variant: #414755;
+
+  --font-family-display: 'Manrope', sans-serif;
+  --font-family-body: 'Inter', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #131313;
+}
+
+/* CRITICAL: Do NOT add canvas { display: none } or any canvas override.
+   mapbox-gl renders into a <canvas> — hiding it produces a blank map. */
+
+button {
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+}
+
+@keyframes pin-drop {
+  from { transform: scale(0) translateY(-20px); opacity: 0; }
+  to   { transform: scale(1.2) translateY(0); opacity: 1; }
+}
+
+@keyframes pulse-ring {
+  from { transform: scale(1); opacity: 0.6; }
+  to   { transform: scale(2.5); opacity: 0; }
+}
+
+.pin-marker {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #A7C8FF;
+  color: #003061;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  animation: pin-drop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  position: relative;
+  cursor: default;
+}
+
+.pin-pulse {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(213, 227, 255, 0.3);
+  animation: pulse-ring 0.6s ease-out forwards;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
