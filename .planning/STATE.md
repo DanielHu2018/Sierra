@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-04-PLAN.md — Phase 2 all plans complete
-last_updated: "2026-04-17T23:20:46.840Z"
+stopped_at: Completed 01-01-PLAN.md (Vite scaffold + test infrastructure)
+last_updated: "2026-04-17T23:23:28.992Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 30
-  completed_plans: 4
+  completed_plans: 5
   percent: 13
 ---
 
@@ -68,6 +68,7 @@ Progress: [███░░░░░░░] 27%
 *Updated after each plan completion*
 | Phase 02-offline-data-pipeline-ai-core P01 | 15 | 2 tasks | 12 files |
 | Phase 02 P04 | 8 | 2 tasks | 8 files |
+| Phase 01-foundation-map-canvas P01 | 4min | 2 tasks | 17 files |
 
 ## Accumulated Context
 
@@ -88,6 +89,8 @@ Recent decisions affecting current work:
 - 02-02: node-flags.json written to server/data/ (not public/) — pipeline artifact, not frontend static asset
 - [Phase 02]: Generated synthetic friction_cache.json and regulations-embedded.json using deterministic data generator — real Claude scoring available when API keys are set
 - [Phase 02]: 3-score-friction.ts uses partial progress pattern: writes friction_cache.partial.json after each batch; resume skips already-scored nodes
+- [Phase 01-foundation-map-canvas]: 01-01: Used @vitejs/plugin-react@4.7.0 (not 6.0.1) — v6 requires vite@^8, project uses vite@6.4
+- [Phase 01-foundation-map-canvas]: 01-01: Root vitest.config.ts excludes server/ — each directory owns its own test runner config
 
 ### Pending Todos
 
@@ -100,6 +103,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-17T23:20:46.831Z
-Stopped at: Completed 02-04-PLAN.md — Phase 2 all plans complete
+Last session: 2026-04-17T23:23:28.983Z
+Stopped at: Completed 01-01-PLAN.md (Vite scaffold + test infrastructure)
 Resume file: None
