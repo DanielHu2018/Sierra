@@ -29,7 +29,7 @@
 - [ ] **ROUTE-01**: User clicks "Run Simulation" and three routes are generated in under 60 seconds
 - [ ] **ROUTE-02**: Three simultaneous color-coded routes appear on the map: Route A "Lowest Cost" (blue), Route B "Balanced" (orange), Route C "Lowest Regulatory Risk" (purple)
 - [x] **ROUTE-03**: A* or Dijkstra pathfinding runs on a pre-built friction-weighted graph (graph.json); LLM is not in the hot path
-- [ ] **ROUTE-04**: Friction scores for all graph nodes are pre-computed offline and loaded from friction_cache.json at startup
+- [x] **ROUTE-04**: Friction scores for all graph nodes are pre-computed offline and loaded from friction_cache.json at startup
 - [ ] **ROUTE-05**: Constraint slider/toggle values adjust friction weights at route-generation time (not requiring re-LLM-scoring)
 - [ ] **ROUTE-06**: ~~A progress animation plays during route generation (5 named stages)~~ — **Superseded by AGENT-01 through AGENT-03**: the simulation moment is now the Agent Reasoning Stream, not a static progress indicator
 - [ ] **ROUTE-07**: Graph construction includes a BFS connectivity check (>95% nodes reachable) before any route request is served
@@ -43,8 +43,8 @@
 ### AI Friction & RAG
 
 - [ ] **AI-01**: A RAG index is built at startup from PUCT, Texas environmental, NEPA, ESA, CWA Section 404, NHPA Section 106, and wildlife habitat regulation text chunks embedded in-memory (no external vector DB)
-- [ ] **AI-02**: LLM (Claude) produces a friction score (0–1 float) and one-line justification for each graph node/segment during the offline pre-computation pipeline
-- [ ] **AI-03**: LLM never generates or modifies coordinates — all geometry comes from the pre-built graph only
+- [x] **AI-02**: LLM (Claude) produces a friction score (0–1 float) and one-line justification for each graph node/segment during the offline pre-computation pipeline
+- [x] **AI-03**: LLM never generates or modifies coordinates — all geometry comes from the pre-built graph only
 - [ ] **AI-04**: Live Claude API calls at route generation time cover: Agent Reasoning Stream narration (streaming), Sierra Recommends 3-sentence rationale, per-route Environmental Trigger Panel summaries, Sierra Alerts content, and per-route segment justifications; all calls run via Promise.all where parallelizable; canned fallback text is available for every call if the API is unavailable
 
 ### Friction Heatmap
@@ -158,10 +158,10 @@
 | CTRL-04 | Phase 1 | Pending |
 | CTRL-05 | Phase 1 | Pending |
 | AI-01 | Phase 2 | Pending |
-| AI-02 | Phase 2 | Pending |
-| AI-03 | Phase 2 | Pending |
+| AI-02 | Phase 2 | Complete |
+| AI-03 | Phase 2 | Complete |
 | ROUTE-03 | Phase 2 | Complete |
-| ROUTE-04 | Phase 2 | Pending |
+| ROUTE-04 | Phase 2 | Complete |
 | ROUTE-07 | Phase 2 | Pending |
 | ROUTE-01 | Phase 3 | Pending |
 | ROUTE-02 | Phase 3 | Pending |
