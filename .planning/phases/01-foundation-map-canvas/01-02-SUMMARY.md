@@ -1,21 +1,32 @@
 ---
 phase: 01-foundation-map-canvas
-plan: 02
+plan: "02"
 subsystem: ui
-tags: [typescript, zustand, types, react]
+tags: [typescript, zustand, geojson, types-contract, state-management]
 
+# Dependency graph
 requires:
-  - phase: 01-01
-    provides: vitest config and test infrastructure
-provides:
-  - RouteResult and AppState TypeScript interfaces (exact spec from CONTEXT.md)
-  - Zustand v5 store with all 7 action functions
-  - 14 passing tests (2 types + 12 store)
-affects: [01-04, 01-05, 01-06]
+  - phase: 01-foundation-map-canvas plan 01
+    provides: Vite + React + TypeScript scaffold, vitest test infrastructure, @types/geojson and zustand installed
 
+provides:
+  - src/types.ts — RouteResult and AppState interfaces (shared DATA-02 contract)
+  - src/store/useAppStore.ts — Zustand store typed to AppStore with 7 action functions
+  - 14 passing tests (2 type shape tests + 12 store behavior tests)
+
+affects:
+  - 01-03-map-canvas
+  - 01-04-sidebar-controls
+  - 03-route-display
+  - 04-pdf-export
+
+# Tech tracking
 tech-stack:
   added: []
-  patterns: [zustand-v5-curried-create, useAppStore-getstate-testing, nested-immer-free-spread-updates]
+  patterns:
+    - Zustand v5 curried create<T>()() pattern for store definition
+    - AppStore extends AppState to merge state + actions in single interface
+    - useAppStore.getState() / useAppStore.setState() for unit tests without React rendering
 
 key-files:
   created:
@@ -26,64 +37,78 @@ key-files:
     - src/store/useAppStore.test.ts
 
 key-decisions:
-  - "Zustand v5 curried create<AppStore>()() pattern — required for TypeScript inference in v5"
-  - "Store tests use useAppStore.getState()/setState() directly — no React rendering needed, faster"
-  - "AppStore extends AppState (interface composition) rather than duplicating fields"
+  - "import type { GeoJSON } from 'geojson' (not import * as GeoJSON) per plan spec — type-only import for GeoJSON.LineString"
+  - "AppStore extends AppState to produce unified store interface — actions and state in single create() call"
+  - "useAppStore.getState()/setState() pattern for store unit tests avoids React render overhead"
 
 patterns-established:
-  - "Store tests: beforeEach resets full state via useAppStore.setState({...}) for isolation"
-  - "Overlay/constraint toggles use spread+key pattern: { ...s.overlays, [key]: !s.overlays[key] }"
+  - "Types contract: all interfaces in src/types.ts — single source of truth for RouteResult and AppState"
+  - "Store pattern: create<AppStore>()((set) => ...) with inline initial state and action closures"
+  - "Test isolation: beforeEach resets store to initial state via useAppStore.setState()"
 
 requirements-completed: [DATA-02, DATA-01]
 
-duration: 10min
-completed: 2026-04-16
+# Metrics
+duration: 1min
+completed: 2026-04-17
 ---
 
-# Plan 01-02: Shared Types & Zustand Store Summary
+# Phase 1 Plan 02: Types Contract and Zustand Store Summary
 
-**RouteResult + AppState interfaces and Zustand store with 7 actions — 14 tests passing, data spine complete**
+**RouteResult and AppState TypeScript interfaces + Zustand store with 7 actions and 14 tests passing**
 
 ## Performance
 
-- **Duration:** ~10 min
-- **Started:** 2026-04-16T06:22:00Z
-- **Completed:** 2026-04-16T06:25:00Z
+- **Duration:** 1 min
+- **Started:** 2026-04-17T19:24:23Z
+- **Completed:** 2026-04-17T19:25:51Z
 - **Tasks:** 2
 - **Files modified:** 4
 
 ## Accomplishments
-- `src/types.ts` exports RouteResult and AppState matching CONTEXT.md spec exactly
-- `src/store/useAppStore.ts` implements full Zustand v5 store with 7 actions (setSourcePin, setDestinationPin, setVoltage, setPriority, toggleConstraint, toggleOverlay, resetPins)
-- 12 store tests + 2 type shape tests — all 14 passing
-- DATA-01 and DATA-02 requirements satisfied
+
+- Created `src/types.ts` with exact RouteResult and AppState interfaces from CONTEXT.md spec — DATA-02 contract satisfied
+- Created `src/store/useAppStore.ts` using Zustand v5 with all 7 action functions typed to AppState
+- 14 tests passing: 2 compile-time structural checks for types, 12 behavior tests for store actions
 
 ## Task Commits
 
-1. **Task 1: Types contract** — `3557dcb` (feat: create shared types contract)
-2. **Task 2: Zustand store** — `8547068` (feat: create Zustand store with all AppState actions)
+Each task was committed atomically:
+
+1. **Task 1: Create src/types.ts and fill types.test.ts** - `377dd0b` (feat)
+2. **Task 2: Create Zustand store and fill useAppStore.test.ts** - `a5c793b` (feat)
 
 ## Files Created/Modified
-- `src/types.ts` — RouteResult (id, profile, geometry, metrics, segmentJustifications, narrativeSummary) + AppState (pins, voltage, priority, constraints, overlays, routes, simulationStatus)
-- `src/store/useAppStore.ts` — Zustand v5 store typed to AppStore extends AppState
-- `src/types.test.ts` — 2 structural assignment tests using TypeScript type checking
-- `src/store/useAppStore.test.ts` — 12 behavioral tests, beforeEach state reset
+
+- `src/types.ts` — RouteResult and AppState interfaces; DATA-02 handoff contract for map, dashboard, and PDF phases
+- `src/types.test.ts` — 2 structural shape tests using TypeScript typed assignments
+- `src/store/useAppStore.ts` — Zustand store: setSourcePin, setDestinationPin, setVoltage, setPriority, toggleConstraint, toggleOverlay, resetPins
+- `src/store/useAppStore.test.ts` — 12 behavior tests covering all actions and toggle flip-flop behavior
 
 ## Decisions Made
-- Zustand v5 curried `create<AppStore>()()` pattern required for correct TypeScript inference
-- Test via `getState()`/`setState()` (no render) — avoids React act() overhead, tests store logic cleanly
+
+- Used `import type { GeoJSON } from 'geojson'` (not `import * as GeoJSON`) per plan spec — ensures type-only import
+- AppStore interface extends AppState so state fields and actions live in single Zustand `create()` call
+- Store unit tests use `useAppStore.getState()` and `useAppStore.setState()` directly — no React rendering needed, faster and more isolated
 
 ## Deviations from Plan
-None - plan executed exactly as written. Subagent created `src/types.ts` in first wave run; orchestrator completed `useAppStore.ts`, test implementations, commits, and SUMMARY.md directly.
+
+None — plan executed exactly as written. The TDD RED phase for types.test.ts appeared to pass immediately because `import type` is erased at runtime (tests don't fail at runtime without the type file). TypeScript compile check (`npx tsc --noEmit`) confirms types.ts is needed for type safety.
 
 ## Issues Encountered
-Subagent hit Bash permission wall; orchestrator completed the implementation directly.
+
+None.
+
+## User Setup Required
+
+None — no external service configuration required.
 
 ## Next Phase Readiness
-- Types contract available for Plans 01-04, 01-05, 01-06 and all Phase 3 components
-- Zustand store ready for map canvas and sidebar to wire up
-- `npx tsc --noEmit` clean, 14 tests green
+
+- `src/types.ts` and `src/store/useAppStore.ts` are ready for consumption by plan 01-03 (map canvas) and 01-04 (sidebar controls)
+- All components in Phase 1 can now `import { useAppStore } from '../store/useAppStore'` for state
+- Phase 3 types handoff satisfied: RouteResult contract matches the shape that routing engine will produce
 
 ---
 *Phase: 01-foundation-map-canvas*
-*Completed: 2026-04-16*
+*Completed: 2026-04-17*
