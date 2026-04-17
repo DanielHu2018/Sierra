@@ -100,7 +100,7 @@
 ### Data & Reliability
 
 - [x] **DATA-01**: All geospatial layers use static/mock GeoJSON and datasets — no live regulatory API calls
-- [ ] **DATA-02**: A shared types.ts data contract defines all data shapes consumed by map, dashboard, and PDF components: route result (geometry, scores, segment justifications), RouteRecommendation (recommended route ID + rationale), EnvironmentalTrigger (per-route statute list with timeline estimates), SierraAlert (primary + secondary alerts), and ProjectSummary (phase timeline rows)
+- [x] **DATA-02**: A shared types.ts data contract defines all data shapes consumed by map, dashboard, and PDF components: route result (geometry, scores, segment justifications), RouteRecommendation (recommended route ID + rationale), EnvironmentalTrigger (per-route statute list with timeline estimates), SierraAlert (primary + secondary alerts), and ProjectSummary (phase timeline rows)
 - [ ] **DATA-03**: Out-of-bounds pin placement shows a graceful error state (not a crash or blank screen)
 - [ ] **DATA-04**: Missing or unavailable data shows a graceful fallback — no dead ends during demo
 - [ ] **DATA-05**: All mock data is visually marked as such (small footnote on map and PDF)
@@ -151,7 +151,7 @@
 | MAP-07 | Phase 1 | Pending |
 | MAP-08 | Phase 1 | Complete |
 | DATA-01 | Phase 1 | Complete |
-| DATA-02 | Phase 1 | Pending |
+| DATA-02 | Phase 1 | Complete |
 | CTRL-01 | Phase 1 | Pending |
 | CTRL-02 | Phase 1 | Pending |
 | CTRL-03 | Phase 1 | Pending |
