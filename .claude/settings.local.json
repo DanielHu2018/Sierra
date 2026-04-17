@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Skill(gsd:verify-work)",
+      "Bash(node *)",
+      "Bash(npx vitest *)"
+    ]
+  }
+}
