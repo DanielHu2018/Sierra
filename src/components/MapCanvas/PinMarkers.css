@@ -1,0 +1,65 @@
+@keyframes pin-drop {
+  0% { transform: scale(1.2) translateY(-8px); opacity: 0.6; }
+  60% { transform: scale(1.05) translateY(2px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  70% { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.pin-marker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: pin-drop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.pin-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.pin-icon-inner {
+  transform: rotate(45deg);
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.pin-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse-ring 2s ease-out infinite;
+  pointer-events: none;
+}
+
+.pin-label {
+  margin-top: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #E5E2E1;
+  background: rgba(28, 27, 27, 0.8);
+  backdrop-filter: blur(6px);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}

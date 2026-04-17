@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { AppState } from '../types';
 
 interface AppStore extends AppState {
+  mapStyle: string;
   setSourcePin: (pin: [number, number]) => void;
   setDestinationPin: (pin: [number, number]) => void;
   setVoltage: (v: AppState['voltage']) => void;
@@ -9,6 +10,7 @@ interface AppStore extends AppState {
   toggleConstraint: (key: keyof AppState['constraints']) => void;
   toggleOverlay: (key: keyof AppState['overlays']) => void;
   resetPins: () => void;
+  setMapStyle: (style: string) => void;
 }
 
 export const useAppStore = create<AppStore>()((set) => ({
@@ -20,6 +22,7 @@ export const useAppStore = create<AppStore>()((set) => ({
   overlays: { ercotGrid: false, landBoundary: false, wildlifeHabitat: false, topography: false, frictionHeatmap: false },
   routes: null,
   simulationStatus: 'idle',
+  mapStyle: 'mapbox://styles/mapbox/satellite-streets-v12',
   setSourcePin: (pin) => set({ sourcePin: pin }),
   setDestinationPin: (pin) => set({ destinationPin: pin }),
   setVoltage: (voltage) => set({ voltage }),
@@ -31,4 +34,5 @@ export const useAppStore = create<AppStore>()((set) => ({
     overlays: { ...s.overlays, [key]: !s.overlays[key] }
   })),
   resetPins: () => set({ sourcePin: null, destinationPin: null }),
+  setMapStyle: (style) => set({ mapStyle: style }),
 }));
