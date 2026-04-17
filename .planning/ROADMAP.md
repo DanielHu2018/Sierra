@@ -52,8 +52,8 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Express server scaffold, test stubs, Vite proxy (Wave 1)
-- [ ] 02-02-PLAN.md — Graph construction pipeline: lat/lng grid, BFS check, write graph.json (Wave 2)
+- [x] 02-01-PLAN.md — Express server scaffold, test stubs, Vite proxy (Wave 1)
+- [x] 02-02-PLAN.md — Graph construction pipeline: lat/lng grid, BFS check, write graph.json (Wave 2)
 - [ ] 02-03-PLAN.md — Regulation scrape + embed pipeline: fetch/fallback, chunk, OpenAI embed, write regulations-embedded.json (Wave 2)
 - [ ] 02-04-PLAN.md — Friction scoring pipeline: batched Claude calls with RAG context, write friction_cache.json + pipeline orchestrator (Wave 3)
 
@@ -130,7 +130,7 @@ Phase 1 and Phase 2 execute in parallel, then: 1+2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Map Canvas | 1/6 | In Progress|  |
-| 2. Offline Data Pipeline & AI Core | 0/4 | Not started | - |
+| 2. Offline Data Pipeline & AI Core | 2/4 | In Progress | - |
 | 3. Routing Engine & Core Demo Loop | 0/9 | Not started | - |
 | 4. PDF Dossier Export | 0/7 | Not started | - |
 | 5. Demo Hardening & Polish | 0/4 | Not started | - |

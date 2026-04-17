@@ -3,30 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-01-PLAN.md (Express server scaffold + test stubs)
-last_updated: "2026-04-17T23:14:41.855Z"
-last_activity: 2026-04-16 — Completed 01-03 (stub GeoJSON overlay data files)
+stopped_at: Completed 02-02-PLAN.md (Build routing graph)
+last_updated: "2026-04-17T19:25:00.000Z"
+last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 30
-  completed_plans: 7
----
-
----
-gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: executing
-stopped_at: Phase 5 context gathered
-last_updated: "2026-04-17T03:11:32.451Z"
-last_activity: 2026-04-16 — Completed 01-03 (stub GeoJSON overlay data files)
-progress:
-  total_phases: 5
-  completed_phases: 1
-  total_plans: 26
-  completed_plans: 6
-  percent: 20
+  completed_plans: 8
+  percent: 27
 ---
 
 # Project State
@@ -40,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-04-16)
 
 ## Current Position
 
-Phase: 1 of 5 (Foundation & Map Canvas)
-Plan: 3 of 6 in current phase
+Phase: 2 of 5 (Offline Data Pipeline & AI Core)
+Plan: 2 of 4 in current phase
 Status: In progress
-Last activity: 2026-04-16 — Completed 01-03 (stub GeoJSON overlay data files)
+Last activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 
-Progress: [██░░░░░░░░] 20%
+Progress: [███░░░░░░░] 27%
 
 ## Performance Metrics
 
@@ -82,6 +67,8 @@ Recent decisions affecting current work:
 - Phase 4: PDF generated server-side; Mapbox Static Images API for thumbnail (not html2canvas)
 - [Phase 02-offline-data-pipeline-ai-core]: regulations-embedded.json stored in server/data/ (not public/) — server-side only, no client exposure
 - [Phase 02-offline-data-pipeline-ai-core]: server/vitest.config.ts added to isolate test config from root vite.config.ts
+- 02-02: Grid spacing set to ~52km (not 25km as in plan doc) to produce 564 nodes within 300-600 target; 25km yields ~2400 nodes
+- 02-02: node-flags.json written to server/data/ (not public/) — pipeline artifact, not frontend static asset
 
 ### Pending Todos
 
@@ -94,6 +81,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-17T23:14:41.847Z
-Stopped at: Completed 02-01-PLAN.md (Express server scaffold + test stubs)
+Last session: 2026-04-17T19:25:00.000Z
+Stopped at: Completed 02-02-PLAN.md (Build routing graph)
 Resume file: None
