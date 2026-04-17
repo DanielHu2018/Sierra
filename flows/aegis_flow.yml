@@ -1,0 +1,116 @@
+name: "Aegis Security Workflow"
+description: "End-to-end security remediation flow: Triage -> Fix -> Validate -> Apply"
+public: true
+definition:
+  version: v1
+  environment: ambient
+  
+  components:
+    # 1. Triage the finding
+    - name: "triage_step"
+      type: AgentComponent
+      prompt_id: "aegis_analyst_prompt"
+      inputs:
+        - "context:finding_report"
+        - "context:file_path"
+      toolset: ["read_file"]
+    
+    # 2. Generate the fix
+    - name: "remediation_step"
+      type: AgentComponent
+      prompt_id: "aegis_remediator_prompt"
+      inputs:
+        - "context:finding_report"
+        - "context:file_path"
+        - "triage_step:output" # Use the analysis from the previous step
+      toolset: ["read_file"]
+
+    # 3. Validate the fix
+    - name: "validation_step"
+      type: AgentComponent
+      prompt_id: "aegis_validator_prompt"
+      inputs:
+        - "triage_step:output"
+        - "remediation_step:output"
+      toolset: []
+
+    # 4. Create MR (only if validation passes - logic managed by agent instructions for now)
+    - name: "applier_step"
+      type: AgentComponent
+      prompt_id: "aegis_applier_prompt"
+      inputs:
+        - "remediation_step:output"
+        - "validation_step:output"
+        - "context:project_id"
+        - "context:source_branch"
+      toolset: ["create_merge_request"]
+
+  prompts:
+    # --- Analyst Prompt ---
+    - prompt_id: "aegis_analyst_prompt"
+      name: "Triage Finding"
+      prompt_template:
+        system: |
+          {{agent_system_prompt_analyst}}
+        user: |
+          Analyze the following security finding in file {{file_path}}:
+          {{finding_report}}
+      params:
+        agent_system_prompt_analyst: "You are the Aegis Analyst..." # (Full prompt content would be loaded here or referenced)
+
+    # --- Remediator Prompt ---
+    - prompt_id: "aegis_remediator_prompt"
+      name: "Generate Fix"
+      prompt_template:
+        system: |
+          {{agent_system_prompt_remediator}}
+        user: |
+          Vulnerability Report: {{finding_report}}
+          Triage Analysis: {{triage_step.output}}
+          File: {{file_path}}
+          
+          Generate a secure fix for this issue.
+      params:
+        # In a real deployment, these system prompts would be linked to the agent definitions 
+        # created in the 'agents/' folder. For this template, we assume the platform links them.
+        agent_system_prompt_remediator: "You are the Aegis Remediator..."
+
+    # --- Validator Prompt ---
+    - prompt_id: "aegis_validator_prompt"
+      name: "Validate Fix"
+      prompt_template:
+        system: |
+          {{agent_system_prompt_validator}}
+        user: |
+          Validate this proposed fix:
+          {{remediation_step.output}}
+      params:
+        agent_system_prompt_validator: "You are the Aegis Validator..."
+
+    # --- Applier Prompt ---
+    - prompt_id: "aegis_applier_prompt"
+      name: "Apply Fix"
+      prompt_template:
+        system: |
+          {{agent_system_prompt_applier}}
+        user: |
+          Validation Result: {{validation_step.output}}
+          Proposed Fix: {{remediation_step.output}}
+          
+          If the validation result is PASS, create a Merge Request with the fix.
+          If FAIL, summarize the failure.
+      params:
+        agent_system_prompt_applier: "You are the Aegis Applier..."
+
+  routers:
+    - from: "triage_step"
+      to: "remediation_step"
+    - from: "remediation_step"
+      to: "validation_step"
+    - from: "validation_step"
+      to: "applier_step"
+    - from: "applier_step"
+      to: "end"
+
+  flow:
+    entry_point: "triage_step"
