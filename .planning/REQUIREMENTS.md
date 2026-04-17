@@ -28,7 +28,7 @@
 
 - [ ] **ROUTE-01**: User clicks "Run Simulation" and three routes are generated in under 60 seconds
 - [ ] **ROUTE-02**: Three simultaneous color-coded routes appear on the map: Route A "Lowest Cost" (blue), Route B "Balanced" (orange), Route C "Lowest Regulatory Risk" (purple)
-- [ ] **ROUTE-03**: A* or Dijkstra pathfinding runs on a pre-built friction-weighted graph (graph.json); LLM is not in the hot path
+- [x] **ROUTE-03**: A* or Dijkstra pathfinding runs on a pre-built friction-weighted graph (graph.json); LLM is not in the hot path
 - [ ] **ROUTE-04**: Friction scores for all graph nodes are pre-computed offline and loaded from friction_cache.json at startup
 - [ ] **ROUTE-05**: Constraint slider/toggle values adjust friction weights at route-generation time (not requiring re-LLM-scoring)
 - [ ] **ROUTE-06**: ~~A progress animation plays during route generation (5 named stages)~~ — **Superseded by AGENT-01 through AGENT-03**: the simulation moment is now the Agent Reasoning Stream, not a static progress indicator
@@ -160,7 +160,7 @@
 | AI-01 | Phase 2 | Pending |
 | AI-02 | Phase 2 | Pending |
 | AI-03 | Phase 2 | Pending |
-| ROUTE-03 | Phase 2 | Pending |
+| ROUTE-03 | Phase 2 | Complete |
 | ROUTE-04 | Phase 2 | Pending |
 | ROUTE-07 | Phase 2 | Pending |
 | ROUTE-01 | Phase 3 | Pending |
