@@ -1,0 +1,65 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "type": "critical_habitat", "species": "Golden-cheeked Warbler", "sensitivity": "high" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-98.5, 30.0], [-97.5, 30.0], [-97.5, 30.8], [-98.5, 30.8], [-98.5, 30.0]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "type": "critical_habitat", "species": "Black-capped Vireo", "sensitivity": "high" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-99.0, 29.5], [-97.8, 29.5], [-97.8, 30.3], [-99.0, 30.3], [-99.0, 29.5]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "type": "wildlife_corridor", "species": "Whooping Crane", "sensitivity": "high" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-97.5, 27.5], [-97.0, 27.5], [-97.0, 28.5], [-97.5, 28.5], [-97.5, 27.5]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "type": "critical_habitat", "species": "Ocelot", "sensitivity": "high" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-97.6, 26.0], [-96.8, 26.0], [-96.8, 26.8], [-97.6, 26.8], [-97.6, 26.0]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "type": "critical_habitat", "species": "Red-cockaded Woodpecker", "sensitivity": "medium" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-94.6, 30.8], [-93.8, 30.8], [-93.8, 31.5], [-94.6, 31.5], [-94.6, 30.8]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "type": "critical_habitat", "species": "Texas Horned Lizard", "sensitivity": "medium" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-101.0, 30.5], [-99.5, 30.5], [-99.5, 31.5], [-101.0, 31.5], [-101.0, 30.5]
+        ]]
+      }
+    }
+  ]
+}

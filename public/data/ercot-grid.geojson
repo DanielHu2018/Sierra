@@ -1,0 +1,85 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Dallas-Houston 345kV", "voltage": 345 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[-96.797, 32.776], [-95.369, 29.760]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Houston-San Antonio 345kV", "voltage": 345 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[-95.369, 29.760], [-98.494, 29.423]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "San Antonio-Austin 138kV", "voltage": 138 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[-98.494, 29.423], [-97.743, 30.267]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Austin-Dallas 345kV", "voltage": 345 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[-97.743, 30.267], [-96.797, 32.776]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Dallas-Amarillo 345kV", "voltage": 345 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[-96.797, 32.776], [-101.831, 35.221]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Amarillo-El Paso 138kV", "voltage": 138 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[-101.831, 35.221], [-106.485, 31.761]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "El Paso-Midland 345kV", "voltage": 345 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[-106.485, 31.761], [-102.078, 31.997]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Midland-San Antonio 345kV", "voltage": 345 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[-102.078, 31.997], [-98.494, 29.423]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Houston-Beaumont 138kV", "voltage": 138 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[-95.369, 29.760], [-94.026, 30.080]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Corpus Christi-San Antonio 138kV", "voltage": 138 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[-97.396, 27.801], [-98.494, 29.423]]
+      }
+    }
+  ]
+}
