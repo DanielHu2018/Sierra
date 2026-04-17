@@ -1,0 +1,102 @@
+const navStyle: React.CSSProperties = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  height: 48,
+  zIndex: 20,
+  backgroundColor: '#201F1F',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: '0 20px',
+};
+
+const logoStyle: React.CSSProperties = {
+  fontFamily: 'Manrope, sans-serif',
+  fontSize: 16,
+  fontWeight: 800,
+  color: '#A7C8FF',
+  letterSpacing: '0.1em',
+};
+
+const navItemsStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'row',
+  gap: 24,
+  alignItems: 'center',
+};
+
+const navItemStyle: React.CSSProperties = {
+  fontFamily: 'Inter, sans-serif',
+  fontSize: 11,
+  fontWeight: 500,
+  letterSpacing: '0.05em',
+  textTransform: 'uppercase',
+  color: '#C1C6D7',
+  cursor: 'pointer',
+  background: 'none',
+  border: 'none',
+  padding: 0,
+};
+
+const navItemActiveStyle: React.CSSProperties = {
+  ...navItemStyle,
+  color: '#E5E2E1',
+};
+
+const rightControlsStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'row',
+  gap: 12,
+  alignItems: 'center',
+};
+
+const iconButtonStyle: React.CSSProperties = {
+  background: 'none',
+  border: 'none',
+  color: '#C1C6D7',
+  cursor: 'pointer',
+  fontSize: 16,
+  padding: '4px 6px',
+  lineHeight: 1,
+};
+
+const exportButtonStyle: React.CSSProperties = {
+  fontFamily: 'Inter, sans-serif',
+  fontSize: 11,
+  fontWeight: 500,
+  letterSpacing: '0.05em',
+  textTransform: 'uppercase',
+  color: '#C1C6D7',
+  background: 'transparent',
+  border: '1px solid #414755',
+  borderRadius: '0.25rem',
+  padding: '5px 12px',
+  cursor: 'not-allowed',
+  opacity: 0.4,
+};
+
+export function TopNav() {
+  return (
+    <nav style={navStyle}>
+      <span style={logoStyle}>SIERRA</span>
+      <div style={navItemsStyle}>
+        <button style={navItemActiveStyle}>Route Engine</button>
+        <button style={navItemStyle}>Data Layers</button>
+        <button style={navItemStyle}>Archive</button>
+      </div>
+      <div style={rightControlsStyle}>
+        <button style={iconButtonStyle} aria-label="Notifications">
+          &#128276;
+        </button>
+        <button style={iconButtonStyle} aria-label="Settings">
+          &#9881;
+        </button>
+        <button style={exportButtonStyle} disabled>
+          Export PDF
+        </button>
+      </div>
+    </nav>
+  );
+}
