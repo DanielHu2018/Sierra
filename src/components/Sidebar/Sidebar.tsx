@@ -6,22 +6,7 @@ import { RoutePrioritySection } from './RoutePrioritySection';
 import { ConstraintsSection } from './ConstraintsSection';
 import { OverlaysSection } from './OverlaysSection';
 import { StreamPanel } from './StreamPanel';
-
-// Placeholder — replaced by Plan 07
-function ResultsPanel() {
-  return (
-    <div
-      style={{
-        padding: 20,
-        color: '#C1C6D7',
-        fontFamily: 'Inter, sans-serif',
-        fontSize: 13,
-      }}
-    >
-      Results loading...
-    </div>
-  );
-}
+import { ResultsPanel } from './results/ResultsPanel';
 
 export function Sidebar() {
   const simulationStatus = useAppStore((s) => s.simulationStatus);
