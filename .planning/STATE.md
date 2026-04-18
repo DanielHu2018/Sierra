@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 3 complete — all 9 plans executed, human verification passed with 2 bugs fixed
-last_updated: "2026-04-18T06:04:25.615Z"
+stopped_at: Completed 04-01-PLAN.md (Wave 0 test scaffolds + server deps)
+last_updated: "2026-04-18T06:08:05.987Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 30
-  completed_plans: 19
+  completed_plans: 20
   percent: 37
 ---
 
@@ -97,6 +97,7 @@ Progress: [███░░░░░░░] 27%
 | Phase 03-routing-engine-core-demo-loop P05 | 12 | 2 tasks | 6 files |
 | Phase 03-routing-engine-core-demo-loop P07 | 2 | 2 tasks | 8 files |
 | Phase 03-routing-engine-core-demo-loop P08 | 2 | 2 tasks | 4 files |
+| Phase 04-pdf-dossier-export P01 | 8 | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -147,6 +148,7 @@ Recent decisions affecting current work:
 - [Phase 03-routing-engine-core-demo-loop]: ProjectSummary Total row detection uses name.toLowerCase().includes('total') for flexibility with AI-generated phase names
 - [Phase 03-routing-engine-core-demo-loop]: When A* weight profiles produce identical paths (frictionScore===regulatoryRisk collapses weight ratios), detect via path key comparison and fall back to canned stub routes with geometrically distinct arc geometry
 - [Phase 03-routing-engine-core-demo-loop]: OverlayControls component mounted inside ResultsPanel so friction heatmap toggle is accessible post-simulation without resetting to idle state
+- [Phase 04-pdf-dossier-export]: Wave 0 gate: all 4 Phase 4 test scaffolds written as test.todo stubs before any production code — import-free RED state
 
 ### Pending Todos
 
@@ -159,6 +161,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T05:56:22.254Z
-Stopped at: Phase 3 complete — all 9 plans executed, human verification passed with 2 bugs fixed
+Last session: 2026-04-18T06:08:05.985Z
+Stopped at: Completed 04-01-PLAN.md (Wave 0 test scaffolds + server deps)
 Resume file: None

@@ -92,10 +92,10 @@
 
 ### PDF Dossier Export
 
-- [ ] **PDF-01**: "Export PDF Dossier" button is always visible; exports the currently selected route
-- [ ] **PDF-02**: PDF is generated server-side (not client-side) to avoid WebGL canvas capture limitations
-- [ ] **PDF-03**: PDF includes: LLM-generated narrative introduction (2–3 paragraphs telling the story of why this route was chosen), route profile label, key metrics (distance, cost, permitting time), Sierra Recommends rationale, per-route environmental trigger summary, Inline Project Summary phase timeline, Sierra Alerts risk flag, per-segment LLM justifications, mock land parcel owner contact list, regulatory jurisdictions/zones crossed
-- [ ] **PDF-04**: PDF map thumbnail is captured via Mapbox Static Images API (not html2canvas)
+- [x] **PDF-01**: "Export PDF Dossier" button is always visible; exports the currently selected route
+- [x] **PDF-02**: PDF is generated server-side (not client-side) to avoid WebGL canvas capture limitations
+- [x] **PDF-03**: PDF includes: LLM-generated narrative introduction (2–3 paragraphs telling the story of why this route was chosen), route profile label, key metrics (distance, cost, permitting time), Sierra Recommends rationale, per-route environmental trigger summary, Inline Project Summary phase timeline, Sierra Alerts risk flag, per-segment LLM justifications, mock land parcel owner contact list, regulatory jurisdictions/zones crossed
+- [x] **PDF-04**: PDF map thumbnail is captured via Mapbox Static Images API (not html2canvas)
 
 ### Data & Reliability
 
@@ -193,10 +193,10 @@
 | SUMM-03 | Phase 3 | Complete |
 | HOVER-01 | Phase 3 | Complete |
 | HOVER-02 | Phase 3 | Complete |
-| PDF-01 | Phase 4 | Pending |
-| PDF-02 | Phase 4 | Pending |
-| PDF-03 | Phase 4 | Pending |
-| PDF-04 | Phase 4 | Pending |
+| PDF-01 | Phase 4 | Complete |
+| PDF-02 | Phase 4 | Complete |
+| PDF-03 | Phase 4 | Complete |
+| PDF-04 | Phase 4 | Complete |
 | DATA-03 | Phase 5 | Pending |
 | DATA-04 | Phase 5 | Pending |
 | DATA-05 | Phase 5 | Pending |
