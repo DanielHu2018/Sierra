@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-06-PLAN.md (Sidebar state machine + Agent Reasoning Stream)
-last_updated: "2026-04-18T05:31:22.359Z"
+stopped_at: Completed 03-05-PLAN.md (Route layers + friction heatmap)
+last_updated: "2026-04-18T05:32:18.958Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 30
-  completed_plans: 15
+  completed_plans: 16
   percent: 37
 ---
 
@@ -94,6 +94,7 @@ Progress: [███░░░░░░░] 27%
 | Phase 03-routing-engine-core-demo-loop P03 | 8 | 2 tasks | 3 files |
 | Phase 03-routing-engine-core-demo-loop P04 | 3min | 2 tasks | 6 files |
 | Phase 03-routing-engine-core-demo-loop P06 | 2min | 2 tasks | 3 files |
+| Phase 03-routing-engine-core-demo-loop P05 | 12 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -135,6 +136,8 @@ Recent decisions affecting current work:
 - [Phase 03-routing-engine-core-demo-loop]: AI response types added to both src/types.ts and server/src/types.ts for separate compilation domains
 - [Phase 03-routing-engine-core-demo-loop]: Ref-based character queue (not state) for typewriter drain — avoids React batching interference
 - [Phase 03-routing-engine-core-demo-loop]: ResultsPanel placeholder stub in Sidebar — Plan 07 replaces with full results view
+- [Phase 03-routing-engine-core-demo-loop]: HoverPopup uses inline styles for glassmorphism backdrop-filter to avoid Tailwind v4 purge risk on dynamic values
+- [Phase 03-routing-engine-core-demo-loop]: heatmapGeoJSON stored in local OverlayLayers state (not Zustand) — map-layer-local; raw FrictionCache stored in Zustand for cross-component justification access
 
 ### Pending Todos
 
@@ -147,6 +150,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T05:31:22.357Z
-Stopped at: Completed 03-06-PLAN.md (Sidebar state machine + Agent Reasoning Stream)
+Last session: 2026-04-18T05:32:18.956Z
+Stopped at: Completed 03-05-PLAN.md (Route layers + friction heatmap)
 Resume file: None
