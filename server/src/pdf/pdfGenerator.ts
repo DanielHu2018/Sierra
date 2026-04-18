@@ -80,7 +80,7 @@ export async function generatePdf(data: PdfTemplateData): Promise<Buffer> {
         <div style="font-size:9px;font-family:Arial,sans-serif;color:#888;
                     width:100%;padding:0 40px;box-sizing:border-box;
                     display:flex;justify-content:space-between;align-items:center;">
-          <span>Sierra &mdash; Illustrative data only</span>
+          <span>&#9432; Illustrative mock data &#8212; for demonstration purposes only.</span>
           <span>Page <span class="pageNumber"></span> of <span class="totalPages"></span></span>
         </div>`,
       // margin.bottom must accommodate footer height (50px minimum for 9px text)

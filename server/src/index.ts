@@ -12,6 +12,12 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Health check — top-level (not /api/health) for Railway healthcheck and pre-warm ping
+app.get('/health', (_req, res) => {
+  res.json({ status: 'ok' });
+});
+
 app.use('/api', apiRouter);
 app.use('/api', aiRouter);
 
