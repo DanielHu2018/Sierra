@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-03-PLAN.md (Error handling, VITE_API_URL, heatmap polish)
-last_updated: "2026-04-18T07:16:51.650Z"
+stopped_at: Completed 05-04-PLAN.md — PDF footer, /health endpoint, deploy configs
+last_updated: "2026-04-18T07:22:48.785Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 30
-  completed_plans: 29
+  completed_plans: 30
 ---
 
 ---
@@ -122,6 +122,7 @@ Progress: [███░░░░░░░] 27%
 | Phase 05-demo-hardening-polish P01 | 8 | 3 tasks | 6 files |
 | Phase 05-demo-hardening-polish P02 | 5 | 2 tasks | 2 files |
 | Phase 05-demo-hardening-polish P03 | 8 | 2 tasks | 5 files |
+| Phase 05-demo-hardening-polish P04 | 5 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -192,6 +193,9 @@ Recent decisions affecting current work:
 - [Phase 05-demo-hardening-polish]: simulationStatus=error branch is a separate early-return in Sidebar JSX — keeps error state visually distinct and test-isolated
 - [Phase 05-demo-hardening-polish]: Heatmap legend placed in MapCanvas.tsx (not OverlayLayers.tsx) — MapCanvas has access to Zustand overlay toggle state for conditional render
 - [Phase 05-demo-hardening-polish]: VITE_API_URL stored in const API at top of runSimulation closure — one read per call rather than repeated import.meta.env access
+- [Phase 05-demo-hardening-polish]: HTML entities used for ⓘ (&#9432;) and — (&#8212;) in Puppeteer footerTemplate — avoids UTF-8 encoding issues in headless Chrome
+- [Phase 05-demo-hardening-polish]: C:/Program Files/Git/health registered directly on app (not apiRouter) so endpoint is GET /health not GET /api/health — matches Railway healthcheckPath
+- [Phase 05-demo-hardening-polish]: Railway startCommand uses tsx (not node dist/index.js) matching existing server/package.json start script pattern
 
 ### Pending Todos
 
@@ -204,6 +208,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T07:16:51.648Z
-Stopped at: Completed 05-03-PLAN.md (Error handling, VITE_API_URL, heatmap polish)
+Last session: 2026-04-18T07:22:39.390Z
+Stopped at: Completed 05-04-PLAN.md — PDF footer, /health endpoint, deploy configs
 Resume file: None

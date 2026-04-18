@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 2: Offline Data Pipeline & AI Core** - graph.json build, friction pre-computation via Claude, RAG index (runs in parallel with Phase 1)
 - [x] **Phase 3: Routing Engine & Core Demo Loop** - A* routing, Agent Reasoning Stream, three simultaneous routes, Sierra Recommends, Environmental Trigger Panel, Sierra Alerts, Inline Project Summary, heatmap, hover justifications, dashboard cards (completed 2026-04-18)
 - [ ] **Phase 4: PDF Dossier Export** - Server-side PDF with LLM narrative intro, route metrics, Sierra Recommends rationale, environmental trigger summary, project timeline, Sierra Alerts, per-segment justifications, mock contacts, map thumbnail
-- [ ] **Phase 5: Demo Hardening & Polish** - Error states, ADA compliance, mock data footnotes, cache pre-warm, production deploy
+- [x] **Phase 5: Demo Hardening & Polish** - Error states, ADA compliance, mock data footnotes, cache pre-warm, production deploy (completed 2026-04-18)
 
 ## Phase Details
 
@@ -133,4 +133,4 @@ Phase 1 and Phase 2 execute in parallel, then: 1+2 → 3 → 4 → 5
 | 2. Offline Data Pipeline & AI Core | 2/4 | In Progress | - |
 | 3. Routing Engine & Core Demo Loop | 9/9 | Complete   | 2026-04-18 |
 | 4. PDF Dossier Export | 7/7 | Complete | 2026-04-18 |
-| 5. Demo Hardening & Polish | 3/4 | In Progress|  |
+| 5. Demo Hardening & Polish | 4/4 | Complete   | 2026-04-18 |
