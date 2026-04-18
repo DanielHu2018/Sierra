@@ -70,15 +70,18 @@ export const CANNED_ALERTS: SierraAlert = {
   primary: {
     text: 'Nolan County landowner opposition cluster identified. Historical parcel records show three adjacent agricultural landowners (approximately 8,400 acres combined) who actively contested a 2019 wind transmission project. Eminent domain proceedings may extend ROW acquisition timeline by 18–24 months and add $4–7M in legal costs.',
     location: 'Nolan County',
+    coords: { lat: 32.298, lng: -100.399 },
   },
   secondary: [
     {
       text: 'Edwards Aquifer Authority coordination required. Route C alignment in Sutton County falls within the Edwards Aquifer Protection Program boundary — a separate state-level review process running concurrently with federal NEPA.',
       location: 'Sutton County',
+      coords: { lat: 30.536, lng: -100.517 },
     },
     {
       text: 'PUCT Certificate of Convenience and Necessity (CCN) application processing times have increased from an average of 14 months to 22 months since 2022 due to ERCOT Competitive Renewable Energy Zone (CREZ) backlog.',
       location: 'Austin, TX (PUCT)',
+      coords: { lat: 30.267, lng: -97.743 },
     },
   ],
 };

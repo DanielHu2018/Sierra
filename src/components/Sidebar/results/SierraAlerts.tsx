@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppStore } from '../../../store/useAppStore';
 
 export function SierraAlerts() {
   const alerts = useAppStore((s) => s.alerts);
+  const focusedAlertId = useAppStore((s) => s.focusedAlertId);
   const [showSecondary, setShowSecondary] = useState(false);
+
+  useEffect(() => {
+    if (focusedAlertId !== null && focusedAlertId >= 0) setShowSecondary(true);
+  }, [focusedAlertId]);
 
   if (!alerts) return null;
 
@@ -30,10 +35,11 @@ export function SierraAlerts() {
       <div
         style={{
           borderRadius: 8,
-          border: '1px solid rgba(248,113,113,0.35)',
-          background: 'rgba(248,113,113,0.07)',
+          border: `1px solid ${focusedAlertId === -1 ? 'rgba(248,113,113,0.8)' : 'rgba(248,113,113,0.35)'}`,
+          background: focusedAlertId === -1 ? 'rgba(248,113,113,0.12)' : 'rgba(248,113,113,0.07)',
           padding: '10px 12px',
           marginBottom: 6,
+          transition: 'border-color 0.2s, background 0.2s',
         }}
       >
         <div
@@ -115,10 +121,11 @@ export function SierraAlerts() {
                 key={i}
                 style={{
                   borderRadius: 8,
-                  border: '1px solid rgba(251,191,36,0.25)',
-                  background: 'rgba(251,191,36,0.05)',
+                  border: `1px solid ${focusedAlertId === i ? 'rgba(251,191,36,0.7)' : 'rgba(251,191,36,0.25)'}`,
+                  background: focusedAlertId === i ? 'rgba(251,191,36,0.1)' : 'rgba(251,191,36,0.05)',
                   padding: '10px 12px',
                   marginBottom: 6,
+                  transition: 'border-color 0.2s, background 0.2s',
                 }}
               >
                 <p

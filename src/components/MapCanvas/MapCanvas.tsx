@@ -1,4 +1,4 @@
-import Map, { Popup, type MapRef } from 'react-map-gl/mapbox';
+import Map, { Marker, Popup, type MapRef } from 'react-map-gl/mapbox';
 import { useRef, useCallback, useState } from 'react';
 import type { MapLayerMouseEvent } from 'mapbox-gl';
 import { useAppStore } from '../../store/useAppStore';
@@ -19,6 +19,9 @@ export function MapCanvas() {
   const overlays = useAppStore((s) => s.overlays);
   const setSourcePin = useAppStore((s) => s.setSourcePin);
   const setDestinationPin = useAppStore((s) => s.setDestinationPin);
+  const alerts = useAppStore((s) => s.alerts);
+  const setFocusedAlertId = useAppStore((s) => s.setFocusedAlertId);
+  const setActiveTab = useAppStore((s) => s.setActiveTab);
 
   const [oobPopup, setOobPopup] = useState<{ lng: number; lat: number } | null>(null);
   const oobTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -68,6 +71,70 @@ export function MapCanvas() {
       <OverlayLayers />
       <RouteLayer />
       <MapControls mapRef={mapRef} />
+      {alerts?.primary.coords && (
+        <Marker
+          longitude={alerts.primary.coords.lng}
+          latitude={alerts.primary.coords.lat}
+          anchor="center"
+        >
+          <button
+            aria-label="Primary risk alert"
+            onClick={() => {
+              mapRef.current?.flyTo({ center: [alerts.primary.coords!.lng, alerts.primary.coords!.lat], zoom: 10 });
+              setFocusedAlertId(-1);
+              setActiveTab('route-engine');
+            }}
+            style={{
+              background: 'rgba(239,68,68,0.9)',
+              border: '2px solid #ef4444',
+              borderRadius: '50%',
+              width: 28,
+              height: 28,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              fontSize: 14,
+              boxShadow: '0 0 0 4px rgba(239,68,68,0.3)',
+            }}
+          >
+            ⚠
+          </button>
+        </Marker>
+      )}
+      {alerts?.secondary.map((alert, i) =>
+        alert.coords ? (
+          <Marker
+            key={i}
+            longitude={alert.coords.lng}
+            latitude={alert.coords.lat}
+            anchor="center"
+          >
+            <button
+              aria-label={`Risk alert: ${alert.location}`}
+              onClick={() => {
+                mapRef.current?.flyTo({ center: [alert.coords!.lng, alert.coords!.lat], zoom: 10 });
+                setFocusedAlertId(i);
+                setActiveTab('route-engine');
+              }}
+              style={{
+                background: 'rgba(251,191,36,0.85)',
+                border: '2px solid #fbbf24',
+                borderRadius: '50%',
+                width: 24,
+                height: 24,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                fontSize: 12,
+              }}
+            >
+              ⚠
+            </button>
+          </Marker>
+        ) : null,
+      )}
       {oobPopup && (
         <Popup
           longitude={oobPopup.lng}
