@@ -5,6 +5,28 @@ export interface GraphNode {
   neighbors: string[];
 }
 
+export interface RouteResult {
+  id: 'A' | 'B' | 'C';
+  profile: 'lowest-cost' | 'balanced' | 'lowest-risk';
+  label: string;
+  color: string;
+  geometry: {
+    type: 'LineString';
+    coordinates: [number, number][];
+  };
+  metrics: {
+    distanceMiles: number;
+    estimatedCapexUSD: number;
+    permittingMonths: [number, number];
+  };
+  segmentJustifications: Array<{
+    segmentIndex: number;
+    frictionScore: number;
+    justification: string;
+  }>;
+  narrativeSummary: string;
+}
+
 // ─── AI Endpoint Response Types ───────────────────────────────────────────────
 export interface RouteRecommendation {
   routeId: 'A' | 'B' | 'C';
