@@ -21,16 +21,16 @@ Evaluating constraint layer 5: Topographic and Geological Constraints. Caprock E
 
 Synthesis complete. Applying constraint-weighted A* pathfinding across 47,832 graph nodes...
 
-Route A finalized: 118 miles via Pecos Basin — leverages US-385 ROW corridor, lowest construction cost, moderate regulatory exposure.
-Route B finalized: 134 miles via Permian Basin midpoint — balanced cost and regulatory profile, avoids primary ESA zones.
-Route C finalized: 152 miles via Edwards Plateau bypass — maximum habitat avoidance, fully outside Edwards Aquifer recharge zone.
+Route A finalized: 118 miles via Pecos Basin — leverages US-385 ROW corridor, least-cost profile, moderate regulatory exposure.
+Route B finalized: 134 miles via Permian Basin midpoint — maximizes population served along I-20 and US-87 corridors.
+Route C finalized: 152 miles via Edwards Plateau bypass — renewable-optimized, connects wind and solar resource zones.
 
 Sierra Recommends: Route C. Preparing justification and risk summary.`;
 
 // ─── Recommendation ───────────────────────────────────────────────────────
 export const CANNED_RECOMMENDATION: RouteRecommendation = {
   routeId: 'C',
-  rationale: 'Route C — Lowest Regulatory Risk is the recommended corridor because it fully bypasses the Edwards Aquifer recharge zone in Sutton County and avoids the ESA-designated Dunes Sagebrush Lizard habitat in Reeves County, eliminating the two costliest permit triggers. Although Route C adds approximately 34 miles versus Route A, the avoided ESA Section 7 consultation and CWA Section 404 individual permit reduce the permitting timeline by an estimated 12–18 months. Given the project\'s stated priority to minimize regulatory risk, Route C presents the strongest risk-adjusted outcome for a Texas ERCOT transmission project of this scale.',
+  rationale: 'Route C — Renewable-Optimized is the recommended corridor because it fully bypasses the Edwards Aquifer recharge zone in Sutton County, avoids the ESA-designated Dunes Sagebrush Lizard habitat in Reeves County, and traverses the highest-density wind and solar resource zones identified by the Princeton NZA Optimal Renewable Buildout analysis. Although Route C adds approximately 34 miles versus Route A, the avoided ESA Section 7 consultation and CWA Section 404 individual permit reduce the permitting timeline by an estimated 12–18 months, while the route\'s alignment through renewable corridors positions the infrastructure for long-term grid integration with projected 2030–2050 buildout scenarios.',
   timestamp: Date.now(),
 };
 

@@ -93,17 +93,17 @@ export function Sidebar() {
         fetch(`${API}/api/narrative`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ routeId: 'A', routeLabel: 'Route A — Lowest Cost', constraints: routeBody.constraints }),
+          body: JSON.stringify({ routeId: 'A', routeLabel: 'Route A — Least-Cost', constraints: routeBody.constraints }),
         }).then((r) => r.json()),
         fetch(`${API}/api/narrative`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ routeId: 'B', routeLabel: 'Route B — Balanced', constraints: routeBody.constraints }),
+          body: JSON.stringify({ routeId: 'B', routeLabel: 'Route B — Max Population Served', constraints: routeBody.constraints }),
         }).then((r) => r.json()),
         fetch(`${API}/api/narrative`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ routeId: 'C', routeLabel: 'Route C — Lowest Regulatory Risk', constraints: routeBody.constraints }),
+          body: JSON.stringify({ routeId: 'C', routeLabel: 'Route C — Renewable-Optimized', constraints: routeBody.constraints }),
         }).then((r) => r.json()),
       ]);
       setTriggers(triggers);

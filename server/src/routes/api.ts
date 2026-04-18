@@ -87,7 +87,7 @@ function cannedStubRoutes(source: [number, number], dest: [number, number]) {
     {
       id: 'A',
       profile: 'lowest-cost',
-      label: 'Route A — Lowest Cost',
+      label: 'Route A — Least-Cost',
       color: '#A7C8FF',
       geometry: {
         type: 'LineString' as const,
@@ -105,8 +105,8 @@ function cannedStubRoutes(source: [number, number], dest: [number, number]) {
     {
       id: 'B',
       profile: 'balanced',
-      label: 'Route B — Balanced',
-      color: '#FFBC7C',
+      label: 'Route B — Max Population Served',
+      color: '#4ade80',
       geometry: {
         type: 'LineString' as const,
         coordinates: [source, waypointB1, waypointB2, dest],
@@ -124,7 +124,7 @@ function cannedStubRoutes(source: [number, number], dest: [number, number]) {
     {
       id: 'C',
       profile: 'lowest-risk',
-      label: 'Route C — Lowest Regulatory Risk',
+      label: 'Route C — Renewable-Optimized',
       color: '#E8B3FF',
       geometry: {
         type: 'LineString' as const,
@@ -207,7 +207,7 @@ router.post('/route', async (req, res) => {
       {
         id: 'A',
         profile: 'lowest-cost',
-        label: 'Route A — Lowest Cost',
+        label: 'Route A — Least-Cost',
         color: '#A7C8FF',
         path: pathA,
         capexPerMile: 3_500_000,
@@ -216,8 +216,8 @@ router.post('/route', async (req, res) => {
       {
         id: 'B',
         profile: 'balanced',
-        label: 'Route B — Balanced',
-        color: '#FFBC7C',
+        label: 'Route B — Max Population Served',
+        color: '#4ade80',
         path: pathB,
         capexPerMile: 4_200_000,
         permitting: [24, 36] as [number, number],
@@ -225,7 +225,7 @@ router.post('/route', async (req, res) => {
       {
         id: 'C',
         profile: 'lowest-risk',
-        label: 'Route C — Lowest Regulatory Risk',
+        label: 'Route C — Renewable-Optimized',
         color: '#E8B3FF',
         path: pathC,
         capexPerMile: 5_000_000,
