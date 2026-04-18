@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-05-PLAN.md (PDF export endpoint wiring)
-last_updated: "2026-04-18T06:16:12.718Z"
+stopped_at: Completed 04-04-PLAN.md (narrative infrastructure)
+last_updated: "2026-04-18T06:18:56.018Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 30
-  completed_plans: 23
+  completed_plans: 24
   percent: 37
 ---
 
@@ -101,6 +101,7 @@ Progress: [███░░░░░░░] 27%
 | Phase 04-pdf-dossier-export P02 | 3 | 2 tasks | 5 files |
 | Phase 04-pdf-dossier-export P03 | 4 | 2 tasks | 5 files |
 | Phase 04-pdf-dossier-export P05 | 5 | 1 tasks | 1 files |
+| Phase 04-pdf-dossier-export P04 | 4 | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -158,6 +159,8 @@ Recent decisions affecting current work:
 - [Phase 04-pdf-dossier-export]: RouteResult added to server/src/types.ts — client type not importable due to rootDir:./src boundary
 - [Phase 04-pdf-dossier-export]: mock-contacts.ts created in 04-03 as parallel plan dependency — MockContact type needed before 04-02 executes
 - [Phase 04-pdf-dossier-export]: POST /api/export/pdf imports types from server/src/types.ts (not root src/types.ts) to respect rootDir boundary; Mapbox failure silently caught (.catch -> '') so PDF always succeeds
+- [Phase 04-pdf-dossier-export]: NarrativeByRoute stored as Partial<Record<'A'|'B'|'C', string>> in Zustand — populated incrementally at simulation time
+- [Phase 04-pdf-dossier-export]: Narrative calls added to existing Promise.all batch — no additional latency, parallel execution with triggers/alerts/summary
 
 ### Pending Todos
 
@@ -170,6 +173,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T06:16:05.942Z
-Stopped at: Completed 04-05-PLAN.md (PDF export endpoint wiring)
+Last session: 2026-04-18T06:18:45.534Z
+Stopped at: Completed 04-04-PLAN.md (narrative infrastructure)
 Resume file: None
