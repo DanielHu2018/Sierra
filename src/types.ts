@@ -21,6 +21,7 @@ export interface EnvironmentalTrigger {
 export interface AlertItem {
   text: string;
   location: string;
+  coords?: { lat: number; lng: number }; // for map marker — optional, canned data may omit
 }
 
 export interface SierraAlert {
@@ -41,7 +42,7 @@ export interface ProjectSummary {
 export interface FrictionNode {
   lat: number;
   lng: number;
-  frictionScore: number;   // 0–1
+  frictionScore: number;
   justification: string;
 }
 
@@ -51,27 +52,54 @@ export interface RouteResult {
   id: 'A' | 'B' | 'C';
   profile: 'lowest-cost' | 'balanced' | 'lowest-risk';
   label: string;
-  color: string;           // hex — A: #A7C8FF, B: #FFBC7C, C: #E8B3FF
+  color: string;
   geometry: GeoJSON.LineString;
   metrics: {
     distanceMiles: number;
     estimatedCapexUSD: number;
-    permittingMonths: [number, number]; // [min, max]
+    permittingMonths: [number, number];
   };
   segmentJustifications: Array<{
     segmentIndex: number;
-    frictionScore: number;  // 0–1
+    frictionScore: number;
     justification: string;
   }>;
   narrativeSummary: string;
+  populationServed: number;       // illustrative — people served along corridor
+  impactScore?: {
+    jobsCreated: number;           // FTE, illustrative
+    emissionsReduced_tCO2: number; // tonnes CO₂/year, illustrative
+    healthImpactScore: number;     // 0–100 index, illustrative
+  };
 }
 
 // ─── Phase 4: PDF Narrative ────────────────────────────────────────────────
-/** Pre-generated LLM narrative introduction, stored per route ID. */
 export type NarrativeByRoute = Record<'A' | 'B' | 'C', string>;
 
+// ─── Data Layers ──────────────────────────────────────────────────────────
+export interface DataLayerConfig {
+  id: string;
+  name: string;
+  description: string;
+  color: string;
+  type: 'fill' | 'line';
+  sourceUrl: string;   // local GeoJSON path today; swap to API/tileset post-hackathon
+  opacity: number;
+  attribution: string;
+}
+
+// ─── Archive ──────────────────────────────────────────────────────────────
+export interface SimulationRun {
+  id: string;
+  timestamp: string;          // ISO 8601
+  sourcePinLabel: string;
+  destPinLabel: string;
+  recommendedRouteId: 'A' | 'B' | 'C' | null;
+  routes: RouteResult[];
+}
+
 export interface AppState {
-  sourcePin: [number, number] | null;   // [lng, lat]
+  sourcePin: [number, number] | null;
   destinationPin: [number, number] | null;
   voltage: '345kv-double' | '500kv-hvdc' | '230kv-single';
   priority: 'cost' | 'risk' | 'balanced';

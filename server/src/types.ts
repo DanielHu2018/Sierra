@@ -25,9 +25,14 @@ export interface RouteResult {
     justification: string;
   }>;
   narrativeSummary: string;
+  populationServed: number;
+  impactScore?: {
+    jobsCreated: number;
+    emissionsReduced_tCO2: number;
+    healthImpactScore: number;
+  };
 }
 
-// ─── AI Endpoint Response Types ───────────────────────────────────────────────
 export interface RouteRecommendation {
   routeId: 'A' | 'B' | 'C';
   rationale: string;
@@ -48,6 +53,7 @@ export interface EnvironmentalTrigger {
 export interface AlertItem {
   text: string;
   location: string;
+  coords?: { lat: number; lng: number };
 }
 
 export interface SierraAlert {
@@ -66,7 +72,7 @@ export interface ProjectSummary {
 }
 
 export interface FrictionEntry {
-  frictionScore: number;  // 0–1 float
+  frictionScore: number;
   justification: string;
 }
 
