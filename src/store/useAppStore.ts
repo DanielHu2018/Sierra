@@ -1,21 +1,22 @@
 import { create } from 'zustand';
-import type { AppState, RouteResult, RouteRecommendation, EnvironmentalTrigger, SierraAlert, ProjectSummary, FrictionCache, NarrativeByRoute } from '../types';
+import type {
+  AppState, RouteResult, RouteRecommendation, EnvironmentalTrigger,
+  SierraAlert, ProjectSummary, FrictionCache, NarrativeByRoute, SimulationRun,
+} from '../types';
 
 interface AppStore extends AppState {
   mapStyle: string;
-  // Phase 3 state
   recommendation: RouteRecommendation | null;
   triggers: EnvironmentalTrigger[];
   alerts: SierraAlert | null;
   projectSummary: ProjectSummary | null;
   selectedRoute: 'A' | 'B' | 'C' | null;
   frictionCache: FrictionCache | null;
-
-  // Phase 4 state
-  narrativeByRoute: Partial<NarrativeByRoute>;   // populated at simulation time
-
-  // Navigation state
+  narrativeByRoute: Partial<NarrativeByRoute>;
   activeTab: 'route-engine' | 'data-layers' | 'archive';
+  activeDatalayerIds: string[];
+  simulationHistory: SimulationRun[];
+  focusedAlertId: number | null; // index into alerts.secondary (-1 = primary)
 
   // Existing actions
   setSourcePin: (pin: [number, number]) => void;
@@ -42,10 +43,15 @@ interface AppStore extends AppState {
 
   // Navigation actions
   setActiveTab: (tab: 'route-engine' | 'data-layers' | 'archive') => void;
+
+  // New actions
+  resetSimulation: () => void;
+  toggleDataLayer: (id: string) => void;
+  pushSimulationRun: (run: SimulationRun) => void;
+  setFocusedAlertId: (idx: number | null) => void;
 }
 
 export const useAppStore = create<AppStore>()((set) => ({
-  // Existing state
   sourcePin: null,
   destinationPin: null,
   voltage: '345kv-double',
@@ -54,37 +60,28 @@ export const useAppStore = create<AppStore>()((set) => ({
   overlays: { ercotGrid: false, landBoundary: false, wildlifeHabitat: false, topography: false, frictionHeatmap: false },
   routes: null,
   simulationStatus: 'idle',
-  mapStyle: 'mapbox://styles/mapbox/satellite-streets-v12',
-
-  // Phase 3 initial state
+  mapStyle: 'mapbox://styles/mapbox/dark-v11',
   recommendation: null,
   triggers: [],
   alerts: null,
   projectSummary: null,
   selectedRoute: null,
   frictionCache: null,
-
-  // Phase 4 initial state
   narrativeByRoute: {},
-
-  // Navigation initial state
   activeTab: 'route-engine',
+  activeDatalayerIds: [],
+  simulationHistory: [],
+  focusedAlertId: null,
 
-  // Existing actions
   setSourcePin: (pin) => set({ sourcePin: pin }),
   setDestinationPin: (pin) => set({ destinationPin: pin }),
   setVoltage: (voltage) => set({ voltage }),
   setPriority: (priority) => set({ priority }),
-  toggleConstraint: (key) => set((s) => ({
-    constraints: { ...s.constraints, [key]: !s.constraints[key] }
-  })),
-  toggleOverlay: (key) => set((s) => ({
-    overlays: { ...s.overlays, [key]: !s.overlays[key] }
-  })),
+  toggleConstraint: (key) => set((s) => ({ constraints: { ...s.constraints, [key]: !s.constraints[key] } })),
+  toggleOverlay: (key) => set((s) => ({ overlays: { ...s.overlays, [key]: !s.overlays[key] } })),
   resetPins: () => set({ sourcePin: null, destinationPin: null }),
   setMapStyle: (style) => set({ mapStyle: style }),
 
-  // Phase 3 actions
   setRoutes: (routes) => set({ routes }),
   setSimulationStatus: (simulationStatus) => set({ simulationStatus }),
   setRecommendation: (recommendation) => set({ recommendation }),
@@ -94,12 +91,34 @@ export const useAppStore = create<AppStore>()((set) => ({
   setSelectedRoute: (selectedRoute) => set({ selectedRoute }),
   setFrictionCache: (frictionCache) => set({ frictionCache }),
 
-  // Phase 4 actions
   setNarrativeByRoute: (routeId, narrative) =>
-    set((state) => ({
-      narrativeByRoute: { ...state.narrativeByRoute, [routeId]: narrative },
-    })),
+    set((state) => ({ narrativeByRoute: { ...state.narrativeByRoute, [routeId]: narrative } })),
 
-  // Navigation actions
   setActiveTab: (activeTab) => set({ activeTab }),
+
+  resetSimulation: () => set({
+    simulationStatus: 'idle',
+    sourcePin: null,
+    destinationPin: null,
+    routes: null,
+    recommendation: null,
+    alerts: null,
+    triggers: [],
+    projectSummary: null,
+    selectedRoute: null,
+    narrativeByRoute: {},
+    focusedAlertId: null,
+  }),
+
+  toggleDataLayer: (id) => set((s) => ({
+    activeDatalayerIds: s.activeDatalayerIds.includes(id)
+      ? s.activeDatalayerIds.filter((x) => x !== id)
+      : [...s.activeDatalayerIds, id],
+  })),
+
+  pushSimulationRun: (run) => set((s) => ({
+    simulationHistory: [run, ...s.simulationHistory].slice(0, 10),
+  })),
+
+  setFocusedAlertId: (focusedAlertId) => set({ focusedAlertId }),
 }));

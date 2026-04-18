@@ -190,3 +190,33 @@ describe('useAppStore', () => {
     expect(useAppStore.getState().frictionCache?.['31.5,-99.2'].frictionScore).toBe(0.7);
   });
 });
+
+describe('resetSimulation', () => {
+  it('clears simulation state back to idle', () => {
+    const store = useAppStore.getState();
+    store.setSimulationStatus('complete');
+    store.setSourcePin([-100, 31]);
+    store.setDestinationPin([-99, 30]);
+    store.resetSimulation();
+    const s = useAppStore.getState();
+    expect(s.simulationStatus).toBe('idle');
+    expect(s.sourcePin).toBeNull();
+    expect(s.destinationPin).toBeNull();
+    expect(s.routes).toBeNull();
+    expect(s.recommendation).toBeNull();
+  });
+});
+
+describe('activeDatalayerIds', () => {
+  it('starts empty', () => {
+    expect(useAppStore.getState().activeDatalayerIds).toEqual([]);
+  });
+
+  it('toggleDataLayer adds and removes ids', () => {
+    const store = useAppStore.getState();
+    store.toggleDataLayer('wind-potential');
+    expect(useAppStore.getState().activeDatalayerIds).toContain('wind-potential');
+    store.toggleDataLayer('wind-potential');
+    expect(useAppStore.getState().activeDatalayerIds).not.toContain('wind-potential');
+  });
+});
