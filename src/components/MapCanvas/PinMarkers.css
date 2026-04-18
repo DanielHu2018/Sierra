@@ -63,3 +63,28 @@
   border-radius: 4px;
   white-space: nowrap;
 }
+
+.pin-cancel {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #1C1B1B;
+  border: 1px solid #414755;
+  color: #C1C6D7;
+  font-size: 12px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 2;
+}
+.pin-cancel:hover {
+  background: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
