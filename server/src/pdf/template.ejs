@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sierra Transmission Routing Dossier</title>
+<style>
+  /* ── Reset & Base ─────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  /* ── Page Breaks ──────────────────────────────────── */
+  .page {
+    padding: 32px 40px 40px;
+    min-height: 100vh;
+    page-break-after: always;
+    break-after: page;
+  }
+  .page:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  /* ── Typography ───────────────────────────────────── */
+  h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
+  h2 { font-size: 15px; font-weight: 600; margin-bottom: 20px; }
+  .section-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #666;
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  p { margin-bottom: 12px; }
+
+  /* ── Route Color Accents (print-safe, darkened) ───── */
+  .accent-A { color: #5B9BD5; }
+  .accent-B { color: #D48A2A; }
+  .accent-C { color: #9B6BBF; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .badge-A { background: #5B9BD5; }
+  .badge-B { background: #D48A2A; }
+  .badge-C { background: #9B6BBF; }
+
+  /* ── Cover Page ───────────────────────────────────── */
+  .cover-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .sierra-wordmark {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+  }
+  .export-meta {
+    font-size: 10px;
+    color: #999;
+    text-align: right;
+  }
+  .cover-route-label {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .cover-subtitle {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 24px;
+  }
+  .cover-map {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 28px;
+    background: #f0f0f0;
+  }
+  .cover-map-placeholder {
+    width: 100%;
+    height: 280px;
+    background: #f0f4f8;
+    border: 1px solid #dce3ea;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 11px;
+    margin-bottom: 28px;
+  }
+  .narrative { font-size: 11.5px; line-height: 1.65; }
+
+  /* ── Tables ───────────────────────────────────────── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin-bottom: 20px;
+  }
+  thead th {
+    background: #f5f5f5;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 700;
+    border-bottom: 2px solid #e0e0e0;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #555;
+  }
+  tbody td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #eeeeee;
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+
+  /* ── Metrics Block ────────────────────────────────── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .metric-card {
+    background: #f9f9f9;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .metric-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin-bottom: 4px;
+  }
+  .metric-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+  .metric-unit {
+    font-size: 11px;
+    color: #666;
+    margin-top: 2px;
+  }
+
+  /* ── Recommendation Box ───────────────────────────── */
+  .recommendation-box {
+    border-left: 4px solid #5B9BD5;
+    padding: 14px 18px;
+    background: #f6faff;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 20px;
+  }
+  .recommendation-box.route-A { border-left-color: #5B9BD5; background: #f6faff; }
+  .recommendation-box.route-B { border-left-color: #D48A2A; background: #fdf8f0; }
+  .recommendation-box.route-C { border-left-color: #9B6BBF; background: #faf6fd; }
+  .recommendation-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin-bottom: 6px;
+  }
+  .recommendation-text { font-size: 11.5px; line-height: 1.6; }
+
+  /* ── Alert Box ────────────────────────────────────── */
+  .alert-box {
+    border: 1px solid #f0c040;
+    background: #fffbec;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+  }
+  .alert-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #b8860b;
+    margin-bottom: 6px;
+  }
+  .alert-text { font-size: 11px; line-height: 1.55; }
+  .alert-location {
+    display: inline-block;
+    font-size: 10px;
+    background: #f0c040;
+    color: #5a4000;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  /* ── Timeline Table ───────────────────────────────── */
+  .timeline-total td {
+    font-weight: 700;
+    background: #f5f5f5;
+    border-top: 2px solid #d0d0d0;
+  }
+
+  /* ── Illustrative Disclaimer ──────────────────────── */
+  .footnote {
+    font-size: 9px;
+    color: #aaa;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 1: COVER
+     ═══════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="cover-header">
+    <div class="sierra-wordmark">Sierra</div>
+    <div class="export-meta">
+      Transmission Routing Analysis<br>
+      Export Date: <%= exportDate %>
+    </div>
+  </div>
+
+  <div class="cover-route-label accent-<%= route.id %>">
+    <% if (route.id === 'A') { %>Route A &mdash; Lowest Cost<% } %>
+    <% if (route.id === 'B') { %>Route B &mdash; Balanced<% } %>
+    <% if (route.id === 'C') { %>Route C &mdash; Lowest Regulatory Risk<% } %>
+  </div>
+  <div class="cover-subtitle">Sierra Transmission Routing Dossier &mdash; ERCOT Texas Corridor</div>
+
+  <% if (mapThumbnail) { %>
+    <img class="cover-map" src="<%= mapThumbnail %>" alt="Route map thumbnail showing corridor across Texas" />
+  <% } else { %>
+    <div class="cover-map-placeholder">Map thumbnail unavailable &mdash; Mapbox Static API not reachable</div>
+  <% } %>
+
+  <div class="narrative">
+    <%- narrative %>
+  </div>
+
+  <div class="footnote">All data shown in this dossier is illustrative and generated for demonstration purposes only. No reliance should be placed on this analysis for actual engineering, legal, or financial decisions.</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 2: ROUTE METRICS + SIERRA RECOMMENDS
+     ═══════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-title">Route Profile &amp; Key Metrics</div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Distance</div>
+      <div class="metric-value accent-<%= route.id %>"><%= route.metrics ? route.metrics.distanceMiles : '&mdash;' %></div>
+      <div class="metric-unit">miles</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Estimated CapEx</div>
+      <div class="metric-value">
+        <% if (route.metrics && route.metrics.estimatedCapexUSD) { %>
+          $<%= (route.metrics.estimatedCapexUSD / 1_000_000).toFixed(0) %>M
+        <% } else { %>
+          &mdash;
+        <% } %>
+      </div>
+      <div class="metric-unit">USD million (illustrative)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Permitting Timeline</div>
+      <div class="metric-value">
+        <% if (route.metrics && route.metrics.permittingMonths) { %>
+          <%= route.metrics.permittingMonths[0] %>&ndash;<%= route.metrics.permittingMonths[1] %>
+        <% } else { %>
+          &mdash;
+        <% } %>
+      </div>
+      <div class="metric-unit">months (illustrative)</div>
+    </div>
+  </div>
+
+  <div class="section-title">Sierra Recommends</div>
+  <% if (recommendation) { %>
+  <div class="recommendation-box route-<%= recommendation.routeId %>">
+    <div class="recommendation-label">Sierra Recommends: Route <%= recommendation.routeId %></div>
+    <div class="recommendation-text"><%= recommendation.rationale %></div>
+  </div>
+  <% } %>
+
+  <div class="footnote">All metrics are illustrative estimates. Actual costs and timelines depend on detailed engineering, regulatory, and market conditions.</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 3: ENVIRONMENTAL TRIGGERS + SIERRA ALERTS
+     ═══════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-title">Environmental &amp; Regulatory Triggers</div>
+
+  <% var routeTriggers = triggers.find(function(t) { return t.routeId === route.id; }); %>
+  <% if (routeTriggers && routeTriggers.triggers && routeTriggers.triggers.length) { %>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:22%">Statute</th>
+        <th style="width:50%">Plain-English Summary</th>
+        <th style="width:28%">Timeline Impact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% routeTriggers.triggers.forEach(function(trigger) { %>
+      <tr>
+        <td><strong><%= trigger.statute %></strong></td>
+        <td><%= trigger.explanation %></td>
+        <td>
+          <% if (trigger.timelineMonths && trigger.timelineMonths[1] > 0) { %>
+            Approx. <%= trigger.timelineMonths[0] %>&ndash;<%= trigger.timelineMonths[1] %> months
+          <% } else { %>
+            No additional timeline impact
+          <% } %>
+        </td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <% } else { %>
+  <p style="color:#888;font-size:11px;">No environmental trigger data available for this route.</p>
+  <% } %>
+
+  <div class="section-title" style="margin-top:24px;">Sierra Alerts &mdash; Critical Risk</div>
+
+  <% if (alerts && alerts.primary) { %>
+  <div class="alert-box">
+    <div class="alert-label">&#9888; Critical Risk Identified</div>
+    <div class="alert-text"><%= alerts.primary.text %></div>
+    <% if (alerts.primary.location) { %>
+    <div class="alert-location"><%= alerts.primary.location %></div>
+    <% } %>
+  </div>
+
+  <% if (alerts.secondary && alerts.secondary.length) { %>
+    <% alerts.secondary.forEach(function(alert) { %>
+    <div class="alert-box" style="background:#fffdf5;border-color:#e0d090;">
+      <div class="alert-label" style="color:#9a7a00;">&#9888; Secondary Risk</div>
+      <div class="alert-text"><%= alert.text %></div>
+      <% if (alert.location) { %><div class="alert-location" style="background:#e0d090;color:#4a3a00;"><%= alert.location %></div><% } %>
+    </div>
+    <% }); %>
+  <% } %>
+  <% } else { %>
+  <p style="color:#888;font-size:11px;">No alert data available for this route.</p>
+  <% } %>
+
+  <div class="footnote">Regulatory analysis is illustrative. Actual permit requirements depend on final route alignment and agency consultation outcomes.</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 4: INLINE PROJECT SUMMARY (PHASE TIMELINE)
+     ═══════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-title">Inline Project Summary &mdash; Phase Timeline</div>
+
+  <% if (projectSummary && projectSummary.phases && projectSummary.phases.length) { %>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:35%">Phase</th>
+        <th style="width:20%">Estimated Duration</th>
+        <th style="width:45%">Key Dependency</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% projectSummary.phases.forEach(function(phase, idx) { %>
+      <% var isLast = idx === projectSummary.phases.length - 1; %>
+      <tr class="<%= isLast ? 'timeline-total' : '' %>">
+        <td><%= phase.name %></td>
+        <td>
+          <% if (phase.estimatedMonths && phase.estimatedMonths[1] > 0) { %>
+            <%= phase.estimatedMonths[0] %>&ndash;<%= phase.estimatedMonths[1] %> months
+          <% } else { %>
+            See phases above
+          <% } %>
+        </td>
+        <td style="color:#555;font-size:10.5px;"><%= phase.keyDependency %></td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <% } else { %>
+  <p style="color:#888;font-size:11px;">Project timeline data not available.</p>
+  <% } %>
+
+  <div class="footnote">Timeline estimates are illustrative only. Parallel-tracking permitting and ROW acquisition is critical to schedule compression. Actual timelines depend on agency workload and landowner cooperation.</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 5: PER-SEGMENT JUSTIFICATIONS
+     ═══════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-title">Per-Segment Friction Justifications</div>
+
+  <% var justifications = route.segmentJustifications; %>
+  <% if (justifications && justifications.length) { %>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:12%">Segment</th>
+        <th style="width:12%">Friction</th>
+        <th>AI-Generated Friction Justification</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% justifications.forEach(function(seg) { %>
+      <tr>
+        <td style="font-weight:600;color:#666;">#<%= seg.segmentIndex %></td>
+        <td style="color:<%= seg.frictionScore > 0.6 ? '#c0392b' : seg.frictionScore > 0.3 ? '#d48a2a' : '#27ae60' %>">
+          <%= (seg.frictionScore * 100).toFixed(0) %>%
+        </td>
+        <td><%= seg.justification %></td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <% } else { %>
+  <p style="color:#888;font-size:11px;">Segment justification data not available for this route.</p>
+  <% } %>
+
+  <div class="footnote">Friction justifications are LLM-generated based on pre-computed constraint layer analysis. They are illustrative summaries, not engineering assessments.</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 6: MOCK LAND PARCEL CONTACTS
+     ═══════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-title">Mock Land Parcel Owner Contacts</div>
+
+  <% if (contacts && contacts.length) { %>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:28%">Owner / Entity</th>
+        <th style="width:14%">County</th>
+        <th style="width:10%">Acreage</th>
+        <th style="width:16%">Parcel Type</th>
+        <th style="width:16%">Phone</th>
+        <th style="width:16%">Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% contacts.forEach(function(contact) { %>
+      <tr>
+        <td><%= contact.ownerName %></td>
+        <td><%= contact.county %></td>
+        <td style="text-align:right;"><%= contact.acreage.toLocaleString() %></td>
+        <td style="font-size:10px;color:#555;"><%= contact.parcelType %></td>
+        <td style="font-size:10px;"><%= contact.phone %></td>
+        <td style="font-size:10px;color:#5B9BD5;"><%= contact.email %></td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <% } else { %>
+  <p style="color:#888;font-size:11px;">No contact data available for this route.</p>
+  <% } %>
+
+  <div class="footnote">All contact information is fictional and provided for demonstration purposes only. No actual landowners or parcel data are represented. Real ROW acquisition requires professional title research and registered mail outreach per Texas Property Code Chapter 21.</div>
+</div>
+
+</body>
+</html>
