@@ -7,6 +7,10 @@ import {
   frictionCache,
   haversineKm,
 } from '../routing/astar.js';
+import { buildMapboxStaticUrl, fetchMapboxThumbnail } from '../pdf/buildMapboxUrl.js';
+import { generatePdf } from '../pdf/pdfGenerator.js';
+import { mockContacts } from '../data/mock-contacts.js';
+import { CANNED_NARRATIVES } from '../data/canned-narrative.js';
 
 const router = Router();
 
@@ -245,6 +249,89 @@ router.post('/route', async (req, res) => {
   } catch (err) {
     console.error('[POST /api/route]', err);
     res.status(500).json({ error: 'Route generation failed' });
+  }
+});
+
+// ─── POST /api/export/pdf ─────────────────────────────────────────────────
+// Generate and stream a Puppeteer PDF dossier for the selected route.
+// All content is pre-generated (via Phase 3 parallel batch + POST /api/narrative).
+// Client passes everything in the request body; server only adds mapThumbnail + contacts.
+//
+// Pipeline: Validate → Fetch Mapbox thumbnail → Assemble template data → generatePdf → stream
+router.post('/export/pdf', async (req, res) => {
+  const {
+    routeId,
+    route,
+    recommendation,
+    triggers,
+    alerts,
+    projectSummary,
+    narrative,
+  } = req.body as {
+    routeId: 'A' | 'B' | 'C';
+    route: import('../types.js').RouteResult;
+    recommendation: import('../types.js').RouteRecommendation;
+    triggers: import('../types.js').EnvironmentalTrigger[];
+    alerts: import('../types.js').SierraAlert;
+    projectSummary: import('../types.js').ProjectSummary;
+    narrative: string;
+  };
+
+  // Validate routeId
+  if (!routeId || !['A', 'B', 'C'].includes(routeId)) {
+    res.status(400).json({ error: 'Invalid routeId — must be A, B, or C' });
+    return;
+  }
+
+  try {
+    // Step 1: Fetch Mapbox Static Image server-side
+    // .catch(() => '') — empty string means template shows placeholder div instead of img
+    const mapboxToken = process.env.MAPBOX_TOKEN ?? '';
+    let mapThumbnail = '';
+    if (mapboxToken && route?.geometry) {
+      const mapUrl = buildMapboxStaticUrl(route.geometry as import('geojson').LineString, mapboxToken);
+      mapThumbnail = await fetchMapboxThumbnail(mapUrl).catch((err: Error) => {
+        console.warn('[pdf] Mapbox thumbnail fetch failed:', err.message);
+        return '';
+      });
+    }
+
+    // Step 2: Server-side data (not trusted from client)
+    const contacts = mockContacts[routeId] ?? [];
+
+    // Step 3: Narrative coalescing — use canned fallback if client didn't send one
+    const safeNarrative = narrative || CANNED_NARRATIVES[routeId] || '';
+
+    // Step 4: Build template data + generate PDF buffer
+    const exportDate = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+
+    const pdfBuffer = await generatePdf({
+      route,
+      recommendation,
+      triggers: triggers ?? [],
+      alerts,
+      projectSummary,
+      narrative: safeNarrative,
+      contacts,
+      mapThumbnail,
+      exportDate,
+    });
+
+    // Step 5: Stream PDF buffer with download headers
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="sierra-dossier-route-${routeId}.pdf"`
+    );
+    res.setHeader('Content-Length', pdfBuffer.length);
+    res.send(pdfBuffer);
+  } catch (err) {
+    console.error('[pdf] PDF generation failed:', err);
+    res.status(500).json({ error: 'PDF generation failed' });
   }
 });
 
