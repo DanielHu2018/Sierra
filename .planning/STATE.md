@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-01-PLAN.md (Wave 0 test scaffolds + server deps)
-last_updated: "2026-04-18T06:08:05.987Z"
+stopped_at: Completed 04-03-PLAN.md (Puppeteer singleton + EJS template)
+last_updated: "2026-04-18T06:13:37.215Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 30
-  completed_plans: 20
+  completed_plans: 22
   percent: 37
 ---
 
@@ -98,6 +98,8 @@ Progress: [███░░░░░░░] 27%
 | Phase 03-routing-engine-core-demo-loop P07 | 2 | 2 tasks | 8 files |
 | Phase 03-routing-engine-core-demo-loop P08 | 2 | 2 tasks | 4 files |
 | Phase 04-pdf-dossier-export P01 | 8 | 3 tasks | 6 files |
+| Phase 04-pdf-dossier-export P02 | 3 | 2 tasks | 5 files |
+| Phase 04-pdf-dossier-export P03 | 4 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -149,6 +151,11 @@ Recent decisions affecting current work:
 - [Phase 03-routing-engine-core-demo-loop]: When A* weight profiles produce identical paths (frictionScore===regulatoryRisk collapses weight ratios), detect via path key comparison and fall back to canned stub routes with geometrically distinct arc geometry
 - [Phase 03-routing-engine-core-demo-loop]: OverlayControls component mounted inside ResultsPanel so friction heatmap toggle is accessible post-simulation without resetting to idle state
 - [Phase 04-pdf-dossier-export]: Wave 0 gate: all 4 Phase 4 test scaffolds written as test.todo stubs before any production code — import-free RED state
+- [Phase 04-pdf-dossier-export]: mockContacts exported as camelCase matching plan spec and PDF endpoint import convention
+- [Phase 04-pdf-dossier-export]: narrative.test.ts endpoint tests deferred as test.todo to Plan 04-04; data tests implemented now
+- [Phase 04-pdf-dossier-export]: polyline test regex fixed: /path-3+A7C8FF([^)]*%[0-9A-F]{2}/i — %XX may not be at position 0 in encoded path
+- [Phase 04-pdf-dossier-export]: RouteResult added to server/src/types.ts — client type not importable due to rootDir:./src boundary
+- [Phase 04-pdf-dossier-export]: mock-contacts.ts created in 04-03 as parallel plan dependency — MockContact type needed before 04-02 executes
 
 ### Pending Todos
 
@@ -161,6 +168,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T06:08:05.985Z
-Stopped at: Completed 04-01-PLAN.md (Wave 0 test scaffolds + server deps)
+Last session: 2026-04-18T06:13:37.213Z
+Stopped at: Completed 04-03-PLAN.md (Puppeteer singleton + EJS template)
 Resume file: None
