@@ -1,6 +1,9 @@
+import { useState, useEffect } from 'react';
 import { Source, Layer } from 'react-map-gl/mapbox';
 import type { LayerProps } from 'react-map-gl/mapbox';
+import type * as GeoJSON from 'geojson';
 import { useAppStore } from '../../store/useAppStore';
+import type { FrictionCache } from '../../types';
 
 // GeoJSON files are in public/data/ — reference by URL path (Vite public dir)
 const ERCOT_GRID_URL = '/data/ercot-grid.geojson';
@@ -14,8 +17,31 @@ function visibilityProp(isVisible: boolean): 'visible' | 'none' {
 
 export function OverlayLayers() {
   const overlays = useAppStore((s) => s.overlays);
-  // overlays.frictionHeatmap is acknowledged but renders nothing in Phase 1
-  void overlays.frictionHeatmap;
+  const setFrictionCache = useAppStore((s) => s.setFrictionCache);
+  const [heatmapGeoJSON, setHeatmapGeoJSON] = useState<GeoJSON.FeatureCollection | null>(null);
+
+  useEffect(() => {
+    fetch('/data/friction_cache.json')
+      .then((r) => r.json())
+      .then((cache: FrictionCache) => {
+        setFrictionCache(cache);
+        const geojson: GeoJSON.FeatureCollection = {
+          type: 'FeatureCollection',
+          features: Object.values(cache).map((node) => ({
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [node.lng, node.lat] },
+            properties: { friction: node.frictionScore },
+          })),
+        };
+        setHeatmapGeoJSON(geojson);
+      })
+      .catch(() => {
+        // friction_cache.json not yet available — Phase 2 pending; silently skip
+      });
+  }, [setFrictionCache]);
+
+  const heatmapVisible: 'visible' | 'none' =
+    overlays.frictionHeatmap && heatmapGeoJSON ? 'visible' : 'none';
 
   const ercotLayerProps: LayerProps = {
     id: 'ercot-grid',
@@ -100,7 +126,33 @@ export function OverlayLayers() {
         <Layer {...topoLayerProps} />
       </Source>
 
-      {/* Phase 2: friction heatmap layer — data in friction_cache.json */}
+      {/* Friction heatmap — loaded once at startup from friction_cache.json */}
+      {heatmapGeoJSON && (
+        <Source id="friction-heatmap-source" type="geojson" data={heatmapGeoJSON}>
+          <Layer
+            id="friction-heatmap"
+            type="heatmap"
+            layout={{ visibility: heatmapVisible }}
+            paint={{
+              'heatmap-weight': ['get', 'friction'],
+              'heatmap-intensity': 1,
+              'heatmap-color': [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0,
+                'rgba(0,200,0,0)',
+                0.4,
+                'rgba(255,235,0,0.6)',
+                1,
+                'rgba(220,0,0,0.9)',
+              ],
+              'heatmap-radius': 20,
+              'heatmap-opacity': 0.85,
+            }}
+          />
+        </Source>
+      )}
     </>
   );
 }
