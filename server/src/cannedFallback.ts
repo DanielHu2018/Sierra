@@ -2,7 +2,7 @@
 // All canned fallback content. References real Texas locations for demo credibility.
 // Triggered per-endpoint via try/catch when Claude API is unavailable.
 
-import type { RouteRecommendation, EnvironmentalTrigger, SierraAlert, ProjectSummary } from '../../src/types.js';
+import type { RouteRecommendation, EnvironmentalTrigger, SierraAlert, ProjectSummary } from './types.js';
 
 // ─── Reasoning Stream (streamed character by character on client) ──────────
 // Target: 20-40 seconds of typewriter playback at ~30ms/char
