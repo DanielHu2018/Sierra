@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-08-PLAN.md (SierraAlerts + EnvTriggerPanel + ProjectSummary + ResultsPanel full wiring)
-last_updated: "2026-04-18T05:37:17.360Z"
+stopped_at: Phase 3 complete — all 9 plans executed, human verification passed with 2 bugs fixed
+last_updated: "2026-04-18T05:56:27.854Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 30
-  completed_plans: 18
+  completed_plans: 19
   percent: 37
 ---
 
@@ -145,6 +145,8 @@ Recent decisions affecting current work:
 - [Phase 03-routing-engine-core-demo-loop]: SierraAlerts expand/collapse uses local useState — UI-local state not needed in Zustand
 - [Phase 03-routing-engine-core-demo-loop]: EnvTriggerPanel defaults open accordion to recommendation.routeId ?? 'C' for graceful fallback before AI response arrives
 - [Phase 03-routing-engine-core-demo-loop]: ProjectSummary Total row detection uses name.toLowerCase().includes('total') for flexibility with AI-generated phase names
+- [Phase 03-routing-engine-core-demo-loop]: When A* weight profiles produce identical paths (frictionScore===regulatoryRisk collapses weight ratios), detect via path key comparison and fall back to canned stub routes with geometrically distinct arc geometry
+- [Phase 03-routing-engine-core-demo-loop]: OverlayControls component mounted inside ResultsPanel so friction heatmap toggle is accessible post-simulation without resetting to idle state
 
 ### Pending Todos
 
@@ -157,6 +159,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T05:37:17.358Z
-Stopped at: Completed 03-08-PLAN.md (SierraAlerts + EnvTriggerPanel + ProjectSummary + ResultsPanel full wiring)
+Last session: 2026-04-18T05:56:22.254Z
+Stopped at: Phase 3 complete — all 9 plans executed, human verification passed with 2 bugs fixed
 Resume file: None

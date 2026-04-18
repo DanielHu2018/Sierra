@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Foundation & Map Canvas** - Full-screen Texas map, pin drop, overlay toggles, constraint controls, and shared types contract
 - [ ] **Phase 2: Offline Data Pipeline & AI Core** - graph.json build, friction pre-computation via Claude, RAG index (runs in parallel with Phase 1)
-- [ ] **Phase 3: Routing Engine & Core Demo Loop** - A* routing, Agent Reasoning Stream, three simultaneous routes, Sierra Recommends, Environmental Trigger Panel, Sierra Alerts, Inline Project Summary, heatmap, hover justifications, dashboard cards
+- [x] **Phase 3: Routing Engine & Core Demo Loop** - A* routing, Agent Reasoning Stream, three simultaneous routes, Sierra Recommends, Environmental Trigger Panel, Sierra Alerts, Inline Project Summary, heatmap, hover justifications, dashboard cards (completed 2026-04-18)
 - [ ] **Phase 4: PDF Dossier Export** - Server-side PDF with LLM narrative intro, route metrics, Sierra Recommends rationale, environmental trigger summary, project timeline, Sierra Alerts, per-segment justifications, mock contacts, map thumbnail
 - [ ] **Phase 5: Demo Hardening & Polish** - Error states, ADA compliance, mock data footnotes, cache pre-warm, production deploy
 
@@ -131,6 +131,6 @@ Phase 1 and Phase 2 execute in parallel, then: 1+2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation & Map Canvas | 5/6 | In Progress|  |
 | 2. Offline Data Pipeline & AI Core | 2/4 | In Progress | - |
-| 3. Routing Engine & Core Demo Loop | 8/9 | In Progress|  |
+| 3. Routing Engine & Core Demo Loop | 9/9 | Complete   | 2026-04-18 |
 | 4. PDF Dossier Export | 0/7 | Not started | - |
 | 5. Demo Hardening & Polish | 0/4 | Not started | - |
