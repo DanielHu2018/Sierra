@@ -83,6 +83,7 @@ export function TopNav() {
   const simulationStatus = useAppStore((s) => s.simulationStatus);
   const activeTab = useAppStore((s) => s.activeTab);
   const setActiveTab = useAppStore((s) => s.setActiveTab);
+  const resetSimulation = useAppStore((s) => s.resetSimulation);
   const isReady = simulationStatus === 'complete';
 
   return (
@@ -109,6 +110,20 @@ export function TopNav() {
         </button>
       </div>
       <div style={rightControlsStyle}>
+        <button
+          style={iconButtonStyle}
+          aria-label="New simulation"
+          title="New simulation"
+          onClick={() => {
+            if (simulationStatus === 'running') {
+              if (!window.confirm('Cancel current simulation?')) return;
+            }
+            resetSimulation();
+            setActiveTab('route-engine');
+          }}
+        >
+          &#8635;
+        </button>
         <button style={iconButtonStyle} aria-label="Notifications">
           &#128276;
         </button>

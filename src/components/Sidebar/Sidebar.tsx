@@ -20,6 +20,8 @@ export function Sidebar() {
   const setProjectSummary = useAppStore((s) => s.setProjectSummary);
   const setSelectedRoute = useAppStore((s) => s.setSelectedRoute);
   const setNarrativeByRoute = useAppStore((s) => s.setNarrativeByRoute);
+  const resetSimulation = useAppStore((s) => s.resetSimulation);
+  const pushSimulationRun = useAppStore((s) => s.pushSimulationRun);
   const constraints = useAppStore((s) => s.constraints);
   const priority = useAppStore((s) => s.priority);
   const voltage = useAppStore((s) => s.voltage);
@@ -136,7 +138,8 @@ export function Sidebar() {
 
   const handleCancel = useCallback(() => {
     setSimulationStatus('idle');
-  }, [setSimulationStatus]);
+    resetSimulation();
+  }, [setSimulationStatus, resetSimulation]);
 
   const hasPins = sourcePin !== null && destinationPin !== null;
 
@@ -152,6 +155,25 @@ export function Sidebar() {
     return (
       <div style={sidebarContainerStyle}>
         <ResultsPanel />
+        <div style={{ padding: '12px 20px', borderTop: '1px solid #2E3140' }}>
+          <button
+            onClick={resetSimulation}
+            style={{
+              width: '100%',
+              padding: '10px',
+              borderRadius: '0.375rem',
+              background: 'transparent',
+              border: '1px solid #414755',
+              color: '#C1C6D7',
+              fontFamily: 'Manrope, sans-serif',
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            ↺ New Simulation
+          </button>
+        </div>
       </div>
     );
   }
