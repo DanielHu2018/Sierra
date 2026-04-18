@@ -19,6 +19,7 @@ export function Sidebar() {
   const setAlerts = useAppStore((s) => s.setAlerts);
   const setProjectSummary = useAppStore((s) => s.setProjectSummary);
   const setSelectedRoute = useAppStore((s) => s.setSelectedRoute);
+  const setNarrativeByRoute = useAppStore((s) => s.setNarrativeByRoute);
   const constraints = useAppStore((s) => s.constraints);
   const priority = useAppStore((s) => s.priority);
   const voltage = useAppStore((s) => s.voltage);
@@ -60,7 +61,7 @@ export function Sidebar() {
       setRecommendation(recommend);
       setSelectedRoute(recommend.routeId ?? 'C');
 
-      const [triggers, alerts, summary] = await Promise.all([
+      const [triggers, alerts, summary, narrativeA, narrativeB, narrativeC] = await Promise.all([
         fetch('/api/triggers', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -84,10 +85,28 @@ export function Sidebar() {
             ),
           }),
         }).then((r) => r.json()),
+        fetch('/api/narrative', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ routeId: 'A', routeLabel: 'Route A — Lowest Cost', constraints: routeBody.constraints }),
+        }).then((r) => r.json()),
+        fetch('/api/narrative', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ routeId: 'B', routeLabel: 'Route B — Balanced', constraints: routeBody.constraints }),
+        }).then((r) => r.json()),
+        fetch('/api/narrative', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ routeId: 'C', routeLabel: 'Route C — Lowest Regulatory Risk', constraints: routeBody.constraints }),
+        }).then((r) => r.json()),
       ]);
       setTriggers(triggers);
       setAlerts(alerts);
       setProjectSummary(summary);
+      setNarrativeByRoute('A', narrativeA?.narrative ?? '');
+      setNarrativeByRoute('B', narrativeB?.narrative ?? '');
+      setNarrativeByRoute('C', narrativeC?.narrative ?? '');
     } catch (err) {
       console.error('[runSimulation]', err);
       // Errors are non-fatal — stream panel handles its own fallback
@@ -105,6 +124,7 @@ export function Sidebar() {
     setAlerts,
     setProjectSummary,
     setSelectedRoute,
+    setNarrativeByRoute,
   ]);
 
   const handleStreamComplete = useCallback(() => {
