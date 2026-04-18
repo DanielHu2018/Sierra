@@ -82,4 +82,22 @@ Changes:
 - **Files modified:** `server/.env` (gitignored, created), `server/package.json`, `server/src/pdf/template.ejs`
 - **Commits:** 8313241
 
+## Additional Investigation (2026-04-18)
+
+**Issue reported:** PDF cover page still showed the styled placeholder even after commit `8313241` added `--env-file .env` and created `server/.env`.
+
+**Root cause confirmed:** The server process running at the time was an **old instance** started before the `--env-file .env` fix was committed. It had no `MAPBOX_TOKEN` in its environment, so every PDF export silently fell back to the placeholder via `.catch(() => '')`.
+
+**Diagnosis method:**
+1. Added temporary debug logging to `/api/export/pdf` handler: `console.log('[pdf] MAPBOX_TOKEN present:', !!mapboxToken, ...)`
+2. Killed old server process (PID 10900) and restarted with updated scripts
+3. Server logs confirmed: `MAPBOX_TOKEN present: true | route.geometry present: true`
+4. Server logs confirmed: `mapThumbnail length: 558714 | starts: data:image/png;base64,/9j/4AAQ`
+5. Generated PDF grew from 110KB (placeholder) to 526KB (real JPEG map image embedded)
+6. PDF analysis confirmed: `DCTDecode` (JPEG) present, `Sierra Route Visualization` placeholder text absent
+
+**Fix:** No code changes were needed. The existing implementation was correct. The server simply needed to be restarted to pick up the new `--env-file .env` flag. Debug logging was removed before commit.
+
+**Takeaway for ops:** After pulling changes to `server/package.json` scripts, the server must be restarted (not just auto-reloaded) for `--env-file` to take effect on the process environment.
+
 ## Self-Check: PASSED
