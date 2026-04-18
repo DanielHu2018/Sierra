@@ -103,7 +103,7 @@
 - [x] **DATA-02**: A shared types.ts data contract defines all data shapes consumed by map, dashboard, and PDF components: route result (geometry, scores, segment justifications), RouteRecommendation (recommended route ID + rationale), EnvironmentalTrigger (per-route statute list with timeline estimates), SierraAlert (primary + secondary alerts), and ProjectSummary (phase timeline rows)
 - [x] **DATA-03**: Out-of-bounds pin placement shows a graceful error state (not a crash or blank screen)
 - [x] **DATA-04**: Missing or unavailable data shows a graceful fallback — no dead ends during demo
-- [ ] **DATA-05**: All mock data is visually marked as such (small footnote on map and PDF)
+- [x] **DATA-05**: All mock data is visually marked as such (small footnote on map and PDF)
 - [x] **DATA-06**: ADA-compliant color/contrast for all route colors, overlays, and heatmap
 
 ## v2 Requirements
@@ -199,7 +199,7 @@
 | PDF-04 | Phase 4 | Complete |
 | DATA-03 | Phase 5 | Complete |
 | DATA-04 | Phase 5 | Complete |
-| DATA-05 | Phase 5 | Pending |
+| DATA-05 | Phase 5 | Complete |
 | DATA-06 | Phase 5 | Complete |
 
 **Coverage:**

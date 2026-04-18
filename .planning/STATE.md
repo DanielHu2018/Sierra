@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-01-PLAN.md (Wave-0 test scaffolds)
-last_updated: "2026-04-18T07:11:33.400Z"
+stopped_at: Completed 05-02-PLAN.md (ERCOT bounds guard + mock data footnote)
+last_updated: "2026-04-18T07:14:55.048Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 30
-  completed_plans: 27
+  completed_plans: 28
 ---
 
 ---
@@ -120,6 +120,7 @@ Progress: [███░░░░░░░] 27%
 | Phase 04-pdf-dossier-export P06 | 117 | 2 tasks | 3 files |
 | Phase 04-pdf-dossier-export P07 | 15 | 2 tasks | 5 files |
 | Phase 05-demo-hardening-polish P01 | 8 | 3 tasks | 6 files |
+| Phase 05-demo-hardening-polish P02 | 5 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -185,6 +186,8 @@ Recent decisions affecting current work:
 - [Phase 05-demo-hardening-polish]: vitest.config.ts: regex alias array for mapbox-gl — /^mapbox-gl$/ matches root import only; /^mapbox-gl\/.+\.css$/ stubs CSS sub-path imports separately
 - [Phase 05-demo-hardening-polish]: Module-level capturedMapOnClick slot captures Map onClick prop for MapCanvas test suite — avoids per-describe vi.mocked() re-mock complexity
 - [Phase 05-demo-hardening-polish]: WCAG contrast helper self-contained in contrast.test.ts — no external a11y library dependency
+- [Phase 05-demo-hardening-polish]: Popup added to react-map-gl/mapbox vi.mock return so OOB popup test can assert rendered text — blocking fix to Wave-0 scaffold
+- [Phase 05-demo-hardening-polish]: ERCOT bounds constant at module scope (not inside component) for stable reference without recreating on each render
 
 ### Pending Todos
 
@@ -197,6 +200,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T07:11:33.397Z
-Stopped at: Completed 05-01-PLAN.md (Wave-0 test scaffolds)
+Last session: 2026-04-18T07:14:55.046Z
+Stopped at: Completed 05-02-PLAN.md (ERCOT bounds guard + mock data footnote)
 Resume file: None
