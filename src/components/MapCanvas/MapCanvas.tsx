@@ -1,5 +1,5 @@
-import Map, { type MapRef } from 'react-map-gl/mapbox';
-import { useRef, useCallback } from 'react';
+import Map, { Popup, type MapRef } from 'react-map-gl/mapbox';
+import { useRef, useCallback, useState } from 'react';
 import type { MapLayerMouseEvent } from 'mapbox-gl';
 import { useAppStore } from '../../store/useAppStore';
 import { PinMarkers } from './PinMarkers';
@@ -7,6 +7,8 @@ import { OverlayLayers } from './OverlayLayers';
 import { RouteLayer } from './RouteLayer';
 import { MapControls } from './MapControls';
 import 'mapbox-gl/dist/mapbox-gl.css';
+
+const ERCOT_BOUNDS = { minLng: -106.6, minLat: 25.8, maxLng: -93.5, maxLat: 36.5 };
 
 export function MapCanvas() {
   const mapRef = useRef<MapRef>(null);
@@ -17,9 +19,19 @@ export function MapCanvas() {
   const setSourcePin = useAppStore((s) => s.setSourcePin);
   const setDestinationPin = useAppStore((s) => s.setDestinationPin);
 
+  const [oobPopup, setOobPopup] = useState<{ lng: number; lat: number } | null>(null);
+
   const handleClick = useCallback(
     (e: MapLayerMouseEvent) => {
       const { lng, lat } = e.lngLat;
+      const inBounds =
+        lng >= ERCOT_BOUNDS.minLng && lng <= ERCOT_BOUNDS.maxLng &&
+        lat >= ERCOT_BOUNDS.minLat && lat <= ERCOT_BOUNDS.maxLat;
+      if (!inBounds) {
+        setOobPopup({ lng, lat });
+        setTimeout(() => setOobPopup(null), 3000);
+        return; // Zustand never touched
+      }
       if (!sourcePin) {
         setSourcePin([lng, lat]);
         mapRef.current?.flyTo({ center: [lng, lat], zoom: 8 });
@@ -53,6 +65,45 @@ export function MapCanvas() {
       <OverlayLayers />
       <RouteLayer />
       <MapControls mapRef={mapRef} />
+      {oobPopup && (
+        <Popup
+          longitude={oobPopup.lng}
+          latitude={oobPopup.lat}
+          closeButton={false}
+          closeOnClick={false}
+          anchor="bottom"
+          onClose={() => setOobPopup(null)}
+        >
+          <div style={{
+            background: 'rgba(28,27,27,0.6)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: '0.5rem',
+            padding: '8px 12px',
+            color: '#C1C6D7',
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 12,
+            whiteSpace: 'nowrap',
+          }}>
+            Outside ERCOT coverage area.
+          </div>
+        </Popup>
+      )}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 30,
+          left: 10,
+          zIndex: 1,
+          color: '#C1C6D7',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: 10,
+          pointerEvents: 'none',
+          userSelect: 'none',
+        }}
+      >
+        ⓘ Illustrative mock data — for demonstration purposes only.
+      </div>
     </Map>
   );
 }

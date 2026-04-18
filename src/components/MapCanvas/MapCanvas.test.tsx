@@ -37,12 +37,19 @@ vi.mock('react-map-gl/mapbox', () => {
 
   const MockNavigationControl = vi.fn(() => null);
 
+  const MockPopup = vi.fn(
+    (props: { children?: React.ReactNode; [key: string]: unknown }) => {
+      return React.createElement('div', { 'data-testid': 'mock-popup' }, props.children);
+    },
+  );
+
   return {
     default: MockMap,
     Source: MockSource,
     Layer: MockLayer,
     Marker: MockMarker,
     NavigationControl: MockNavigationControl,
+    Popup: MockPopup,
   };
 });
 
