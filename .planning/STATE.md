@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: "Completed 03-07-PLAN.md (Results panel: SierraRecommends + RadarChart + RouteCards)"
-last_updated: "2026-04-18T05:36:35.197Z"
+stopped_at: Completed 03-08-PLAN.md (SierraAlerts + EnvTriggerPanel + ProjectSummary + ResultsPanel full wiring)
+last_updated: "2026-04-18T05:37:17.360Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 30
-  completed_plans: 17
+  completed_plans: 18
   percent: 37
 ---
 
@@ -96,6 +96,7 @@ Progress: [███░░░░░░░] 27%
 | Phase 03-routing-engine-core-demo-loop P06 | 2min | 2 tasks | 3 files |
 | Phase 03-routing-engine-core-demo-loop P05 | 12 | 2 tasks | 6 files |
 | Phase 03-routing-engine-core-demo-loop P07 | 2 | 2 tasks | 8 files |
+| Phase 03-routing-engine-core-demo-loop P08 | 2 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -141,6 +142,9 @@ Recent decisions affecting current work:
 - [Phase 03-routing-engine-core-demo-loop]: heatmapGeoJSON stored in local OverlayLayers state (not Zustand) — map-layer-local; raw FrictionCache stored in Zustand for cross-component justification access
 - [Phase 03-routing-engine-core-demo-loop]: recharts mocked with vi.mock in RadarChart tests to avoid SVG/canvas JSDOM failures — consistent with mapbox-gl mock pattern
 - [Phase 03-routing-engine-core-demo-loop]: RouteCards uses local useState for expand/collapse (UI-local state), Zustand for selectedRoute (cross-component sync)
+- [Phase 03-routing-engine-core-demo-loop]: SierraAlerts expand/collapse uses local useState — UI-local state not needed in Zustand
+- [Phase 03-routing-engine-core-demo-loop]: EnvTriggerPanel defaults open accordion to recommendation.routeId ?? 'C' for graceful fallback before AI response arrives
+- [Phase 03-routing-engine-core-demo-loop]: ProjectSummary Total row detection uses name.toLowerCase().includes('total') for flexibility with AI-generated phase names
 
 ### Pending Todos
 
@@ -153,6 +157,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T05:36:35.195Z
-Stopped at: Completed 03-07-PLAN.md (Results panel: SierraRecommends + RadarChart + RouteCards)
+Last session: 2026-04-18T05:37:17.358Z
+Stopped at: Completed 03-08-PLAN.md (SierraAlerts + EnvTriggerPanel + ProjectSummary + ResultsPanel full wiring)
 Resume file: None
