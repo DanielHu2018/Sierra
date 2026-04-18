@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-04-PLAN.md (narrative infrastructure)
-last_updated: "2026-04-18T06:18:56.018Z"
+stopped_at: Completed 04-06-PLAN.md (client-side PDF export trigger)
+last_updated: "2026-04-18T06:22:02.256Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 30
-  completed_plans: 24
+  completed_plans: 25
   percent: 37
 ---
 
@@ -102,6 +102,7 @@ Progress: [███░░░░░░░] 27%
 | Phase 04-pdf-dossier-export P03 | 4 | 2 tasks | 5 files |
 | Phase 04-pdf-dossier-export P05 | 5 | 1 tasks | 1 files |
 | Phase 04-pdf-dossier-export P04 | 4 | 3 tasks | 5 files |
+| Phase 04-pdf-dossier-export P06 | 117 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -161,6 +162,7 @@ Recent decisions affecting current work:
 - [Phase 04-pdf-dossier-export]: POST /api/export/pdf imports types from server/src/types.ts (not root src/types.ts) to respect rootDir boundary; Mapbox failure silently caught (.catch -> '') so PDF always succeeds
 - [Phase 04-pdf-dossier-export]: NarrativeByRoute stored as Partial<Record<'A'|'B'|'C', string>> in Zustand — populated incrementally at simulation time
 - [Phase 04-pdf-dossier-export]: Narrative calls added to existing Promise.all batch — no additional latency, parallel execution with triggers/alerts/summary
+- [Phase 04-pdf-dossier-export]: useExportPdf reads Zustand at hook call time (not inside async fn) — React rules of hooks compliance; blob URL + synthetic anchor avoids popup blocker; silent fail for demo stability
 
 ### Pending Todos
 
@@ -173,6 +175,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T06:18:45.534Z
-Stopped at: Completed 04-04-PLAN.md (narrative infrastructure)
+Last session: 2026-04-18T06:22:02.254Z
+Stopped at: Completed 04-06-PLAN.md (client-side PDF export trigger)
 Resume file: None
