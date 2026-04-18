@@ -99,6 +99,8 @@ function cannedStubRoutes(source: [number, number], dest: [number, number]) {
         { segmentIndex: 1, frictionScore: 0.25, justification: 'Follows existing utility right-of-way reducing acquisition cost.' },
       ],
       narrativeSummary: '',
+      populationServed: 1_020_000,
+      impactScore: { jobsCreated: 3_200, emissionsReduced_tCO2: 980_000, healthImpactScore: 62 },
     },
     {
       id: 'B',
@@ -116,6 +118,8 @@ function cannedStubRoutes(source: [number, number], dest: [number, number]) {
         { segmentIndex: 2, frictionScore: 0.4, justification: 'Approaches destination through lower-friction agricultural land.' },
       ],
       narrativeSummary: '',
+      populationServed: 2_150_000,
+      impactScore: { jobsCreated: 5_800, emissionsReduced_tCO2: 1_840_000, healthImpactScore: 78 },
     },
     {
       id: 'C',
@@ -142,6 +146,8 @@ function cannedStubRoutes(source: [number, number], dest: [number, number]) {
         },
       ],
       narrativeSummary: '',
+      populationServed: 1_380_000,
+      impactScore: { jobsCreated: 4_100, emissionsReduced_tCO2: 1_420_000, healthImpactScore: 71 },
     },
   ];
 }
@@ -227,6 +233,12 @@ router.post('/route', async (req, res) => {
       },
     ];
 
+    const popCoeff: Record<string, number> = {
+      'lowest-cost': 8_000,
+      'balanced': 15_000,
+      'lowest-risk': 6_500,
+    };
+
     const routes = routeDefs.map((r) => {
       const miles = totalDistanceMiles(r.path);
       const segs = buildSegmentJustifications(r.path);
@@ -253,6 +265,12 @@ router.post('/route', async (req, res) => {
         },
         segmentJustifications: segs,
         narrativeSummary: '',
+        populationServed: Math.round(miles * (popCoeff[r.profile] ?? 8_000)),
+        impactScore: {
+          jobsCreated: Math.round(miles * 25),
+          emissionsReduced_tCO2: Math.round(miles * 8_200),
+          healthImpactScore: Math.round(55 + (popCoeff[r.profile] ?? 8_000) / 1_000),
+        },
       };
     });
 

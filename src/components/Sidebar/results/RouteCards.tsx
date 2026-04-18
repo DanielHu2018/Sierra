@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { useAppStore } from '../../../store/useAppStore';
 
+function formatPop(n: number) {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  return `${(n / 1_000).toFixed(0)}K`;
+}
+
 function formatUSD(n: number) {
   if (n >= 1_000_000_000) return `$${(n / 1_000_000_000).toFixed(1)}B`;
   return `$${(n / 1_000_000).toFixed(0)}M`;
@@ -88,6 +93,11 @@ export function RouteCards() {
                     {route.metrics.distanceMiles} mi · {formatUSD(route.metrics.estimatedCapexUSD)} ·{' '}
                     {route.metrics.permittingMonths[0]}–{route.metrics.permittingMonths[1]} mo
                   </div>
+                  {route.populationServed != null && (
+                    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#4ade80', marginTop: 2 }}>
+                      👥 {formatPop(route.populationServed)} served
+                    </div>
+                  )}
                 </div>
                 <div style={{ color: '#6B7280', fontSize: 12 }}>{isExpanded ? '▲' : '▼'}</div>
               </div>
