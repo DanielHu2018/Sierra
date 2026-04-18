@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-02-PLAN.md (ERCOT bounds guard + mock data footnote)
-last_updated: "2026-04-18T07:14:55.048Z"
+stopped_at: Completed 05-03-PLAN.md (Error handling, VITE_API_URL, heatmap polish)
+last_updated: "2026-04-18T07:16:51.650Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 30
-  completed_plans: 28
+  completed_plans: 29
 ---
 
 ---
@@ -121,6 +121,7 @@ Progress: [███░░░░░░░] 27%
 | Phase 04-pdf-dossier-export P07 | 15 | 2 tasks | 5 files |
 | Phase 05-demo-hardening-polish P01 | 8 | 3 tasks | 6 files |
 | Phase 05-demo-hardening-polish P02 | 5 | 2 tasks | 2 files |
+| Phase 05-demo-hardening-polish P03 | 8 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -188,6 +189,9 @@ Recent decisions affecting current work:
 - [Phase 05-demo-hardening-polish]: WCAG contrast helper self-contained in contrast.test.ts — no external a11y library dependency
 - [Phase 05-demo-hardening-polish]: Popup added to react-map-gl/mapbox vi.mock return so OOB popup test can assert rendered text — blocking fix to Wave-0 scaffold
 - [Phase 05-demo-hardening-polish]: ERCOT bounds constant at module scope (not inside component) for stable reference without recreating on each render
+- [Phase 05-demo-hardening-polish]: simulationStatus=error branch is a separate early-return in Sidebar JSX — keeps error state visually distinct and test-isolated
+- [Phase 05-demo-hardening-polish]: Heatmap legend placed in MapCanvas.tsx (not OverlayLayers.tsx) — MapCanvas has access to Zustand overlay toggle state for conditional render
+- [Phase 05-demo-hardening-polish]: VITE_API_URL stored in const API at top of runSimulation closure — one read per call rather than repeated import.meta.env access
 
 ### Pending Todos
 
@@ -200,6 +204,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T07:14:55.046Z
-Stopped at: Completed 05-02-PLAN.md (ERCOT bounds guard + mock data footnote)
+Last session: 2026-04-18T07:16:51.648Z
+Stopped at: Completed 05-03-PLAN.md (Error handling, VITE_API_URL, heatmap polish)
 Resume file: None
