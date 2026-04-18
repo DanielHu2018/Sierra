@@ -1,0 +1,27 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Permian Basin CO₂ Storage", "capacity_gt": 50 },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-104.0, 30.5], [-101.0, 30.5], [-101.0, 32.5],
+          [-104.0, 32.5], [-104.0, 30.5]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Gulf Coast Saline Aquifer", "capacity_gt": 120 },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-97.5, 26.5], [-94.5, 26.5], [-94.5, 29.0],
+          [-97.5, 29.0], [-97.5, 26.5]
+        ]]
+      }
+    }
+  ]
+}

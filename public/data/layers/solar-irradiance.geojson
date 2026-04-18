@@ -1,0 +1,27 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Trans-Pecos Solar Zone", "irradiance_kwh_m2": 6.2 },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-105.0, 29.5], [-102.0, 29.5], [-102.0, 31.5],
+          [-105.0, 31.5], [-105.0, 29.5]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "South Texas Solar Zone", "irradiance_kwh_m2": 5.8 },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-100.0, 26.5], [-97.0, 26.5], [-97.0, 28.5],
+          [-100.0, 28.5], [-100.0, 26.5]
+        ]]
+      }
+    }
+  ]
+}

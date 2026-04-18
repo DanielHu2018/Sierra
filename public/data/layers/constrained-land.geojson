@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Big Bend National Park", "constraint_type": "protected" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-103.7, 29.0], [-102.9, 29.0], [-102.9, 29.7],
+          [-103.7, 29.7], [-103.7, 29.0]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Dunes Sagebrush Lizard ESA Habitat", "constraint_type": "esa_critical" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-103.5, 31.5], [-102.5, 31.5], [-102.5, 32.5],
+          [-103.5, 32.5], [-103.5, 31.5]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Edwards Aquifer Recharge Zone", "constraint_type": "water_resource" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-100.5, 29.5], [-99.0, 29.5], [-99.0, 30.5],
+          [-100.5, 30.5], [-100.5, 29.5]
+        ]]
+      }
+    }
+  ]
+}

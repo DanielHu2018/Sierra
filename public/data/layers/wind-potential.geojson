@@ -1,0 +1,27 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "West Texas Panhandle Wind Zone", "capacity_gw": 45 },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-103.0, 33.5], [-100.0, 33.5], [-100.0, 35.5],
+          [-103.0, 35.5], [-103.0, 33.5]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Permian Basin Wind Zone", "capacity_gw": 28 },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-103.5, 31.0], [-100.5, 31.0], [-100.5, 33.0],
+          [-103.5, 33.0], [-103.5, 31.0]
+        ]]
+      }
+    }
+  ]
+}
