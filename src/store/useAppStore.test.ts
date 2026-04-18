@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useAppStore } from './useAppStore';
+import type { RouteRecommendation, EnvironmentalTrigger, SierraAlert, ProjectSummary, FrictionCache } from '../types';
 
 // Reset store before each test to isolate state
 beforeEach(() => {
@@ -83,5 +84,109 @@ describe('useAppStore', () => {
   it('toggleConstraint(ecologyAvoidance) flips correctly', () => {
     useAppStore.getState().toggleConstraint('ecologyAvoidance');
     expect(useAppStore.getState().constraints.ecologyAvoidance).toBe(true);
+  });
+
+  // Phase 3 state fields — initial values
+  it('recommendation initializes to null', () => {
+    expect(useAppStore.getState().recommendation).toBeNull();
+  });
+
+  it('triggers initializes to empty array', () => {
+    expect(useAppStore.getState().triggers).toEqual([]);
+  });
+
+  it('alerts initializes to null', () => {
+    expect(useAppStore.getState().alerts).toBeNull();
+  });
+
+  it('projectSummary initializes to null', () => {
+    expect(useAppStore.getState().projectSummary).toBeNull();
+  });
+
+  it('selectedRoute initializes to null', () => {
+    expect(useAppStore.getState().selectedRoute).toBeNull();
+  });
+
+  it('frictionCache initializes to null', () => {
+    expect(useAppStore.getState().frictionCache).toBeNull();
+  });
+
+  // Phase 3 actions
+  it('setRoutes updates routes in state', () => {
+    const routes = [
+      {
+        id: 'A' as const,
+        profile: 'lowest-cost' as const,
+        label: 'Lowest Cost',
+        color: '#A7C8FF',
+        geometry: { type: 'LineString' as const, coordinates: [[-99, 31], [-98, 32]] },
+        metrics: { distanceMiles: 100, estimatedCapexUSD: 1000000, permittingMonths: [6, 12] as [number, number] },
+        segmentJustifications: [],
+        narrativeSummary: 'A test route.',
+      },
+    ];
+    useAppStore.getState().setRoutes(routes);
+    expect(useAppStore.getState().routes).toHaveLength(1);
+    expect(useAppStore.getState().routes![0].id).toBe('A');
+  });
+
+  it('setSimulationStatus updates simulationStatus', () => {
+    useAppStore.getState().setSimulationStatus('running');
+    expect(useAppStore.getState().simulationStatus).toBe('running');
+    useAppStore.getState().setSimulationStatus('complete');
+    expect(useAppStore.getState().simulationStatus).toBe('complete');
+  });
+
+  it('setRecommendation updates recommendation and accepts null', () => {
+    const rec: RouteRecommendation = { routeId: 'C', rationale: 'Best route.', timestamp: 1000 };
+    useAppStore.getState().setRecommendation(rec);
+    expect(useAppStore.getState().recommendation?.routeId).toBe('C');
+    useAppStore.getState().setRecommendation(null);
+    expect(useAppStore.getState().recommendation).toBeNull();
+  });
+
+  it('setTriggers updates triggers array', () => {
+    const triggers: EnvironmentalTrigger[] = [
+      { routeId: 'A', triggers: [{ statute: 'ESA Section 7', explanation: 'Habitat.', timelineMonths: [6, 12] }] },
+    ];
+    useAppStore.getState().setTriggers(triggers);
+    expect(useAppStore.getState().triggers).toHaveLength(1);
+    expect(useAppStore.getState().triggers[0].routeId).toBe('A');
+  });
+
+  it('setAlerts updates alerts and accepts null', () => {
+    const alert: SierraAlert = {
+      primary: { text: 'Karst formation detected', location: 'Austin, TX' },
+      secondary: [],
+    };
+    useAppStore.getState().setAlerts(alert);
+    expect(useAppStore.getState().alerts?.primary.location).toBe('Austin, TX');
+    useAppStore.getState().setAlerts(null);
+    expect(useAppStore.getState().alerts).toBeNull();
+  });
+
+  it('setProjectSummary updates projectSummary and accepts null', () => {
+    const summary: ProjectSummary = {
+      phases: [{ name: 'Desktop Screening', estimatedMonths: [1, 2], keyDependency: 'GIS data' }],
+    };
+    useAppStore.getState().setProjectSummary(summary);
+    expect(useAppStore.getState().projectSummary?.phases).toHaveLength(1);
+    useAppStore.getState().setProjectSummary(null);
+    expect(useAppStore.getState().projectSummary).toBeNull();
+  });
+
+  it('setSelectedRoute updates selectedRoute and accepts null', () => {
+    useAppStore.getState().setSelectedRoute('B');
+    expect(useAppStore.getState().selectedRoute).toBe('B');
+    useAppStore.getState().setSelectedRoute(null);
+    expect(useAppStore.getState().selectedRoute).toBeNull();
+  });
+
+  it('setFrictionCache updates frictionCache', () => {
+    const cache: FrictionCache = {
+      '31.5,-99.2': { lat: 31.5, lng: -99.2, frictionScore: 0.7, justification: 'Protected habitat.' },
+    };
+    useAppStore.getState().setFrictionCache(cache);
+    expect(useAppStore.getState().frictionCache?.['31.5,-99.2'].frictionScore).toBe(0.7);
   });
 });

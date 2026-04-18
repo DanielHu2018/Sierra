@@ -1,8 +1,17 @@
 import { create } from 'zustand';
-import type { AppState } from '../types';
+import type { AppState, RouteResult, RouteRecommendation, EnvironmentalTrigger, SierraAlert, ProjectSummary, FrictionCache } from '../types';
 
 interface AppStore extends AppState {
   mapStyle: string;
+  // Phase 3 state
+  recommendation: RouteRecommendation | null;
+  triggers: EnvironmentalTrigger[];
+  alerts: SierraAlert | null;
+  projectSummary: ProjectSummary | null;
+  selectedRoute: 'A' | 'B' | 'C' | null;
+  frictionCache: FrictionCache | null;
+
+  // Existing actions
   setSourcePin: (pin: [number, number]) => void;
   setDestinationPin: (pin: [number, number]) => void;
   setVoltage: (v: AppState['voltage']) => void;
@@ -11,9 +20,20 @@ interface AppStore extends AppState {
   toggleOverlay: (key: keyof AppState['overlays']) => void;
   resetPins: () => void;
   setMapStyle: (style: string) => void;
+
+  // Phase 3 actions
+  setRoutes: (routes: RouteResult[]) => void;
+  setSimulationStatus: (status: AppState['simulationStatus']) => void;
+  setRecommendation: (r: RouteRecommendation | null) => void;
+  setTriggers: (t: EnvironmentalTrigger[]) => void;
+  setAlerts: (a: SierraAlert | null) => void;
+  setProjectSummary: (s: ProjectSummary | null) => void;
+  setSelectedRoute: (id: 'A' | 'B' | 'C' | null) => void;
+  setFrictionCache: (cache: FrictionCache) => void;
 }
 
 export const useAppStore = create<AppStore>()((set) => ({
+  // Existing state
   sourcePin: null,
   destinationPin: null,
   voltage: '345kv-double',
@@ -23,6 +43,16 @@ export const useAppStore = create<AppStore>()((set) => ({
   routes: null,
   simulationStatus: 'idle',
   mapStyle: 'mapbox://styles/mapbox/satellite-streets-v12',
+
+  // Phase 3 initial state
+  recommendation: null,
+  triggers: [],
+  alerts: null,
+  projectSummary: null,
+  selectedRoute: null,
+  frictionCache: null,
+
+  // Existing actions
   setSourcePin: (pin) => set({ sourcePin: pin }),
   setDestinationPin: (pin) => set({ destinationPin: pin }),
   setVoltage: (voltage) => set({ voltage }),
@@ -35,4 +65,14 @@ export const useAppStore = create<AppStore>()((set) => ({
   })),
   resetPins: () => set({ sourcePin: null, destinationPin: null }),
   setMapStyle: (style) => set({ mapStyle: style }),
+
+  // Phase 3 actions
+  setRoutes: (routes) => set({ routes }),
+  setSimulationStatus: (simulationStatus) => set({ simulationStatus }),
+  setRecommendation: (recommendation) => set({ recommendation }),
+  setTriggers: (triggers) => set({ triggers }),
+  setAlerts: (alerts) => set({ alerts }),
+  setProjectSummary: (projectSummary) => set({ projectSummary }),
+  setSelectedRoute: (selectedRoute) => set({ selectedRoute }),
+  setFrictionCache: (frictionCache) => set({ frictionCache }),
 }));
