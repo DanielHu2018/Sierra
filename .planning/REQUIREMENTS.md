@@ -26,69 +26,69 @@
 
 ### Routing Engine
 
-- [ ] **ROUTE-01**: User clicks "Run Simulation" and three routes are generated in under 60 seconds
-- [ ] **ROUTE-02**: Three simultaneous color-coded routes appear on the map: Route A "Lowest Cost" (blue), Route B "Balanced" (orange), Route C "Lowest Regulatory Risk" (purple)
+- [x] **ROUTE-01**: User clicks "Run Simulation" and three routes are generated in under 60 seconds
+- [x] **ROUTE-02**: Three simultaneous color-coded routes appear on the map: Route A "Lowest Cost" (blue), Route B "Balanced" (orange), Route C "Lowest Regulatory Risk" (purple)
 - [x] **ROUTE-03**: A* or Dijkstra pathfinding runs on a pre-built friction-weighted graph (graph.json); LLM is not in the hot path
 - [x] **ROUTE-04**: Friction scores for all graph nodes are pre-computed offline and loaded from friction_cache.json at startup
-- [ ] **ROUTE-05**: Constraint slider/toggle values adjust friction weights at route-generation time (not requiring re-LLM-scoring)
+- [x] **ROUTE-05**: Constraint slider/toggle values adjust friction weights at route-generation time (not requiring re-LLM-scoring)
 - [ ] **ROUTE-06**: ~~A progress animation plays during route generation (5 named stages)~~ — **Superseded by AGENT-01 through AGENT-03**: the simulation moment is now the Agent Reasoning Stream, not a static progress indicator
 - [ ] **ROUTE-07**: Graph construction includes a BFS connectivity check (>95% nodes reachable) before any route request is served
 
 ### Agent Reasoning Stream
 
-- [ ] **AGENT-01**: On simulation start, a dedicated Agent Reasoning Panel activates immediately — visible sidebar or overlay — streaming real-time narration of constraint evaluation before any routes appear
-- [ ] **AGENT-02**: Stream narrates actual constraint layers being evaluated with specific named locations (e.g., "Detected ESA critical habitat in Reeves County", "Found existing 345kV ROW along US-385", "Identified Edwards Aquifer recharge zone in Sutton County")
-- [ ] **AGENT-03**: Stream concludes with a brief summary line ("Sierra Recommends: Route C. Preparing justification and risk summary.") before the results panel opens; total stream duration is 20–40 seconds
+- [x] **AGENT-01**: On simulation start, a dedicated Agent Reasoning Panel activates immediately — visible sidebar or overlay — streaming real-time narration of constraint evaluation before any routes appear
+- [x] **AGENT-02**: Stream narrates actual constraint layers being evaluated with specific named locations (e.g., "Detected ESA critical habitat in Reeves County", "Found existing 345kV ROW along US-385", "Identified Edwards Aquifer recharge zone in Sutton County")
+- [x] **AGENT-03**: Stream concludes with a brief summary line ("Sierra Recommends: Route C. Preparing justification and risk summary.") before the results panel opens; total stream duration is 20–40 seconds
 
 ### AI Friction & RAG
 
 - [ ] **AI-01**: A RAG index is built at startup from PUCT, Texas environmental, NEPA, ESA, CWA Section 404, NHPA Section 106, and wildlife habitat regulation text chunks embedded in-memory (no external vector DB)
 - [x] **AI-02**: LLM (Claude) produces a friction score (0–1 float) and one-line justification for each graph node/segment during the offline pre-computation pipeline
 - [x] **AI-03**: LLM never generates or modifies coordinates — all geometry comes from the pre-built graph only
-- [ ] **AI-04**: Live Claude API calls at route generation time cover: Agent Reasoning Stream narration (streaming), Sierra Recommends 3-sentence rationale, per-route Environmental Trigger Panel summaries, Sierra Alerts content, and per-route segment justifications; all calls run via Promise.all where parallelizable; canned fallback text is available for every call if the API is unavailable
+- [x] **AI-04**: Live Claude API calls at route generation time cover: Agent Reasoning Stream narration (streaming), Sierra Recommends 3-sentence rationale, per-route Environmental Trigger Panel summaries, Sierra Alerts content, and per-route segment justifications; all calls run via Promise.all where parallelizable; canned fallback text is available for every call if the API is unavailable
 
 ### Friction Heatmap
 
-- [ ] **HEAT-01**: User can toggle the friction heatmap overlay on/off
-- [ ] **HEAT-02**: Heatmap renders as a Mapbox GL heatmap layer driven by friction_cache.json (green=low friction, red=high friction)
-- [ ] **HEAT-03**: Heatmap renders client-side from a static asset — no server-side tile generation required
+- [x] **HEAT-01**: User can toggle the friction heatmap overlay on/off
+- [x] **HEAT-02**: Heatmap renders as a Mapbox GL heatmap layer driven by friction_cache.json (green=low friction, red=high friction)
+- [x] **HEAT-03**: Heatmap renders client-side from a static asset — no server-side tile generation required
 
 ### Results Dashboard
 
-- [ ] **DASH-01**: A results dashboard is always visible with one card per route (A, B, C)
-- [ ] **DASH-02**: Each card displays: route label/profile, estimated distance, cost, and permitting timeline
-- [ ] **DASH-03**: Clicking a dashboard card highlights that route on the map and expands card details
-- [ ] **DASH-04**: Clicking a route line on the map focuses the corresponding dashboard card
-- [ ] **DASH-05**: Results dashboard includes a radar/spider chart or four-column comparison table showing all three routes scored side-by-side across all four dimensions (cost, permitting timeline, congestion relief value, regulatory risk); visible immediately on route generation — not buried in individual cards
+- [x] **DASH-01**: A results dashboard is always visible with one card per route (A, B, C)
+- [x] **DASH-02**: Each card displays: route label/profile, estimated distance, cost, and permitting timeline
+- [x] **DASH-03**: Clicking a dashboard card highlights that route on the map and expands card details
+- [x] **DASH-04**: Clicking a route line on the map focuses the corresponding dashboard card
+- [x] **DASH-05**: Results dashboard includes a radar/spider chart or four-column comparison table showing all three routes scored side-by-side across all four dimensions (cost, permitting timeline, congestion relief value, regulatory risk); visible immediately on route generation — not buried in individual cards
 
 ### Sierra Recommends
 
-- [ ] **REC-01**: A highlighted "Sierra Recommends" callout panel appears automatically as the first visible element of the results dashboard after route generation — no user action required
-- [ ] **REC-02**: Panel header shows the recommended route (e.g., "Sierra Recommends: Route C — Lowest Regulatory Risk") with an LLM-generated 3-sentence rationale explaining the choice based on the user's constraint settings and the specific corridor's constraints
-- [ ] **REC-03**: Recommended route is pre-highlighted on the map when results load; user can override by selecting another route
+- [x] **REC-01**: A highlighted "Sierra Recommends" callout panel appears automatically as the first visible element of the results dashboard after route generation — no user action required
+- [x] **REC-02**: Panel header shows the recommended route (e.g., "Sierra Recommends: Route C — Lowest Regulatory Risk") with an LLM-generated 3-sentence rationale explaining the choice based on the user's constraint settings and the specific corridor's constraints
+- [x] **REC-03**: Recommended route is pre-highlighted on the map when results load; user can override by selecting another route
 
 ### Environmental Trigger Panel
 
-- [ ] **ENV-01**: Environmental Trigger Panel appears after route generation, showing per-route statutory trigger list for ESA Section 7, CWA Section 404, NHPA Section 106, and NEPA Level
-- [ ] **ENV-02**: Each trigger entry shows: statute name, plain-English explanation, and estimated timeline contribution (e.g., "adds approximately 6–12 months to review"); references real Texas-specific constraint zones (Reeves County habitat, Edwards Aquifer) for credibility
-- [ ] **ENV-03**: Recommended route trigger panel is expanded by default; other routes are collapsed
+- [x] **ENV-01**: Environmental Trigger Panel appears after route generation, showing per-route statutory trigger list for ESA Section 7, CWA Section 404, NHPA Section 106, and NEPA Level
+- [x] **ENV-02**: Each trigger entry shows: statute name, plain-English explanation, and estimated timeline contribution (e.g., "adds approximately 6–12 months to review"); references real Texas-specific constraint zones (Reeves County habitat, Edwards Aquifer) for credibility
+- [x] **ENV-03**: Recommended route trigger panel is expanded by default; other routes are collapsed
 
 ### Sierra Alerts
 
-- [ ] **ALERT-01**: After route generation, Sierra surfaces one prominent "⚠️ Critical Risk Identified" callout — unprompted, specific to the recommended route — flagging the single biggest project-level risk before the user has explored the map
-- [ ] **ALERT-02**: Alert content is LLM-generated based on route geometry and mock parcel opposition history data; references real Texas locations by name (e.g., Nolan County landowner opposition clusters)
-- [ ] **ALERT-03**: Up to 2 secondary alerts may appear collapsed below the primary alert
+- [x] **ALERT-01**: After route generation, Sierra surfaces one prominent "⚠️ Critical Risk Identified" callout — unprompted, specific to the recommended route — flagging the single biggest project-level risk before the user has explored the map
+- [x] **ALERT-02**: Alert content is LLM-generated based on route geometry and mock parcel opposition history data; references real Texas locations by name (e.g., Nolan County landowner opposition clusters)
+- [x] **ALERT-03**: Up to 2 secondary alerts may appear collapsed below the primary alert
 
 ### Inline Project Summary
 
-- [ ] **SUMM-01**: A live-generated Inline Project Summary view is accessible on the dashboard (tab or scroll section) for the recommended route — not requiring PDF export
-- [ ] **SUMM-02**: Summary includes a phase timeline table with estimated durations and key dependencies for each stage: Desktop Screening, Environmental Review, ROW Acquisition, State Permitting, Construction, and Total Estimated Timeline
-- [ ] **SUMM-03**: Timeline estimates are flagged as illustrative/mock in small print; summary content feeds directly into the PDF dossier export
+- [x] **SUMM-01**: A live-generated Inline Project Summary view is accessible on the dashboard (tab or scroll section) for the recommended route — not requiring PDF export
+- [x] **SUMM-02**: Summary includes a phase timeline table with estimated durations and key dependencies for each stage: Desktop Screening, Environmental Review, ROW Acquisition, State Permitting, Construction, and Total Estimated Timeline
+- [x] **SUMM-03**: Timeline estimates are flagged as illustrative/mock in small print; summary content feeds directly into the PDF dossier export
 
 ### Hover Justifications
 
-- [ ] **HOVER-01**: Hovering any route segment on the map shows a popup with the LLM-generated friction justification for that segment
-- [ ] **HOVER-02**: Justification text is pre-loaded (not fetched live on hover) to ensure instant popup response
+- [x] **HOVER-01**: Hovering any route segment on the map shows a popup with the LLM-generated friction justification for that segment
+- [x] **HOVER-02**: Justification text is pre-loaded (not fetched live on hover) to ensure instant popup response
 
 ### PDF Dossier Export
 
@@ -163,36 +163,36 @@
 | ROUTE-03 | Phase 2 | Complete |
 | ROUTE-04 | Phase 2 | Complete |
 | ROUTE-07 | Phase 2 | Pending |
-| ROUTE-01 | Phase 3 | Pending |
-| ROUTE-02 | Phase 3 | Pending |
-| ROUTE-05 | Phase 3 | Pending |
+| ROUTE-01 | Phase 3 | Complete |
+| ROUTE-02 | Phase 3 | Complete |
+| ROUTE-05 | Phase 3 | Complete |
 | ROUTE-06 | Phase 3 | Superseded by AGENT-01–03 |
-| AI-04 | Phase 3 | Pending |
-| AGENT-01 | Phase 3 | Pending |
-| AGENT-02 | Phase 3 | Pending |
-| AGENT-03 | Phase 3 | Pending |
-| HEAT-01 | Phase 3 | Pending |
-| HEAT-02 | Phase 3 | Pending |
-| HEAT-03 | Phase 3 | Pending |
-| DASH-01 | Phase 3 | Pending |
-| DASH-02 | Phase 3 | Pending |
-| DASH-03 | Phase 3 | Pending |
-| DASH-04 | Phase 3 | Pending |
-| DASH-05 | Phase 3 | Pending |
-| REC-01 | Phase 3 | Pending |
-| REC-02 | Phase 3 | Pending |
-| REC-03 | Phase 3 | Pending |
-| ENV-01 | Phase 3 | Pending |
-| ENV-02 | Phase 3 | Pending |
-| ENV-03 | Phase 3 | Pending |
-| ALERT-01 | Phase 3 | Pending |
-| ALERT-02 | Phase 3 | Pending |
-| ALERT-03 | Phase 3 | Pending |
-| SUMM-01 | Phase 3 | Pending |
-| SUMM-02 | Phase 3 | Pending |
-| SUMM-03 | Phase 3 | Pending |
-| HOVER-01 | Phase 3 | Pending |
-| HOVER-02 | Phase 3 | Pending |
+| AI-04 | Phase 3 | Complete |
+| AGENT-01 | Phase 3 | Complete |
+| AGENT-02 | Phase 3 | Complete |
+| AGENT-03 | Phase 3 | Complete |
+| HEAT-01 | Phase 3 | Complete |
+| HEAT-02 | Phase 3 | Complete |
+| HEAT-03 | Phase 3 | Complete |
+| DASH-01 | Phase 3 | Complete |
+| DASH-02 | Phase 3 | Complete |
+| DASH-03 | Phase 3 | Complete |
+| DASH-04 | Phase 3 | Complete |
+| DASH-05 | Phase 3 | Complete |
+| REC-01 | Phase 3 | Complete |
+| REC-02 | Phase 3 | Complete |
+| REC-03 | Phase 3 | Complete |
+| ENV-01 | Phase 3 | Complete |
+| ENV-02 | Phase 3 | Complete |
+| ENV-03 | Phase 3 | Complete |
+| ALERT-01 | Phase 3 | Complete |
+| ALERT-02 | Phase 3 | Complete |
+| ALERT-03 | Phase 3 | Complete |
+| SUMM-01 | Phase 3 | Complete |
+| SUMM-02 | Phase 3 | Complete |
+| SUMM-03 | Phase 3 | Complete |
+| HOVER-01 | Phase 3 | Complete |
+| HOVER-02 | Phase 3 | Complete |
 | PDF-01 | Phase 4 | Pending |
 | PDF-02 | Phase 4 | Pending |
 | PDF-03 | Phase 4 | Pending |
