@@ -1,3 +1,6 @@
+import { useAppStore } from '../../store/useAppStore';
+import { useExportPdf } from '../../hooks/useExportPdf';
+
 const navStyle: React.CSSProperties = {
   position: 'fixed',
   top: 0,
@@ -62,7 +65,7 @@ const iconButtonStyle: React.CSSProperties = {
   lineHeight: 1,
 };
 
-const exportButtonStyle: React.CSSProperties = {
+const exportButtonBaseStyle: React.CSSProperties = {
   fontFamily: 'Inter, sans-serif',
   fontSize: 11,
   fontWeight: 500,
@@ -73,11 +76,13 @@ const exportButtonStyle: React.CSSProperties = {
   border: '1px solid #414755',
   borderRadius: '0.25rem',
   padding: '5px 12px',
-  cursor: 'not-allowed',
-  opacity: 0.4,
 };
 
 export function TopNav() {
+  const exportPdf = useExportPdf();
+  const simulationStatus = useAppStore((s) => s.simulationStatus);
+  const isReady = simulationStatus === 'complete';
+
   return (
     <nav style={navStyle}>
       <span style={logoStyle}>SIERRA</span>
@@ -93,7 +98,15 @@ export function TopNav() {
         <button style={iconButtonStyle} aria-label="Settings">
           &#9881;
         </button>
-        <button style={exportButtonStyle} disabled>
+        <button
+          style={{
+            ...exportButtonBaseStyle,
+            cursor: isReady ? 'pointer' : 'not-allowed',
+            opacity: isReady ? 1 : 0.4,
+          }}
+          onClick={isReady ? exportPdf : undefined}
+          disabled={!isReady}
+        >
           Export PDF
         </button>
       </div>
