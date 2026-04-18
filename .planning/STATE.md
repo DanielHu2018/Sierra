@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-02-PLAN.md (Phase 3 type contracts and store extensions)
-last_updated: "2026-04-18T05:26:53.102Z"
+stopped_at: Completed 03-03-PLAN.md (A* engine + POST /api/route)
+last_updated: "2026-04-18T05:26:59.796Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
@@ -127,6 +127,8 @@ Recent decisions affecting current work:
 - [Phase 03-routing-engine-core-demo-loop]: Wave 0 gate cleared: all 9 test scaffolds exist before any production code is written
 - [Phase 03-routing-engine-core-demo-loop]: FrictionCache type placed in types.ts shared contract — used by both OverlayLayers heatmap and RouteLayer hover justifications
 - [Phase 03-routing-engine-core-demo-loop]: Phase 3 store state fields default null/[] not undefined — avoids optional chaining noise in consumer components
+- [Phase 03-routing-engine-core-demo-loop]: graph.json adjacency-list format (Phase 2 output) adapted in buildGraph by converting neighbors arrays to ngraph links; edge friction = avg of src+dst frictionCache values
+- [Phase 03-routing-engine-core-demo-loop]: ngraph.path aStar returns dest-first path; findRoute reverses output to produce src→dest order
 
 ### Pending Todos
 
@@ -139,6 +141,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T05:26:45.180Z
-Stopped at: Completed 03-02-PLAN.md (Phase 3 type contracts and store extensions)
+Last session: 2026-04-18T05:26:59.795Z
+Stopped at: Completed 03-03-PLAN.md (A* engine + POST /api/route)
 Resume file: None
