@@ -16,6 +16,7 @@ export function MapCanvas() {
   const destinationPin = useAppStore((s) => s.destinationPin);
   const mapStyle = useAppStore((s) => s.mapStyle);
   const routes = useAppStore((s) => s.routes);
+  const overlays = useAppStore((s) => s.overlays);
   const setSourcePin = useAppStore((s) => s.setSourcePin);
   const setDestinationPin = useAppStore((s) => s.setDestinationPin);
 
@@ -104,6 +105,27 @@ export function MapCanvas() {
       >
         ⓘ Illustrative mock data — for demonstration purposes only.
       </div>
+      {overlays.frictionHeatmap && (
+        <div style={{
+          position: 'absolute',
+          bottom: 50,
+          right: 10,
+          zIndex: 1,
+          background: 'rgba(28,27,27,0.6)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: '0.375rem',
+          padding: '6px 10px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          pointerEvents: 'none',
+        }}>
+          <span style={{ color: '#3291FF', fontSize: 10, fontFamily: 'Inter, sans-serif' }}>Low Friction</span>
+          <div style={{ width: 48, height: 6, borderRadius: 3, background: 'linear-gradient(to right, #3291FF, #FF4444)' }} />
+          <span style={{ color: '#FF4444', fontSize: 10, fontFamily: 'Inter, sans-serif' }}>High Friction</span>
+        </div>
+      )}
     </Map>
   );
 }

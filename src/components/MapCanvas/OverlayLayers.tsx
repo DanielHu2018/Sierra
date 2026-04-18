@@ -106,23 +106,23 @@ export function OverlayLayers() {
   return (
     <>
       {/* ERCOT Grid — always mounted, visibility toggled via layout prop */}
-      <Source id="ercot-grid-source" type="geojson" data={ERCOT_GRID_URL}>
+      <Source id="ercot-grid-source" type="geojson" data={ERCOT_GRID_URL} onError={(e) => console.warn('[OverlayLayers] ercot-grid overlay failed to load', e)}>
         <Layer {...ercotLayerProps} />
       </Source>
 
       {/* Land Boundary — always mounted, fill + outline layers */}
-      <Source id="land-boundary-source" type="geojson" data={LAND_BOUNDARY_URL}>
+      <Source id="land-boundary-source" type="geojson" data={LAND_BOUNDARY_URL} onError={(e) => console.warn('[OverlayLayers] land-boundary overlay failed to load', e)}>
         <Layer {...landFillLayerProps} />
         <Layer {...landLineLayerProps} />
       </Source>
 
       {/* Wildlife Habitat — always mounted */}
-      <Source id="wildlife-habitat-source" type="geojson" data={WILDLIFE_HABITAT_URL}>
+      <Source id="wildlife-habitat-source" type="geojson" data={WILDLIFE_HABITAT_URL} onError={(e) => console.warn('[OverlayLayers] wildlife-habitat overlay failed to load', e)}>
         <Layer {...wildlifeLayerProps} />
       </Source>
 
       {/* Topography — always mounted */}
-      <Source id="topography-source" type="geojson" data={TOPOGRAPHY_URL}>
+      <Source id="topography-source" type="geojson" data={TOPOGRAPHY_URL} onError={(e) => console.warn('[OverlayLayers] topography overlay failed to load', e)}>
         <Layer {...topoLayerProps} />
       </Source>
 
@@ -140,15 +140,13 @@ export function OverlayLayers() {
                 'interpolate',
                 ['linear'],
                 ['heatmap-density'],
-                0,
-                'rgba(0,200,0,0)',
-                0.4,
-                'rgba(255,235,0,0.6)',
-                1,
-                'rgba(220,0,0,0.9)',
+                0,   'rgba(0,0,0,0)',
+                0.1, '#3291FF',
+                0.5, '#9B6FFF',
+                1,   '#FF4444',
               ],
               'heatmap-radius': 20,
-              'heatmap-opacity': 0.85,
+              'heatmap-opacity': 0.7,
             }}
           />
         </Source>
