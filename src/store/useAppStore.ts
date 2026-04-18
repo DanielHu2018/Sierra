@@ -14,6 +14,9 @@ interface AppStore extends AppState {
   // Phase 4 state
   narrativeByRoute: Partial<NarrativeByRoute>;   // populated at simulation time
 
+  // Navigation state
+  activeTab: 'route-engine' | 'data-layers' | 'archive';
+
   // Existing actions
   setSourcePin: (pin: [number, number]) => void;
   setDestinationPin: (pin: [number, number]) => void;
@@ -36,6 +39,9 @@ interface AppStore extends AppState {
 
   // Phase 4 actions
   setNarrativeByRoute: (routeId: 'A' | 'B' | 'C', narrative: string) => void;
+
+  // Navigation actions
+  setActiveTab: (tab: 'route-engine' | 'data-layers' | 'archive') => void;
 }
 
 export const useAppStore = create<AppStore>()((set) => ({
@@ -60,6 +66,9 @@ export const useAppStore = create<AppStore>()((set) => ({
 
   // Phase 4 initial state
   narrativeByRoute: {},
+
+  // Navigation initial state
+  activeTab: 'route-engine',
 
   // Existing actions
   setSourcePin: (pin) => set({ sourcePin: pin }),
@@ -90,4 +99,7 @@ export const useAppStore = create<AppStore>()((set) => ({
     set((state) => ({
       narrativeByRoute: { ...state.narrativeByRoute, [routeId]: narrative },
     })),
+
+  // Navigation actions
+  setActiveTab: (activeTab) => set({ activeTab }),
 }));

@@ -81,15 +81,32 @@ const exportButtonBaseStyle: React.CSSProperties = {
 export function TopNav() {
   const exportPdf = useExportPdf();
   const simulationStatus = useAppStore((s) => s.simulationStatus);
+  const activeTab = useAppStore((s) => s.activeTab);
+  const setActiveTab = useAppStore((s) => s.setActiveTab);
   const isReady = simulationStatus === 'complete';
 
   return (
     <nav style={navStyle}>
       <span style={logoStyle}>SIERRA</span>
       <div style={navItemsStyle}>
-        <button style={navItemActiveStyle}>Route Engine</button>
-        <button style={navItemStyle}>Data Layers</button>
-        <button style={navItemStyle}>Archive</button>
+        <button
+          style={activeTab === 'route-engine' ? navItemActiveStyle : navItemStyle}
+          onClick={() => setActiveTab('route-engine')}
+        >
+          Route Engine
+        </button>
+        <button
+          style={activeTab === 'data-layers' ? navItemActiveStyle : navItemStyle}
+          onClick={() => setActiveTab('data-layers')}
+        >
+          Data Layers
+        </button>
+        <button
+          style={activeTab === 'archive' ? navItemActiveStyle : navItemStyle}
+          onClick={() => setActiveTab('archive')}
+        >
+          Archive
+        </button>
       </div>
       <div style={rightControlsStyle}>
         <button style={iconButtonStyle} aria-label="Notifications">
