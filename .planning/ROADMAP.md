@@ -133,4 +133,4 @@ Phase 1 and Phase 2 execute in parallel, then: 1+2 → 3 → 4 → 5
 | 2. Offline Data Pipeline & AI Core | 2/4 | In Progress | - |
 | 3. Routing Engine & Core Demo Loop | 9/9 | Complete   | 2026-04-18 |
 | 4. PDF Dossier Export | 7/7 | Complete | 2026-04-18 |
-| 5. Demo Hardening & Polish | 0/4 | Not started | - |
+| 5. Demo Hardening & Polish | 1/4 | In Progress|  |

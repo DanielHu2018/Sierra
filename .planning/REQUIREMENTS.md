@@ -101,10 +101,10 @@
 
 - [x] **DATA-01**: All geospatial layers use static/mock GeoJSON and datasets — no live regulatory API calls
 - [x] **DATA-02**: A shared types.ts data contract defines all data shapes consumed by map, dashboard, and PDF components: route result (geometry, scores, segment justifications), RouteRecommendation (recommended route ID + rationale), EnvironmentalTrigger (per-route statute list with timeline estimates), SierraAlert (primary + secondary alerts), and ProjectSummary (phase timeline rows)
-- [ ] **DATA-03**: Out-of-bounds pin placement shows a graceful error state (not a crash or blank screen)
-- [ ] **DATA-04**: Missing or unavailable data shows a graceful fallback — no dead ends during demo
+- [x] **DATA-03**: Out-of-bounds pin placement shows a graceful error state (not a crash or blank screen)
+- [x] **DATA-04**: Missing or unavailable data shows a graceful fallback — no dead ends during demo
 - [ ] **DATA-05**: All mock data is visually marked as such (small footnote on map and PDF)
-- [ ] **DATA-06**: ADA-compliant color/contrast for all route colors, overlays, and heatmap
+- [x] **DATA-06**: ADA-compliant color/contrast for all route colors, overlays, and heatmap
 
 ## v2 Requirements
 
@@ -197,10 +197,10 @@
 | PDF-02 | Phase 4 | Complete |
 | PDF-03 | Phase 4 | Complete |
 | PDF-04 | Phase 4 | Complete |
-| DATA-03 | Phase 5 | Pending |
-| DATA-04 | Phase 5 | Pending |
+| DATA-03 | Phase 5 | Complete |
+| DATA-04 | Phase 5 | Complete |
 | DATA-05 | Phase 5 | Pending |
-| DATA-06 | Phase 5 | Pending |
+| DATA-06 | Phase 5 | Complete |
 
 **Coverage:**
 - v1 requirements: 59 total (MAP:8, CTRL:5, ROUTE:7, AI:4, AGENT:3, HEAT:3, DASH:5, REC:3, ENV:3, ALERT:3, SUMM:3, HOVER:2, PDF:4, DATA:6)

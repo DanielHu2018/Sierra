@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-07-PLAN.md (PDF dossier export human verification + fix-up)
-last_updated: "2026-04-18T06:59:07.618Z"
+stopped_at: Completed 05-01-PLAN.md (Wave-0 test scaffolds)
+last_updated: "2026-04-18T07:11:33.400Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 30
-  completed_plans: 26
+  completed_plans: 27
 ---
 
 ---
@@ -119,6 +119,7 @@ Progress: [███░░░░░░░] 27%
 | Phase 04-pdf-dossier-export P04 | 4 | 3 tasks | 5 files |
 | Phase 04-pdf-dossier-export P06 | 117 | 2 tasks | 3 files |
 | Phase 04-pdf-dossier-export P07 | 15 | 2 tasks | 5 files |
+| Phase 05-demo-hardening-polish P01 | 8 | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -181,6 +182,9 @@ Recent decisions affecting current work:
 - [Phase 04-pdf-dossier-export]: useExportPdf reads Zustand at hook call time (not inside async fn) — React rules of hooks compliance; blob URL + synthetic anchor avoids popup blocker; silent fail for demo stability
 - [Phase 04-pdf-dossier-export]: activeTab state in Zustand store (not local state) so any component can read it; Data Layers + Archive tabs show placeholder panels
 - [Phase 04-pdf-dossier-export]: server/.env loaded via tsx --env-file .env (Node 24 native); no dotenv dependency needed; file is gitignored
+- [Phase 05-demo-hardening-polish]: vitest.config.ts: regex alias array for mapbox-gl — /^mapbox-gl$/ matches root import only; /^mapbox-gl\/.+\.css$/ stubs CSS sub-path imports separately
+- [Phase 05-demo-hardening-polish]: Module-level capturedMapOnClick slot captures Map onClick prop for MapCanvas test suite — avoids per-describe vi.mocked() re-mock complexity
+- [Phase 05-demo-hardening-polish]: WCAG contrast helper self-contained in contrast.test.ts — no external a11y library dependency
 
 ### Pending Todos
 
@@ -193,6 +197,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T02:40:00.000Z
-Stopped at: Completed 04-07-PLAN.md (PDF dossier export human verification + fix-up)
+Last session: 2026-04-18T07:11:33.397Z
+Stopped at: Completed 05-01-PLAN.md (Wave-0 test scaffolds)
 Resume file: None
