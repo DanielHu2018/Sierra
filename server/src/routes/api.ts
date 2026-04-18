@@ -229,6 +229,14 @@ router.post('/route', async (req, res) => {
 
     const routes = routeDefs.map((r) => {
       const miles = totalDistanceMiles(r.path);
+      const segs = buildSegmentJustifications(r.path);
+      const avgFriction = segs.length
+        ? segs.reduce((s, j) => s + j.frictionScore, 0) / segs.length
+        : 0.5;
+      // Scale capex and permitting by path friction so chart varies between runs
+      const frictionMultiplier = 0.75 + avgFriction * 0.75; // range ~0.75–1.5
+      const [pMin, pMax] = r.permitting;
+      const permittingScale = 0.8 + avgFriction * 0.6; // range ~0.8–1.4
       return {
         id: r.id,
         profile: r.profile,
@@ -237,10 +245,13 @@ router.post('/route', async (req, res) => {
         geometry: nodeIdPathToLineString(r.path),
         metrics: {
           distanceMiles: Math.round(miles),
-          estimatedCapexUSD: Math.round(miles * r.capexPerMile),
-          permittingMonths: r.permitting,
+          estimatedCapexUSD: Math.round(miles * r.capexPerMile * frictionMultiplier),
+          permittingMonths: [
+            Math.round(pMin * permittingScale),
+            Math.round(pMax * permittingScale),
+          ] as [number, number],
         },
-        segmentJustifications: buildSegmentJustifications(r.path),
+        segmentJustifications: segs,
         narrativeSummary: '',
       };
     });
