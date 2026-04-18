@@ -6,6 +6,7 @@ import { PinMarkers } from './PinMarkers';
 import { OverlayLayers } from './OverlayLayers';
 import { RouteLayer } from './RouteLayer';
 import { MapControls } from './MapControls';
+import { DataLayerRenderer } from './DataLayerRenderer';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 const ERCOT_BOUNDS = { minLng: -106.6, minLat: 26.8, maxLng: -93.5, maxLat: 36.5 };
@@ -69,6 +70,7 @@ export function MapCanvas() {
     >
       <PinMarkers />
       <OverlayLayers />
+      <DataLayerRenderer />
       <RouteLayer />
       <MapControls mapRef={mapRef} />
       {alerts?.primary.coords && (() => {
