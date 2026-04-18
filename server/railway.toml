@@ -1,0 +1,14 @@
+# Railway deploy config for Sierra Express API server (root directory: /server).
+# Required Railway env vars (set in Railway dashboard, not hardcoded here):
+#   MAPBOX_TOKEN       — Mapbox secret token for server-side Static Images API
+#   ANTHROPIC_API_KEY  — Anthropic Claude API key for AI narrative generation
+#   PORT               — auto-set by Railway (do not override)
+
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "tsx src/index.ts"
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+restartPolicyType = "on_failure"

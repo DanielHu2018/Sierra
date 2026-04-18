@@ -1,0 +1,9 @@
+{
+  "_comment": "Vercel deploy config for Sierra Vite frontend. Required env vars: VITE_MAPBOX_TOKEN, VITE_API_URL (set in Vercel dashboard, not hardcoded here).",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
+}
