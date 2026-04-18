@@ -49,7 +49,7 @@ export function useReasoningStream() {
 
       try {
         const queryString = new URLSearchParams(params).toString();
-        const response = await fetch(`/api/stream/reasoning?${queryString}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL ?? ''}/api/stream/reasoning?${queryString}`, {
           signal: abortRef.current.signal,
         });
 

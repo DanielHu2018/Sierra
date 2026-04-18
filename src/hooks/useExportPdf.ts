@@ -28,7 +28,7 @@ export function useExportPdf(): () => Promise<void> {
 
     let res: Response;
     try {
-      res = await fetch('/api/export/pdf', {
+      res = await fetch(`${import.meta.env.VITE_API_URL ?? ''}/api/export/pdf`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

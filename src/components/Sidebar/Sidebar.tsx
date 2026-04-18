@@ -42,18 +42,21 @@ export function Sidebar() {
       voltage,
     };
 
+    const API = import.meta.env.VITE_API_URL ?? '';
+
     try {
-      const routesRes = await fetch('/api/route', {
+      const routesRes = await fetch(`${API}/api/route`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(routeBody),
       });
+      if (!routesRes.ok) throw new Error('route-failed');
       const routes = await routesRes.json();
       setRoutes(routes);
 
       // After routes loaded, fire AI calls in staggered pattern to avoid rate limits
       // Recommend first (most visible), then parallel triggers/alerts/summary
-      const recommend = await fetch('/api/recommend', {
+      const recommend = await fetch(`${API}/api/recommend`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ routes, constraints: routeBody.constraints }),
@@ -62,12 +65,12 @@ export function Sidebar() {
       setSelectedRoute(recommend.routeId ?? 'C');
 
       const [triggers, alerts, summary, narrativeA, narrativeB, narrativeC] = await Promise.all([
-        fetch('/api/triggers', {
+        fetch(`${API}/api/triggers`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ routes }),
         }).then((r) => r.json()),
-        fetch('/api/alerts', {
+        fetch(`${API}/api/alerts`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -76,7 +79,7 @@ export function Sidebar() {
             ),
           }),
         }).then((r) => r.json()),
-        fetch('/api/summary', {
+        fetch(`${API}/api/summary`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -85,17 +88,17 @@ export function Sidebar() {
             ),
           }),
         }).then((r) => r.json()),
-        fetch('/api/narrative', {
+        fetch(`${API}/api/narrative`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ routeId: 'A', routeLabel: 'Route A — Lowest Cost', constraints: routeBody.constraints }),
         }).then((r) => r.json()),
-        fetch('/api/narrative', {
+        fetch(`${API}/api/narrative`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ routeId: 'B', routeLabel: 'Route B — Balanced', constraints: routeBody.constraints }),
         }).then((r) => r.json()),
-        fetch('/api/narrative', {
+        fetch(`${API}/api/narrative`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ routeId: 'C', routeLabel: 'Route C — Lowest Regulatory Risk', constraints: routeBody.constraints }),
@@ -109,7 +112,7 @@ export function Sidebar() {
       setNarrativeByRoute('C', narrativeC?.narrative ?? '');
     } catch (err) {
       console.error('[runSimulation]', err);
-      // Errors are non-fatal — stream panel handles its own fallback
+      useAppStore.getState().setSimulationStatus('error');
     }
   }, [
     sourcePin,
@@ -153,7 +156,41 @@ export function Sidebar() {
     );
   }
 
-  // idle | error — show controls
+  if (simulationStatus === 'error') {
+    return (
+      <div style={sidebarContainerStyle}>
+        <PinPlacementSection />
+        <VoltageSection />
+        <RoutePrioritySection />
+        <ConstraintsSection />
+        <OverlaysSection />
+        <div style={{ padding: '16px 20px', marginTop: 'auto' }}>
+          <p style={{ color: '#C1C6D7', fontSize: 13, marginBottom: 12, fontFamily: 'Inter, sans-serif' }}>
+            Route generation failed. Please retry.
+          </p>
+          <button
+            onClick={() => useAppStore.getState().setSimulationStatus('idle')}
+            style={{
+              width: '100%',
+              padding: '12px',
+              borderRadius: '0.375rem',
+              background: 'linear-gradient(135deg, #A7C8FF, #3291FF)',
+              color: '#003061',
+              fontFamily: 'Manrope, sans-serif',
+              fontSize: 14,
+              fontWeight: 700,
+              border: 'none',
+              cursor: 'pointer',
+            }}
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // idle — show controls
   return (
     <div style={sidebarContainerStyle}>
       <PinPlacementSection />
@@ -181,20 +218,7 @@ export function Sidebar() {
         >
           Run Simulation
         </button>
-        {simulationStatus === 'error' && (
-          <div
-            style={{
-              marginTop: 8,
-              fontSize: 11,
-              color: '#F87171',
-              textAlign: 'center',
-              fontFamily: 'Inter, sans-serif',
-            }}
-          >
-            Simulation error — please try again
-          </div>
-        )}
-        {!hasPins && simulationStatus === 'idle' && (
+        {!hasPins && (
           <div
             style={{
               marginTop: 8,
