@@ -4,6 +4,7 @@ import type { MapLayerMouseEvent } from 'mapbox-gl';
 import { useAppStore } from '../../store/useAppStore';
 import { PinMarkers } from './PinMarkers';
 import { OverlayLayers } from './OverlayLayers';
+import { RouteLayer } from './RouteLayer';
 import { MapControls } from './MapControls';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -12,6 +13,7 @@ export function MapCanvas() {
   const sourcePin = useAppStore((s) => s.sourcePin);
   const destinationPin = useAppStore((s) => s.destinationPin);
   const mapStyle = useAppStore((s) => s.mapStyle);
+  const routes = useAppStore((s) => s.routes);
   const setSourcePin = useAppStore((s) => s.setSourcePin);
   const setDestinationPin = useAppStore((s) => s.setDestinationPin);
 
@@ -35,6 +37,8 @@ export function MapCanvas() {
     [sourcePin, destinationPin, setSourcePin, setDestinationPin],
   );
 
+  const interactiveLayerIds = routes?.map((r) => `route-line-${r.id}`) ?? [];
+
   return (
     <Map
       ref={mapRef}
@@ -43,9 +47,11 @@ export function MapCanvas() {
       mapStyle={mapStyle}
       style={{ width: '100vw', height: '100vh' }}
       onClick={handleClick}
+      interactiveLayerIds={interactiveLayerIds}
     >
       <PinMarkers />
       <OverlayLayers />
+      <RouteLayer />
       <MapControls mapRef={mapRef} />
     </Map>
   );
