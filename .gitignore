@@ -109,3 +109,4 @@ terminals/
 # sample_10k_preview.txt
 # test_data/
 .Rproj.user
+.worktrees/
