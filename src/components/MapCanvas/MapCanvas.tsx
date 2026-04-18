@@ -8,7 +8,7 @@ import { RouteLayer } from './RouteLayer';
 import { MapControls } from './MapControls';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-const ERCOT_BOUNDS = { minLng: -106.6, minLat: 25.8, maxLng: -93.5, maxLat: 36.5 };
+const ERCOT_BOUNDS = { minLng: -106.6, minLat: 26.8, maxLng: -93.5, maxLat: 36.5 };
 
 export function MapCanvas() {
   const mapRef = useRef<MapRef>(null);
@@ -21,6 +21,7 @@ export function MapCanvas() {
   const setDestinationPin = useAppStore((s) => s.setDestinationPin);
 
   const [oobPopup, setOobPopup] = useState<{ lng: number; lat: number } | null>(null);
+  const oobTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleClick = useCallback(
     (e: MapLayerMouseEvent) => {
@@ -29,8 +30,9 @@ export function MapCanvas() {
         lng >= ERCOT_BOUNDS.minLng && lng <= ERCOT_BOUNDS.maxLng &&
         lat >= ERCOT_BOUNDS.minLat && lat <= ERCOT_BOUNDS.maxLat;
       if (!inBounds) {
+        if (oobTimerRef.current) clearTimeout(oobTimerRef.current);
         setOobPopup({ lng, lat });
-        setTimeout(() => setOobPopup(null), 3000);
+        oobTimerRef.current = setTimeout(() => setOobPopup(null), 3000);
         return; // Zustand never touched
       }
       if (!sourcePin) {

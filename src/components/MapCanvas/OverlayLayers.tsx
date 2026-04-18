@@ -27,11 +27,14 @@ export function OverlayLayers() {
         setFrictionCache(cache);
         const geojson: GeoJSON.FeatureCollection = {
           type: 'FeatureCollection',
-          features: Object.values(cache).map((node) => ({
-            type: 'Feature',
-            geometry: { type: 'Point', coordinates: [node.lng, node.lat] },
-            properties: { friction: node.frictionScore },
-          })),
+          features: Object.entries(cache).map(([key, node]) => {
+            const [lat, lng] = key.split('_').map(Number);
+            return {
+              type: 'Feature',
+              geometry: { type: 'Point', coordinates: [lng, lat] },
+              properties: { friction: node.frictionScore },
+            };
+          }),
         };
         setHeatmapGeoJSON(geojson);
       })
