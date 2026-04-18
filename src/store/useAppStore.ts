@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { AppState, RouteResult, RouteRecommendation, EnvironmentalTrigger, SierraAlert, ProjectSummary, FrictionCache } from '../types';
+import type { AppState, RouteResult, RouteRecommendation, EnvironmentalTrigger, SierraAlert, ProjectSummary, FrictionCache, NarrativeByRoute } from '../types';
 
 interface AppStore extends AppState {
   mapStyle: string;
@@ -10,6 +10,9 @@ interface AppStore extends AppState {
   projectSummary: ProjectSummary | null;
   selectedRoute: 'A' | 'B' | 'C' | null;
   frictionCache: FrictionCache | null;
+
+  // Phase 4 state
+  narrativeByRoute: Partial<NarrativeByRoute>;   // populated at simulation time
 
   // Existing actions
   setSourcePin: (pin: [number, number]) => void;
@@ -30,6 +33,9 @@ interface AppStore extends AppState {
   setProjectSummary: (s: ProjectSummary | null) => void;
   setSelectedRoute: (id: 'A' | 'B' | 'C' | null) => void;
   setFrictionCache: (cache: FrictionCache) => void;
+
+  // Phase 4 actions
+  setNarrativeByRoute: (routeId: 'A' | 'B' | 'C', narrative: string) => void;
 }
 
 export const useAppStore = create<AppStore>()((set) => ({
@@ -51,6 +57,9 @@ export const useAppStore = create<AppStore>()((set) => ({
   projectSummary: null,
   selectedRoute: null,
   frictionCache: null,
+
+  // Phase 4 initial state
+  narrativeByRoute: {},
 
   // Existing actions
   setSourcePin: (pin) => set({ sourcePin: pin }),
@@ -75,4 +84,10 @@ export const useAppStore = create<AppStore>()((set) => ({
   setProjectSummary: (projectSummary) => set({ projectSummary }),
   setSelectedRoute: (selectedRoute) => set({ selectedRoute }),
   setFrictionCache: (frictionCache) => set({ frictionCache }),
+
+  // Phase 4 actions
+  setNarrativeByRoute: (routeId, narrative) =>
+    set((state) => ({
+      narrativeByRoute: { ...state.narrativeByRoute, [routeId]: narrative },
+    })),
 }));

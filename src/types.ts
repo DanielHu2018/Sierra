@@ -66,6 +66,10 @@ export interface RouteResult {
   narrativeSummary: string;
 }
 
+// ─── Phase 4: PDF Narrative ────────────────────────────────────────────────
+/** Pre-generated LLM narrative introduction, stored per route ID. */
+export type NarrativeByRoute = Record<'A' | 'B' | 'C', string>;
+
 export interface AppState {
   sourcePin: [number, number] | null;   // [lng, lat]
   destinationPin: [number, number] | null;
