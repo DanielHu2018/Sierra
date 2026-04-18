@@ -93,8 +93,8 @@ populationServed: number; // estimated people served, illustrative
 
 **Type extension (`types.ts`):**
 ```ts
-// Added to SierraAlert
-location: { lat: number; lng: number };
+// Added to SierraAlert (optional — canned fallback data may omit it)
+location?: { lat: number; lng: number };
 ```
 
 **Rendering (`MapCanvas.tsx`):** Each alert renders as a pulsing red Mapbox `Marker` with a `⚠` icon. Marker position comes from `alert.location`.
@@ -175,7 +175,7 @@ export interface SimulationRun {
 
 **Store:** Add `simulationHistory: SimulationRun[]` (capped at 10). When `simulationStatus` transitions to `complete`, push a snapshot.
 
-**`ArchivePanel.tsx`:** Stack of run cards showing timestamp, pin labels, recommended route badge, and key metrics (distance, cost, population served). Clicking a card opens a read-only result summary modal or inline expanded view.
+**`ArchivePanel.tsx`:** Stack of run cards showing timestamp, pin labels, recommended route badge, and key metrics (distance, cost, population served). Clicking a card expands inline to show a read-only result summary.
 
 **Scalability seam:** Persist `simulationHistory` to `localStorage` on write. Post-hackathon: sync to a backend endpoint.
 
@@ -197,15 +197,15 @@ Placement mode status bar: styled with dark background, white bold text, color-c
 
 **Type extension (`RouteResult` in `types.ts`):**
 ```ts
+// populationServed already added in Tier 1 as top-level field
 impactScore: {
-  populationServed: number;      // people, illustrative
   jobsCreated: number;           // FTE, illustrative
   emissionsReduced_tCO2: number; // tonnes CO₂/year, illustrative
   healthImpactScore: number;     // 0–100 index, illustrative
 };
 ```
 
-**`ImpactScorePanel.tsx`:** Four metric tiles, one column per route, recommended route column highlighted. Icons: 👥 💼 🌿 ❤️. "Illustrative estimates based on Princeton NZA coefficients" footnote.
+**`ImpactScorePanel.tsx`:** Four metric tiles (populationServed from top-level field + three from impactScore), one column per route, recommended route column highlighted. Icons: 👥 💼 🌿 ❤️. "Illustrative estimates based on Princeton NZA coefficients" footnote.
 
 Mock value generation: deterministic coefficients per route profile, consistent across simulation runs for demo stability.
 
