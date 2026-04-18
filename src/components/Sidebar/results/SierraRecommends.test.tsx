@@ -14,6 +14,7 @@ const mockRoute: RouteResult = {
   metrics: { distanceMiles: 120, estimatedCapexUSD: 500_000_000, permittingMonths: [18, 24] },
   segmentJustifications: [],
   narrativeSummary: 'Low risk route through existing corridors.',
+  populationServed: 1_500_000,
 };
 
 const mockRecommendation: RouteRecommendation = {

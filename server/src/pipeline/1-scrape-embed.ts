@@ -8,7 +8,11 @@
  */
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import OpenAI from 'openai';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const REPO_ROOT = path.resolve(__dirname, '../../..');
 import type { RegChunk } from '../types.js';
 
 // ---- Env validation -------------------------------------------------------
@@ -267,8 +271,7 @@ async function main() {
     statute: chunk.statute,
   }));
 
-  // Write to server/data/
-  const outPath = path.resolve('./server/data/regulations-embedded.json');
+  const outPath = path.join(REPO_ROOT, 'data/regulations-embedded.json');
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
 

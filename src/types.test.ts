@@ -18,6 +18,7 @@ describe('types contract', () => {
         { segmentIndex: 0, frictionScore: 0.3, justification: 'Low friction area' },
       ],
       narrativeSummary: 'A balanced route through central Texas.',
+      populationServed: 1_500_000,
     };
     expect(route.id).toBe('A');
     expect(route.profile).toBe('lowest-cost');

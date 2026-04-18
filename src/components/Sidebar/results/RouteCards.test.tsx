@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach, vi } from 'vitest';
+import { describe, test, expect, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { act } from 'react';
 import { useAppStore } from '../../../store/useAppStore';
@@ -21,6 +21,7 @@ const makeRoute = (id: 'A' | 'B' | 'C', profile: RouteResult['profile']): RouteR
     { segmentIndex: 1, frictionScore: 0.7, justification: 'High friction near wetlands' },
   ],
   narrativeSummary: `Summary for Route ${id}`,
+  populationServed: id === 'A' ? 800_000 : id === 'B' ? 1_200_000 : 1_500_000,
 });
 
 const mockRoutes: RouteResult[] = [
@@ -60,7 +61,6 @@ describe('RouteCards', () => {
   });
 
   test('clicking a card calls setSelectedRoute with the route id', () => {
-    const setSelectedRoute = vi.spyOn(useAppStore.getState(), 'setSelectedRoute');
     render(<RouteCards />);
     // Click Route A card (find by label text)
     const routeALabel = screen.getByText('Route A — lowest-cost');

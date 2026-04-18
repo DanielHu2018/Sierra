@@ -1,6 +1,15 @@
 import { useState, useCallback } from 'react';
 import { Source, Layer } from 'react-map-gl/mapbox';
+import type { LayerProps } from 'react-map-gl/mapbox';
 import type { MapLayerMouseEvent } from 'mapbox-gl';
+
+// react-map-gl's LayerProps omits event handlers from its types but they work at runtime
+type LayerWithEvents = React.ComponentType<LayerProps & {
+  onClick?: (e: MapLayerMouseEvent) => void;
+  onMouseMove?: (e: MapLayerMouseEvent) => void;
+  onMouseLeave?: () => void;
+}>;
+const EventLayer = Layer as LayerWithEvents;
 import { useAppStore } from '../../store/useAppStore';
 import { HoverPopup } from '../ui/HoverPopup';
 
@@ -64,7 +73,7 @@ export function RouteLayer() {
             type="geojson"
             data={route.geometry}
           >
-            <Layer
+            <EventLayer
               id={`route-line-${route.id}`}
               type="line"
               paint={{
@@ -73,8 +82,8 @@ export function RouteLayer() {
                 'line-opacity': isSelected ? 1 : 0.35,
               }}
               layout={{ 'line-cap': 'round', 'line-join': 'round' }}
-              onClick={(e) => handleClick(e as MapLayerMouseEvent, route.id)}
-              onMouseMove={(e) => handleMouseMove(e as MapLayerMouseEvent, route.id)}
+              onClick={(e) => handleClick(e, route.id)}
+              onMouseMove={(e) => handleMouseMove(e, route.id)}
               onMouseLeave={handleMouseLeave}
             />
           </Source>

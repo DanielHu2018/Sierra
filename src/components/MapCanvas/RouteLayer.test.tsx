@@ -31,6 +31,7 @@ const mockRoute: RouteResult = {
     { segmentIndex: 1, frictionScore: 0.7, justification: 'High friction near habitat zone' },
   ],
   narrativeSummary: 'Fastest route through low-risk corridors',
+  populationServed: 1_200_000,
 };
 
 beforeEach(() => {

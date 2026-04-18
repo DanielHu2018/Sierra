@@ -12,6 +12,7 @@
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import Anthropic from '@anthropic-ai/sdk';
 import OpenAI from 'openai';
 import pLimit from 'p-limit';
@@ -30,10 +31,12 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const limit = pLimit(4); // 4 concurrent batches
 
-const ROOT = path.resolve('./');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const SERVER_ROOT = path.resolve(__dirname, '../..'); // server/
+const REPO_ROOT = path.resolve(__dirname, '../../..'); // repo root
 const BATCH_SIZE = 22;
-const PARTIAL_PATH = path.join(ROOT, 'server/data/friction_cache.partial.json');
-const OUTPUT_PATH = path.join(ROOT, 'public/data/friction_cache.json');
+const PARTIAL_PATH = path.join(SERVER_ROOT, 'public/data/friction_cache.partial.json');
+const OUTPUT_PATH = path.join(SERVER_ROOT, 'public/data/friction_cache.json');
 
 // ---- NodeFlags interface --------------------------------------------------
 interface NodeFlags {
@@ -186,7 +189,7 @@ async function main() {
   console.log('Sierra Pipeline — Step 3: Scoring node friction with Claude...');
 
   // Load graph.json
-  const graphPath = path.join(ROOT, 'public/data/graph.json');
+  const graphPath = path.join(SERVER_ROOT, 'public/data/graph.json');
   if (!existsSync(graphPath)) {
     throw new Error(`graph.json not found at ${graphPath}. Run step 2 first: npx tsx server/src/pipeline/2-build-graph.ts`);
   }
@@ -194,7 +197,7 @@ async function main() {
   console.log(`Loaded ${nodes.length} nodes from graph.json`);
 
   // Load RAG index
-  const ragPath = path.join(ROOT, 'server/data/regulations-embedded.json');
+  const ragPath = path.join(REPO_ROOT, 'data/regulations-embedded.json');
   if (!existsSync(ragPath)) {
     throw new Error(`regulations-embedded.json not found at ${ragPath}. Run step 1 first: OPENAI_API_KEY=<key> npx tsx server/src/pipeline/1-scrape-embed.ts`);
   }
@@ -202,7 +205,7 @@ async function main() {
   console.log('RAG index loaded');
 
   // Load node-flags.json (optional)
-  const flagsPath = path.join(ROOT, 'server/data/node-flags.json');
+  const flagsPath = path.join(SERVER_ROOT, 'public/data/node-flags.json');
   const flagsMap = new Map<string, NodeFlags>();
   if (existsSync(flagsPath)) {
     const flagsObj: Record<string, NodeFlags> = JSON.parse(readFileSync(flagsPath, 'utf-8'));

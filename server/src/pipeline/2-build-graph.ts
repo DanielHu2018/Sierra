@@ -7,6 +7,7 @@
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import * as turf from '@turf/turf';
 import type { GraphNode } from '../types.js';
 
@@ -18,7 +19,8 @@ const NEIGHBOR_SEARCH_MULTIPLIER = 1.5; // search within SPACING_KM * 1.5
 const ERCOT_NEAR_THRESHOLD_KM = 10;
 const MAX_NEIGHBORS = 8;
 const BFS_MIN_REACHABILITY = 0.95;
-const ROOT = path.resolve('./');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const SERVER_SERVER_ROOT = path.resolve(__dirname, '../..'); // server/
 
 // ---- Interfaces for overlay flags -----------------------------------------
 interface NodeFlags {
@@ -61,10 +63,10 @@ async function main() {
   console.log('Sierra Pipeline — Step 2: Building routing graph...');
 
   // Load overlay GeoJSON files (optional — continue if missing)
-  const wildlifeGeo = loadGeoJSON(path.join(ROOT, 'public/data/wildlife-habitat.geojson'));
-  const landGeo = loadGeoJSON(path.join(ROOT, 'public/data/land-boundary.geojson'));
-  const ercotGeo = loadGeoJSON(path.join(ROOT, 'public/data/ercot-grid.geojson'));
-  const topoGeo = loadGeoJSON(path.join(ROOT, 'public/data/topography.geojson'));
+  const wildlifeGeo = loadGeoJSON(path.join(SERVER_ROOT, 'public/data/wildlife-habitat.geojson'));
+  const landGeo = loadGeoJSON(path.join(SERVER_ROOT, 'public/data/land-boundary.geojson'));
+  const ercotGeo = loadGeoJSON(path.join(SERVER_ROOT, 'public/data/ercot-grid.geojson'));
+  const topoGeo = loadGeoJSON(path.join(SERVER_ROOT, 'public/data/topography.geojson'));
 
   // Extract individual features for efficiency
   const wildlifeFeatures = wildlifeGeo?.features ?? [];
@@ -236,13 +238,13 @@ async function main() {
   console.log(`BFS check passed: ${(reachability * 100).toFixed(1)}% reachable`);
 
   // ---- Step 5: Write graph.json -------------------------------------------
-  const graphPath = path.join(ROOT, 'public/data/graph.json');
+  const graphPath = path.join(SERVER_ROOT, 'public/data/graph.json');
   mkdirSync(path.dirname(graphPath), { recursive: true });
   writeFileSync(graphPath, JSON.stringify(nodes, null, 2));
   console.log(`graph.json written: ${nodes.length} nodes to ${graphPath}`);
 
   // ---- Step 6: Write node-flags.json (for use by step 3) ------------------
-  const flagsPath = path.join(ROOT, 'server/data/node-flags.json');
+  const flagsPath = path.join(SERVER_ROOT, 'public/data/node-flags.json');
   mkdirSync(path.dirname(flagsPath), { recursive: true });
   const flagsObj: Record<string, NodeFlags> = {};
   for (const [id, flags] of flagsMap.entries()) {

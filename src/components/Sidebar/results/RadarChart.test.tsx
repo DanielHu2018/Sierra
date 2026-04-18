@@ -30,6 +30,7 @@ const makeRoute = (id: 'A' | 'B' | 'C', profile: RouteResult['profile'], capex: 
   metrics: { distanceMiles: 100, estimatedCapexUSD: capex, permittingMonths: [12, 18] },
   segmentJustifications: [{ segmentIndex: 0, frictionScore: 0.3, justification: 'Low friction area' }],
   narrativeSummary: 'Test route',
+  populationServed: 1_000_000,
 });
 
 const mockRoutes: RouteResult[] = [

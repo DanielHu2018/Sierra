@@ -1,5 +1,5 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { TopNav } from './TopNav';
 
 // Mock useExportPdf — returns a spy function so we can detect calls

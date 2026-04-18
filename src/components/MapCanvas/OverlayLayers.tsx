@@ -109,23 +109,23 @@ export function OverlayLayers() {
   return (
     <>
       {/* ERCOT Grid — always mounted, visibility toggled via layout prop */}
-      <Source id="ercot-grid-source" type="geojson" data={ERCOT_GRID_URL} onError={(e) => console.warn('[OverlayLayers] ercot-grid overlay failed to load', e)}>
+      <Source id="ercot-grid-source" type="geojson" data={ERCOT_GRID_URL}>
         <Layer {...ercotLayerProps} />
       </Source>
 
       {/* Land Boundary — always mounted, fill + outline layers */}
-      <Source id="land-boundary-source" type="geojson" data={LAND_BOUNDARY_URL} onError={(e) => console.warn('[OverlayLayers] land-boundary overlay failed to load', e)}>
+      <Source id="land-boundary-source" type="geojson" data={LAND_BOUNDARY_URL}>
         <Layer {...landFillLayerProps} />
         <Layer {...landLineLayerProps} />
       </Source>
 
       {/* Wildlife Habitat — always mounted */}
-      <Source id="wildlife-habitat-source" type="geojson" data={WILDLIFE_HABITAT_URL} onError={(e) => console.warn('[OverlayLayers] wildlife-habitat overlay failed to load', e)}>
+      <Source id="wildlife-habitat-source" type="geojson" data={WILDLIFE_HABITAT_URL}>
         <Layer {...wildlifeLayerProps} />
       </Source>
 
       {/* Topography — always mounted */}
-      <Source id="topography-source" type="geojson" data={TOPOGRAPHY_URL} onError={(e) => console.warn('[OverlayLayers] topography overlay failed to load', e)}>
+      <Source id="topography-source" type="geojson" data={TOPOGRAPHY_URL}>
         <Layer {...topoLayerProps} />
       </Source>
 

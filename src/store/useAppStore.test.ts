@@ -123,6 +123,7 @@ describe('useAppStore', () => {
         metrics: { distanceMiles: 100, estimatedCapexUSD: 1000000, permittingMonths: [6, 12] as [number, number] },
         segmentJustifications: [],
         narrativeSummary: 'A test route.',
+        populationServed: 1_000_000,
       },
     ];
     useAppStore.getState().setRoutes(routes);

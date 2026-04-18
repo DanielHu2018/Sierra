@@ -66,8 +66,8 @@ Write in a confident, technical but accessible tone. Total response: approximate
 
   try {
     const stream = client.messages.stream({
-      model: 'claude-opus-4-7',
-      max_tokens: 1200,
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 1000,
       messages: [{ role: 'user', content: prompt }],
     });
 
@@ -95,8 +95,8 @@ router.post('/recommend', async (req, res) => {
   try {
     const { routes, constraints } = req.body;
     const response = await client.messages.create({
-      model: 'claude-opus-4-7',
-      max_tokens: 400,
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 200,
       messages: [{
         role: 'user',
         content: `Based on these three Texas transmission routes and constraint settings ${JSON.stringify(constraints)}, recommend one route and explain in exactly 3 sentences why it is the best choice considering regulatory risk, cost, and permitting timeline. Routes: ${JSON.stringify(routes?.map((r: { id: string; metrics: unknown }) => ({ id: r.id, metrics: r.metrics })))}. Respond with JSON only: {"routeId":"C","rationale":"..."}`,
@@ -113,7 +113,7 @@ router.post('/recommend', async (req, res) => {
       res.json(CANNED_RECOMMENDATION);
     }
   } catch (err) {
-    console.warn('[recommend] Claude unavailable, using canned fallback');
+    console.warn('[recommend] Claude unavailable, using canned fallback:', (err as Error).message);
     res.json(CANNED_RECOMMENDATION);
   }
 });
@@ -123,7 +123,7 @@ router.post('/triggers', async (req, res) => {
   try {
     const { routes } = req.body;
     const response = await client.messages.create({
-      model: 'claude-opus-4-7',
+      model: 'claude-haiku-4-5-20251001',
       max_tokens: 1200,
       messages: [{
         role: 'user',
@@ -141,7 +141,7 @@ router.post('/triggers', async (req, res) => {
       res.json(CANNED_TRIGGERS);
     }
   } catch (err) {
-    console.warn('[triggers] Claude unavailable, using canned fallback');
+    console.warn('[triggers] Claude unavailable, using canned fallback:', (err as Error).message);
     res.json(CANNED_TRIGGERS);
   }
 });
@@ -151,7 +151,7 @@ router.post('/alerts', async (req, res) => {
   try {
     const { recommendedRoute } = req.body;
     const response = await client.messages.create({
-      model: 'claude-opus-4-7',
+      model: 'claude-haiku-4-5-20251001',
       max_tokens: 600,
       messages: [{
         role: 'user',
@@ -169,7 +169,7 @@ router.post('/alerts', async (req, res) => {
       res.json(CANNED_ALERTS);
     }
   } catch (err) {
-    console.warn('[alerts] Claude unavailable, using canned fallback');
+    console.warn('[alerts] Claude unavailable, using canned fallback:', (err as Error).message);
     res.json(CANNED_ALERTS);
   }
 });
@@ -179,7 +179,7 @@ router.post('/summary', async (req, res) => {
   try {
     const { recommendedRoute } = req.body;
     const response = await client.messages.create({
-      model: 'claude-opus-4-7',
+      model: 'claude-haiku-4-5-20251001',
       max_tokens: 800,
       messages: [{
         role: 'user',
@@ -197,7 +197,7 @@ router.post('/summary', async (req, res) => {
       res.json(CANNED_SUMMARY);
     }
   } catch (err) {
-    console.warn('[summary] Claude unavailable, using canned fallback');
+    console.warn('[summary] Claude unavailable, using canned fallback:', (err as Error).message);
     res.json(CANNED_SUMMARY);
   }
 });
@@ -215,8 +215,8 @@ router.post('/narrative', async (req, res) => {
 
   try {
     const response = await client.messages.create({
-      model: 'claude-opus-4-7',
-      max_tokens: 700,
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 600,
       messages: [{
         role: 'user',
         content: `You are Sierra, an AI routing assistant for ERCOT Texas transmission infrastructure.
@@ -236,7 +236,7 @@ Write in flowing prose (no bullet points, no headers). Total response: 3 paragra
     const text = response.content[0].type === 'text' ? response.content[0].text : '';
     res.json({ narrative: text || CANNED_NARRATIVES[routeId] });
   } catch (err) {
-    console.warn('[narrative] Claude unavailable, using canned fallback');
+    console.warn('[narrative] Claude unavailable, using canned fallback:', (err as Error).message);
     res.json({ narrative: CANNED_NARRATIVES[routeId] });
   }
 });
