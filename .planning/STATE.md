@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-03-PLAN.md (A* engine + POST /api/route)
-last_updated: "2026-04-18T05:26:59.796Z"
+stopped_at: Completed 03-04-PLAN.md (Claude AI endpoints + canned fallbacks)
+last_updated: "2026-04-18T05:27:48.801Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 30
-  completed_plans: 13
+  completed_plans: 14
   percent: 37
 ---
 
@@ -92,6 +92,7 @@ Progress: [███░░░░░░░] 27%
 | Phase 03-routing-engine-core-demo-loop P01 | 1min | 3 tasks | 9 files |
 | Phase 03-routing-engine-core-demo-loop P02 | 2 | 2 tasks | 4 files |
 | Phase 03-routing-engine-core-demo-loop P03 | 8 | 2 tasks | 3 files |
+| Phase 03-routing-engine-core-demo-loop P04 | 3min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -129,6 +130,8 @@ Recent decisions affecting current work:
 - [Phase 03-routing-engine-core-demo-loop]: Phase 3 store state fields default null/[] not undefined — avoids optional chaining noise in consumer components
 - [Phase 03-routing-engine-core-demo-loop]: graph.json adjacency-list format (Phase 2 output) adapted in buildGraph by converting neighbors arrays to ngraph links; edge friction = avg of src+dst frictionCache values
 - [Phase 03-routing-engine-core-demo-loop]: ngraph.path aStar returns dest-first path; findRoute reverses output to produce src→dest order
+- [Phase 03-routing-engine-core-demo-loop]: cannedFallback.ts imports from server/src/types.ts (not root src/types.ts) to avoid rootDir violation in server tsconfig
+- [Phase 03-routing-engine-core-demo-loop]: AI response types added to both src/types.ts and server/src/types.ts for separate compilation domains
 
 ### Pending Todos
 
@@ -141,6 +144,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T05:26:59.795Z
-Stopped at: Completed 03-03-PLAN.md (A* engine + POST /api/route)
+Last session: 2026-04-18T05:27:48.799Z
+Stopped at: Completed 03-04-PLAN.md (Claude AI endpoints + canned fallbacks)
 Resume file: None
