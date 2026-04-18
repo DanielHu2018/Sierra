@@ -19,6 +19,7 @@ import {
   CANNED_ALERTS,
   CANNED_SUMMARY,
 } from '../cannedFallback.js';
+import { CANNED_NARRATIVES } from '../data/canned-narrative.js';
 
 const router = Router();
 const client = new Anthropic();
@@ -198,6 +199,45 @@ router.post('/summary', async (req, res) => {
   } catch (err) {
     console.warn('[summary] Claude unavailable, using canned fallback');
     res.json(CANNED_SUMMARY);
+  }
+});
+
+// ─── POST /api/narrative ──────────────────────────────────────────────────────
+// Pre-generates the PDF narrative introduction at simulation time.
+// Called in Promise.all alongside /api/recommend, /api/triggers, /api/alerts, /api/summary.
+// Result stored in Zustand narrativeByRoute[routeId] — PDF export reads from there.
+router.post('/narrative', async (req, res) => {
+  const { routeId, routeLabel, constraints } = req.body as {
+    routeId: 'A' | 'B' | 'C';
+    routeLabel: string;
+    constraints: Record<string, unknown>;
+  };
+
+  try {
+    const response = await client.messages.create({
+      model: 'claude-opus-4-7',
+      max_tokens: 700,
+      messages: [{
+        role: 'user',
+        content: `You are Sierra, an AI routing assistant for ERCOT Texas transmission infrastructure.
+
+Write a professional 3-paragraph narrative introduction for a PDF dossier presenting ${routeLabel || `Route ${routeId}`} to county commissioners and regulators. Use a formal engineering report tone.
+
+Paragraph 1 (Context and Goal): Describe why this transmission project is needed — grid congestion relief, renewable energy integration, or reliability improvement. Reference the ERCOT Texas context.
+
+Paragraph 2 (Why This Route): Explain why ${routeLabel || `Route ${routeId}`} was selected over the alternative routes. Reference specific constraint settings: ${JSON.stringify(constraints || {})}. Mention specific Texas geographic features relevant to this route — Reeves County, Edwards Aquifer recharge zone, Nolan County landowner patterns, US-385 corridor — whichever are most relevant.
+
+Paragraph 3 (Key Risks and Mitigations): Identify the primary regulatory or logistical risks for this corridor and the recommended mitigation approach.
+
+Write in flowing prose (no bullet points, no headers). Total response: 3 paragraphs, approximately 300-400 words.`,
+      }],
+    });
+
+    const text = response.content[0].type === 'text' ? response.content[0].text : '';
+    res.json({ narrative: text || CANNED_NARRATIVES[routeId] });
+  } catch (err) {
+    console.warn('[narrative] Claude unavailable, using canned fallback');
+    res.json({ narrative: CANNED_NARRATIVES[routeId] });
   }
 });
 
