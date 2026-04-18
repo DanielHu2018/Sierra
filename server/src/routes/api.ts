@@ -63,20 +63,36 @@ function totalDistanceMiles(nodeIds: string[]): number {
 // ─── Stub routes when graph is empty (Phase 2 not yet complete) ───────────────
 
 function cannedStubRoutes(source: [number, number], dest: [number, number]) {
-  const geo = (a: [number, number], b: [number, number]) => ({
-    type: 'LineString' as const,
-    coordinates: [a, b],
-  });
+  // Interpolate midpoint between source and dest for building distinct waypoints
+  const midLng = (source[0] + dest[0]) / 2;
+  const midLat = (source[1] + dest[1]) / 2;
+  // Perpendicular offset magnitude (~1° ≈ ~70 miles — visually distinct on Texas map)
+  const latSpan = Math.abs(dest[1] - source[1]);
+  const lngSpan = Math.abs(dest[0] - source[0]);
+  const offset = Math.max(latSpan, lngSpan, 1.5) * 0.35;
+
+  // Route A bows west (lowest cost — follows existing utility corridors to the west)
+  const waypointA: [number, number] = [midLng - offset * 0.9, midLat - offset * 0.2];
+  // Route B goes straight with a slight northern bow (balanced)
+  const waypointB1: [number, number] = [midLng - offset * 0.3, midLat + offset * 0.5];
+  const waypointB2: [number, number] = [midLng + offset * 0.3, midLat + offset * 0.3];
+  // Route C bows east (lowest risk — avoids western habitat clusters)
+  const waypointC: [number, number] = [midLng + offset * 0.9, midLat - offset * 0.2];
+
   return [
     {
       id: 'A',
       profile: 'lowest-cost',
       label: 'Route A — Lowest Cost',
       color: '#A7C8FF',
-      geometry: geo(source, dest),
+      geometry: {
+        type: 'LineString' as const,
+        coordinates: [source, waypointA, dest],
+      },
       metrics: { distanceMiles: 120, estimatedCapexUSD: 420_000_000, permittingMonths: [18, 24] as [number, number] },
       segmentJustifications: [
         { segmentIndex: 0, frictionScore: 0.3, justification: 'Low-friction corridor along US-385 in Reeves County.' },
+        { segmentIndex: 1, frictionScore: 0.25, justification: 'Follows existing utility right-of-way reducing acquisition cost.' },
       ],
       narrativeSummary: '',
     },
@@ -85,10 +101,15 @@ function cannedStubRoutes(source: [number, number], dest: [number, number]) {
       profile: 'balanced',
       label: 'Route B — Balanced',
       color: '#FFBC7C',
-      geometry: geo(source, dest),
+      geometry: {
+        type: 'LineString' as const,
+        coordinates: [source, waypointB1, waypointB2, dest],
+      },
       metrics: { distanceMiles: 135, estimatedCapexUSD: 567_000_000, permittingMonths: [24, 36] as [number, number] },
       segmentJustifications: [
         { segmentIndex: 0, frictionScore: 0.5, justification: 'Mixed terrain through Edwards Plateau.' },
+        { segmentIndex: 1, frictionScore: 0.45, justification: 'Moderate permitting complexity; balanced cost-risk profile.' },
+        { segmentIndex: 2, frictionScore: 0.4, justification: 'Approaches destination through lower-friction agricultural land.' },
       ],
       narrativeSummary: '',
     },
@@ -97,7 +118,10 @@ function cannedStubRoutes(source: [number, number], dest: [number, number]) {
       profile: 'lowest-risk',
       label: 'Route C — Lowest Regulatory Risk',
       color: '#E8B3FF',
-      geometry: geo(source, dest),
+      geometry: {
+        type: 'LineString' as const,
+        coordinates: [source, waypointC, dest],
+      },
       metrics: { distanceMiles: 155, estimatedCapexUSD: 775_000_000, permittingMonths: [30, 48] as [number, number] },
       segmentJustifications: [
         {
@@ -105,6 +129,12 @@ function cannedStubRoutes(source: [number, number], dest: [number, number]) {
           frictionScore: 0.2,
           justification:
             'Avoids Edwards Aquifer recharge zone and Nolan County habitat clusters.',
+        },
+        {
+          segmentIndex: 1,
+          frictionScore: 0.15,
+          justification:
+            'Eastern bypass clears sensitive ESA-designated species corridors entirely.',
         },
       ],
       narrativeSummary: '',
@@ -151,6 +181,17 @@ router.post('/route', async (req, res) => {
         findRoute(srcId, dstId, sharedGraph, blendWeights({ costW: 0.5, riskW: 1.5 }, costRisk)),
       ),
     ]);
+
+    // Detect when A* produces identical paths (happens when frictionScore === regulatoryRisk
+    // across all edges, making weight ratios irrelevant). In that case fall back to
+    // geographically distinct canned routes so the map shows three visible lines.
+    const pathAKey = pathA.join(',');
+    const pathBKey = pathB.join(',');
+    const pathCKey = pathC.join(',');
+    const pathsIdentical = pathAKey === pathBKey || pathBKey === pathCKey;
+    if (pathsIdentical || pathA.length === 0 || pathB.length === 0 || pathC.length === 0) {
+      return res.json(cannedStubRoutes(source, dest));
+    }
 
     const routeDefs = [
       {
