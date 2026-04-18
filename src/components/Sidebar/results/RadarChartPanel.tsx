@@ -19,12 +19,11 @@ export function RadarChartPanel() {
 
   const [a, b, c] = routes;
 
-  // Normalize to 0-100 scale; higher = better
-  const maxCapex = Math.max(a.metrics.estimatedCapexUSD, b.metrics.estimatedCapexUSD, c.metrics.estimatedCapexUSD);
-  const maxPermit = Math.max(a.metrics.permittingMonths[1], b.metrics.permittingMonths[1], c.metrics.permittingMonths[1]);
-
-  function costScore(r: typeof a) { return Math.round((1 - r.metrics.estimatedCapexUSD / maxCapex) * 100); }
-  function permitScore(r: typeof a) { return Math.round((1 - r.metrics.permittingMonths[1] / maxPermit) * 100); }
+  // Absolute scales so chart shape varies with actual route metrics between runs
+  // Cost: $0 = 100 (best), $2B = 0 (worst)
+  // Permitting: 0 months = 100 (best), 72 months = 0 (worst)
+  function costScore(r: typeof a) { return Math.max(0, Math.round((1 - r.metrics.estimatedCapexUSD / 2_000_000_000) * 100)); }
+  function permitScore(r: typeof a) { return Math.max(0, Math.round((1 - r.metrics.permittingMonths[1] / 72) * 100)); }
   function riskScore(r: typeof a) { return Math.round((1 - avgFriction(r)) * 100); }
 
   const data = [
