@@ -133,8 +133,21 @@ export function Sidebar() {
   ]);
 
   const handleStreamComplete = useCallback(() => {
+    const state = useAppStore.getState();
+    if (state.routes && state.routes.length > 0) {
+      const formatPin = (p: [number, number] | null) =>
+        p ? `${p[1].toFixed(3)}, ${p[0].toFixed(3)}` : 'Unknown';
+      pushSimulationRun({
+        id: Date.now().toString(),
+        timestamp: new Date().toISOString(),
+        sourcePinLabel: formatPin(state.sourcePin),
+        destPinLabel: formatPin(state.destinationPin),
+        recommendedRouteId: state.recommendation?.routeId ?? null,
+        routes: state.routes,
+      });
+    }
     setSimulationStatus('complete');
-  }, [setSimulationStatus]);
+  }, [setSimulationStatus, pushSimulationRun]);
 
   const handleCancel = useCallback(() => {
     setSimulationStatus('idle');
