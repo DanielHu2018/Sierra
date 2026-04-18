@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-05-PLAN.md (Route layers + friction heatmap)
-last_updated: "2026-04-18T05:32:18.958Z"
+stopped_at: "Completed 03-07-PLAN.md (Results panel: SierraRecommends + RadarChart + RouteCards)"
+last_updated: "2026-04-18T05:36:35.197Z"
 last_activity: 2026-04-17 — Completed 02-02 (build routing graph, 564 nodes, BFS validated)
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 30
-  completed_plans: 16
+  completed_plans: 17
   percent: 37
 ---
 
@@ -95,6 +95,7 @@ Progress: [███░░░░░░░] 27%
 | Phase 03-routing-engine-core-demo-loop P04 | 3min | 2 tasks | 6 files |
 | Phase 03-routing-engine-core-demo-loop P06 | 2min | 2 tasks | 3 files |
 | Phase 03-routing-engine-core-demo-loop P05 | 12 | 2 tasks | 6 files |
+| Phase 03-routing-engine-core-demo-loop P07 | 2 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -138,6 +139,8 @@ Recent decisions affecting current work:
 - [Phase 03-routing-engine-core-demo-loop]: ResultsPanel placeholder stub in Sidebar — Plan 07 replaces with full results view
 - [Phase 03-routing-engine-core-demo-loop]: HoverPopup uses inline styles for glassmorphism backdrop-filter to avoid Tailwind v4 purge risk on dynamic values
 - [Phase 03-routing-engine-core-demo-loop]: heatmapGeoJSON stored in local OverlayLayers state (not Zustand) — map-layer-local; raw FrictionCache stored in Zustand for cross-component justification access
+- [Phase 03-routing-engine-core-demo-loop]: recharts mocked with vi.mock in RadarChart tests to avoid SVG/canvas JSDOM failures — consistent with mapbox-gl mock pattern
+- [Phase 03-routing-engine-core-demo-loop]: RouteCards uses local useState for expand/collapse (UI-local state), Zustand for selectedRoute (cross-component sync)
 
 ### Pending Todos
 
@@ -150,6 +153,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-18T05:32:18.956Z
-Stopped at: Completed 03-05-PLAN.md (Route layers + friction heatmap)
+Last session: 2026-04-18T05:36:35.195Z
+Stopped at: Completed 03-07-PLAN.md (Results panel: SierraRecommends + RadarChart + RouteCards)
 Resume file: None
