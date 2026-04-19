@@ -40,8 +40,19 @@ function sierraPlugin() {
     },
 
     closeBundle() {
+      const distDir = path.join(__dirname, 'dist');
+
+      // Rename SPA entry so / stays free for the landing page
+      const appHtml     = path.join(distDir, 'app.html');
+      const indexHtml   = path.join(distDir, 'index.html');
+      const landingHtml = path.join(distDir, 'landing.html');
+      fs.copyFileSync(indexHtml, appHtml);
+      fs.copyFileSync(landingHtml, indexHtml);
+      console.log('[sierra-static] swapped index.html ↔ landing.html');
+
+      // Copy video frames
       const src  = path.join(__dirname, 'landingpagevideo');
-      const dest = path.join(__dirname, 'dist', 'landingpagevideo');
+      const dest = path.join(distDir, 'landingpagevideo');
       if (!fs.existsSync(src)) return;
       if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
       const files = fs.readdirSync(src);

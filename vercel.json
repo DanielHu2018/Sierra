@@ -1,10 +1,9 @@
 {
-"buildCommand": "npm run build",
+  "buildCommand": "npm run build",
   "outputDirectory": "dist",
-"rewrites": [
-    { "source": "/",                        "destination": "/landing.html" },
-    { "source": "/app",                     "destination": "/index.html" },
-    { "source": "/app/(.*)",                "destination": "/index.html" },
-    { "source": "/((?!api/|landingpagevideo/).*)", "destination": "/index.html" }
+  "rewrites": [
+    { "source": "/app",      "destination": "/app.html" },
+    { "source": "/app/(.*)", "destination": "/app.html" },
+    { "source": "/((?!api/|landingpagevideo/).*)", "destination": "/app.html" }
   ]
 }
