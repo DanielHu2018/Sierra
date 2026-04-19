@@ -2,6 +2,8 @@
 nixPkgs = [
   "nodejs_20",
   "chromium",
+  "dejavu_fonts",
+  "fontconfig",
   "nss",
   "nspr",
   "atk",
