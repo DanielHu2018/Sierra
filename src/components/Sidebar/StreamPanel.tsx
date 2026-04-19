@@ -85,7 +85,7 @@ export function StreamPanel({ onComplete, onCancel }: StreamPanelProps) {
               width: 8,
               height: 8,
               borderRadius: '50%',
-              background: '#A7C8FF',
+              background: '#c8a45c',
               animation: 'pulse 1.5s infinite',
             }}
           />
@@ -94,7 +94,7 @@ export function StreamPanel({ onComplete, onCancel }: StreamPanelProps) {
               fontFamily: 'Manrope, sans-serif',
               fontSize: 13,
               fontWeight: 700,
-              color: '#A7C8FF',
+              color: '#c8a45c',
               letterSpacing: '0.05em',
               textTransform: 'uppercase',
             }}
@@ -133,7 +133,7 @@ export function StreamPanel({ onComplete, onCancel }: StreamPanelProps) {
             display: 'inline-block',
             width: 2,
             height: '1em',
-            background: '#A7C8FF',
+            background: '#c8a45c',
             verticalAlign: 'text-bottom',
             marginLeft: 2,
             animation: 'blink 1s step-end infinite',

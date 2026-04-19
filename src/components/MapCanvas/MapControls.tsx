@@ -25,8 +25,8 @@ export function MapControls({ mapRef }: MapControlsProps) {
   };
 
   const activeBtn: React.CSSProperties = {
-    color: '#A7C8FF',
-    background: 'rgba(167, 200, 255, 0.12)',
+    color: '#c8a45c',
+    background: 'rgba(200, 164, 92, 0.12)',
     borderRadius: '0.375rem',
   };
 

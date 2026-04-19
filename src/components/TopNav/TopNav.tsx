@@ -16,11 +16,11 @@ const navStyle: React.CSSProperties = {
 };
 
 const logoStyle: React.CSSProperties = {
-  fontFamily: 'Manrope, sans-serif',
-  fontSize: 16,
-  fontWeight: 800,
-  color: '#A7C8FF',
-  letterSpacing: '0.1em',
+  fontFamily: "'Cormorant Garamond', Georgia, serif",
+  fontSize: 20,
+  fontWeight: 600,
+  color: '#c8a45c',
+  letterSpacing: '0.22em',
 };
 
 const navItemsStyle: React.CSSProperties = {
@@ -88,7 +88,7 @@ export function TopNav() {
 
   return (
     <nav style={navStyle}>
-      <span style={logoStyle}>SIERRA</span>
+      <a href="/" style={{ ...logoStyle, textDecoration: 'none' }}>SIERRA</a>
       <div style={navItemsStyle}>
         <button
           style={activeTab === 'route-engine' ? navItemActiveStyle : navItemStyle}

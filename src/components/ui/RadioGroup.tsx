@@ -41,8 +41,8 @@ export function RadioGroup({ options, value, onChange, name }: RadioGroupProps) 
               width: 16,
               height: 16,
               borderRadius: '50%',
-              border: `2px solid ${value === opt.value ? '#A7C8FF' : '#414755'}`,
-              backgroundColor: value === opt.value ? '#A7C8FF' : 'transparent',
+              border: `2px solid ${value === opt.value ? '#c8a45c' : '#414755'}`,
+              backgroundColor: value === opt.value ? '#c8a45c' : 'transparent',
               flexShrink: 0,
               transition: 'background-color 0.15s, border-color 0.15s',
             }}

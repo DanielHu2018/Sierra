@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sierra — AI Transmission Routing</title>
+  <meta name="description" content="AI-powered transmission line routing that balances cost, environmental impact, and community outcomes — at the speed of planning." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:            #060c07;
+      --text:          #dfd9cc;
+      --text-muted:    #c4bfb4;
+      --text-dim:      #44443f;
+      --accent:        #c8a45c;
+      --accent-hover:  #d4b070;
+      --green:         #4a8852;
+      --border:        rgba(210, 205, 190, 0.1);
+      --border-accent: rgba(200, 164, 92, 0.28);
+      --surface:       rgba(6, 12, 7, 0.80);
+      --surface-hi:    rgba(14, 22, 15, 0.88);
+      --font-serif:    'Cormorant Garamond', Georgia, serif;
+      --font-sans:     'DM Sans', system-ui, sans-serif;
+      --font-mono:     'IBM Plex Mono', 'Courier New', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── LOADING ─────────────────────────────────────────── */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      transition: opacity 0.6s ease;
+    }
+    #loading.fade-out { opacity: 0; pointer-events: none; }
+
+    .loading-mark {
+      font-family: var(--font-serif);
+      font-size: 52px;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .loading-track {
+      width: 180px;
+      height: 1px;
+      background: var(--border);
+      position: relative;
+    }
+    .loading-bar {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.08s linear;
+    }
+
+    /* ─── BACKGROUND CANVAS ───────────────────────────────── */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+    }
+
+    #bg-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(to bottom,
+          rgba(6,12,7,0.62) 0%,
+          rgba(6,12,7,0.28) 25%,
+          rgba(6,12,7,0.22) 55%,
+          rgba(6,12,7,0.70) 100%),
+        linear-gradient(to right,
+          rgba(6,12,7,0.55) 0%,
+          transparent 40%,
+          transparent 60%,
+          rgba(6,12,7,0.30) 100%);
+    }
+
+    /* ─── NAV ─────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      padding: 28px 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(6,12,7,0.72) 0%, transparent 100%);
+    }
+
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: var(--accent);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-cta {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--border-accent);
+      padding: 10px 22px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--accent); color: var(--bg); }
+
+    /* ─── SCROLL CONTENT ──────────────────────────────────── */
+    #scroll-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 140px 80px 100px;
+    }
+
+    /* ─── HERO ────────────────────────────────────────────── */
+    .s-hero {
+      align-items: flex-start;
+      padding-top: 180px;
+      padding-bottom: 100px;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: 0.28em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: slide-up 0.9s ease 0.2s forwards;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(68px, 10vw, 148px);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      max-width: 860px;
+      margin-bottom: 44px;
+      opacity: 0;
+      animation: slide-up 0.9s ease 0.4s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--accent); }
+
+    .hero-body {
+      font-size: 19px;
+      font-weight: 300;
+      color: var(--text-muted);
+      max-width: 500px;
+      line-height: 1.75;
+      margin-bottom: 52px;
+      opacity: 0;
+      animation: slide-up 0.9s ease 0.6s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      text-decoration: none;
+      padding: 22px 44px;
+      transition: background 0.22s, gap 0.22s;
+      opacity: 0;
+      animation: slide-up 0.9s ease 0.8s forwards;
+    }
+    .btn-primary:hover { background: var(--accent-hover); gap: 22px; }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 44px;
+      left: 80px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.22em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: slide-up 1s ease 1.1s forwards;
+    }
+    .scroll-line {
+      height: 1px;
+      background: var(--text-dim);
+      animation: line-pulse 2.2s ease 1.4s infinite;
+    }
+    @keyframes line-pulse {
+      0%, 100% { width: 22px; opacity: 0.5; }
+      50%       { width: 48px; opacity: 1; }
+    }
+
+    /* ─── SECTION SHARED ──────────────────────────────────── */
+    .section-chip {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .section-rule {
+      width: 36px;
+      height: 1px;
+      background: var(--border-accent);
+      margin-bottom: 24px;
+    }
+
+    .section-h {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      line-height: 1.1;
+    }
+
+    /* ─── WHAT ────────────────────────────────────────────── */
+    .s-what { align-items: flex-start; }
+
+    .what-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      max-width: 1200px;
+    }
+
+    .what-h {
+      font-family: var(--font-serif);
+      font-size: clamp(40px, 5.5vw, 74px);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .what-h em { font-style: italic; color: var(--accent); }
+
+    .stat-row {
+      display: flex;
+      gap: 40px;
+      margin-top: 44px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+    }
+    .stat-n {
+      font-family: var(--font-serif);
+      font-size: 64px;
+      font-weight: 300;
+      color: var(--accent);
+      line-height: 1;
+      display: block;
+    }
+    .stat-l {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 6px;
+    }
+
+    .what-body {
+      background: var(--surface-hi);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      padding: 44px 48px;
+    }
+    .what-body p {
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.82;
+      margin-bottom: 20px;
+    }
+    .what-body p:last-child { margin-bottom: 0; }
+
+    /* ─── ROUTES ──────────────────────────────────────────── */
+    .s-routes { align-items: flex-start; }
+
+    .routes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 1280px;
+      width: 100%;
+    }
+
+    .route-card {
+      background: var(--surface-hi);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      padding: 52px 40px 48px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.22s, transform 0.22s;
+    }
+    .route-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: transparent;
+      transition: background 0.22s;
+    }
+    .route-card:hover { border-color: var(--border-accent); transform: translateY(-3px); }
+    .route-card:hover::after { background: var(--accent); }
+
+    .route-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .route-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot-a { background: #7bc47f; }
+    .dot-b { background: #6bacd4; }
+    .dot-c { background: var(--accent); }
+
+    .route-name {
+      font-family: var(--font-serif);
+      font-size: 34px;
+      font-weight: 300;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+    .route-desc {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 32px;
+    }
+    .route-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .route-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 5px 13px;
+    }
+
+    /* ─── FEATURES ────────────────────────────────────────── */
+    .s-features { align-items: flex-start; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      max-width: 1040px;
+      width: 100%;
+    }
+
+    .feature-cell {
+      background: var(--surface-hi);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      padding: 36px 36px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.2s;
+    }
+    .feature-cell:hover { border-color: rgba(200,164,92,0.28); }
+
+    .feature-chip {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .feature-title {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 300;
+      color: var(--text);
+    }
+    .feature-desc {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ─── IMPACT ──────────────────────────────────────────── */
+    .s-impact {
+      align-items: center;
+      text-align: center;
+    }
+
+    .impact-h {
+      font-family: var(--font-serif);
+      font-size: clamp(44px, 6.5vw, 92px);
+      font-weight: 300;
+      line-height: 1.05;
+      max-width: 720px;
+      margin-bottom: 64px;
+    }
+    .impact-h em { font-style: italic; color: var(--accent); }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      max-width: 1280px;
+      width: 100%;
+    }
+
+    .impact-cell {
+      background: var(--surface-hi);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      padding: 52px 32px 44px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      transition: border-color 0.2s;
+    }
+    .impact-cell:hover { border-color: var(--border-accent); }
+
+    .impact-glyph {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .impact-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .impact-desc {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* ─── FINAL CTA ───────────────────────────────────────── */
+    .s-cta {
+      align-items: center;
+      text-align: center;
+    }
+
+    .cta-pretitle {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+
+    .cta-h {
+      font-family: var(--font-serif);
+      font-size: clamp(56px, 9vw, 128px);
+      font-weight: 300;
+      line-height: 1.0;
+      margin-bottom: 10px;
+    }
+    .cta-sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(30px, 4.5vw, 58px);
+      font-weight: 300;
+      color: var(--accent);
+      margin-bottom: 56px;
+    }
+
+    .btn-launch {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      text-decoration: none;
+      padding: 26px 60px;
+      transition: background 0.22s, gap 0.22s;
+    }
+    .btn-launch:hover { background: var(--accent-hover); gap: 28px; }
+
+    /* ─── FOOTER ──────────────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 2;
+      padding: 28px 80px;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: var(--accent);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+    }
+
+    /* ─── REVEAL ANIMATION ────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.72s ease, transform 0.72s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: 0.10s; }
+    .delay-2 { transition-delay: 0.20s; }
+    .delay-3 { transition-delay: 0.30s; }
+    .delay-4 { transition-delay: 0.40s; }
+
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading screen -->
+  <div id="loading">
+    <div class="loading-mark">Sierra</div>
+    <div class="loading-track">
+      <div class="loading-bar" id="loading-bar"></div>
+    </div>
+  </div>
+
+  <!-- Fixed background canvas -->
+  <canvas id="bg-canvas"></canvas>
+  <div id="bg-vignette"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="/" class="nav-logo">Sierra</a>
+    <a href="/app" class="nav-cta">Launch Simulator →</a>
+  </nav>
+
+  <!-- Scrollable content -->
+  <div id="scroll-content">
+
+    <!-- ── HERO ── -->
+    <section class="s-hero">
+      <p class="hero-eyebrow">AI Transmission Routing Platform</p>
+      <h1 class="hero-title">Find the<br><em>optimal path.</em></h1>
+      <p class="hero-body">
+        Sierra models thousands of possible transmission routes — weighing cost, terrain, ecology,
+        and community impact — so planners can choose with confidence.
+      </p>
+      <a href="/app" class="btn-primary">
+        Open Simulator <span>→</span>
+      </a>
+      <div class="scroll-hint">
+        <div class="scroll-line"></div>
+        Scroll to explore
+      </div>
+    </section>
+
+    <!-- ── WHAT IS SIERRA ── -->
+    <section class="s-what">
+      <div class="section-rule reveal"></div>
+      <div class="what-grid">
+        <div class="what-left">
+          <h2 class="what-h reveal">
+            The grid needs<br>smarter <em>routes.</em>
+          </h2>
+          <div class="stat-row">
+            <div class="reveal delay-1">
+              <span class="stat-n">3</span>
+              <span class="stat-l">Route modes</span>
+            </div>
+            <div class="reveal delay-2">
+              <span class="stat-n">4</span>
+              <span class="stat-l">Impact metrics</span>
+            </div>
+            <div class="reveal delay-3">
+              <span class="stat-n">6+</span>
+              <span class="stat-l">Data layers</span>
+            </div>
+          </div>
+        </div>
+        <div class="what-body">
+          <p class="reveal delay-1">
+            Building new transmission is one of the most complex infrastructure challenges of our time.
+            Routes must thread through private land, sensitive ecosystems, regulatory boundaries,
+            and existing grid corridors — while minimizing cost and maximizing energy delivery.
+          </p>
+          <p class="reveal delay-2">
+            Sierra uses AI to simulate multiple possible paths simultaneously, scoring each against
+            weighted criteria and generating a ranked recommendation that planners can defend
+            to regulators and communities.
+          </p>
+          <p class="reveal delay-3">
+            From site selection to impact assessment, Sierra compresses months of desktop
+            study into a single session.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ROUTE ENGINE ── -->
+    <section class="s-routes">
+      <p class="section-chip reveal">Route Engine</p>
+      <h2 class="section-h reveal" style="font-size: clamp(38px, 5vw, 66px); max-width: 560px; margin-bottom: 52px;">
+        Three lenses.<br>One decision.
+      </h2>
+      <div class="routes-grid">
+        <div class="route-card reveal">
+          <div class="route-badge"><span class="route-dot dot-a"></span>Route A</div>
+          <div class="route-name">Least-Cost</div>
+          <p class="route-desc">
+            Engineered for construction economics. Minimizes total project cost by optimizing for
+            short distances, flat terrain, and co-location with existing right-of-way corridors.
+          </p>
+          <div class="route-tags">
+            <span class="route-tag">Low CAPEX</span>
+            <span class="route-tag">ROW co-location</span>
+            <span class="route-tag">Terrain-optimized</span>
+          </div>
+        </div>
+        <div class="route-card reveal delay-1">
+          <div class="route-badge"><span class="route-dot dot-b"></span>Route B</div>
+          <div class="route-name">Max Population Served</div>
+          <p class="route-desc">
+            Built for communities. Prioritizes routes that maximize the number of residents who gain
+            reliable access to the transmission network and its downstream generation.
+          </p>
+          <div class="route-tags">
+            <span class="route-tag">Community reach</span>
+            <span class="route-tag">Equity weighting</span>
+            <span class="route-tag">Load-center proximity</span>
+          </div>
+        </div>
+        <div class="route-card reveal delay-2">
+          <div class="route-badge"><span class="route-dot dot-c"></span>Route C</div>
+          <div class="route-name">Renewable-Optimized</div>
+          <p class="route-desc">
+            Aligned with the net-zero agenda. Routes toward high-capacity renewable generation zones,
+            prioritizing solar and wind resources with the lowest carbon intensity.
+          </p>
+          <div class="route-tags">
+            <span class="route-tag">NZA scoring</span>
+            <span class="route-tag">Wind / Solar zones</span>
+            <span class="route-tag">Carbon intensity</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DATA INTELLIGENCE ── -->
+    <section class="s-features">
+      <p class="section-chip reveal">Data Intelligence</p>
+      <h2 class="section-h reveal" style="font-size: clamp(36px, 4.5vw, 60px); max-width: 540px; margin-bottom: 48px;">
+        Built on what<br>actually matters.
+      </h2>
+      <div class="features-grid">
+        <div class="feature-cell reveal">
+          <span class="feature-chip">Grid</span>
+          <span class="feature-title">ERCOT Grid Overlay</span>
+          <span class="feature-desc">Live integration with the Texas grid network, showing existing transmission corridors and substation interconnection points.</span>
+        </div>
+        <div class="feature-cell reveal delay-1">
+          <span class="feature-chip">Environmental</span>
+          <span class="feature-title">Wildlife Habitat Mapping</span>
+          <span class="feature-desc">Species habitat boundaries and migration corridors — flagging ecological sensitivity zones that trigger constraint analysis.</span>
+        </div>
+        <div class="feature-cell reveal delay-1">
+          <span class="feature-chip">Legal</span>
+          <span class="feature-title">Eminent Domain Risk</span>
+          <span class="feature-desc">Land parcel analysis that identifies where condemnation proceedings are likely, letting routes avoid high-friction ownership clusters.</span>
+        </div>
+        <div class="feature-cell reveal delay-2">
+          <span class="feature-chip">Terrain</span>
+          <span class="feature-title">Topography & Friction</span>
+          <span class="feature-desc">Elevation models and construction friction heatmaps that quantify the cost premium of routing across steep or unstable terrain.</span>
+        </div>
+        <div class="feature-cell reveal delay-2">
+          <span class="feature-chip">Boundary</span>
+          <span class="feature-title">Land Classification</span>
+          <span class="feature-desc">Federal, state, and protected land boundaries that define where transmission can be sited under current permitting regimes.</span>
+        </div>
+        <div class="feature-cell reveal delay-3">
+          <span class="feature-chip">Alerts</span>
+          <span class="feature-title">Environmental Triggers</span>
+          <span class="feature-desc">AI-generated alerts when a proposed route intersects known risk factors — floodplains, wetlands, critical habitat, or seismic zones.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── IMPACT SCORING ── -->
+    <section class="s-impact">
+      <h2 class="impact-h reveal">
+        Every route is a<br><em>decision</em> with consequences.
+      </h2>
+      <div class="impact-grid">
+        <div class="impact-cell reveal">
+          <div class="impact-glyph">◎</div>
+          <div class="impact-label">Population</div>
+          <div class="impact-desc">Residents served within the corridor's service envelope</div>
+        </div>
+        <div class="impact-cell reveal delay-1">
+          <div class="impact-glyph">◈</div>
+          <div class="impact-label">Jobs</div>
+          <div class="impact-desc">Construction and permanent operations employment created</div>
+        </div>
+        <div class="impact-cell reveal delay-2">
+          <div class="impact-glyph">◇</div>
+          <div class="impact-label">Emissions</div>
+          <div class="impact-desc">Lifecycle carbon reduction from displaced fossil generation</div>
+        </div>
+        <div class="impact-cell reveal delay-3">
+          <div class="impact-glyph">◉</div>
+          <div class="impact-label">Health</div>
+          <div class="impact-desc">Community health outcomes from air quality improvements</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FINAL CTA ── -->
+    <section class="s-cta">
+      <p class="cta-pretitle reveal">Ready to route</p>
+      <h2 class="cta-h reveal">Place your pins.</h2>
+      <p class="cta-sub reveal">Let Sierra find the way.</p>
+      <a href="/app" class="btn-launch reveal delay-1">
+        Launch Simulator →
+      </a>
+    </section>
+
+  </div><!-- /scroll-content -->
+
+  <footer>
+    <a href="/" class="footer-logo">Sierra</a>
+    <span class="footer-copy">AI-powered transmission routing · Net-zero infrastructure planning</span>
+  </footer>
+
+  <script>
+    // ── CANVAS SETUP ─────────────────────────────────────────────────
+    const TOTAL = 62;
+    const canvas = document.getElementById('bg-canvas');
+    const ctx    = canvas.getContext('2d');
+
+    const images  = new Array(TOTAL).fill(null);
+    let loaded    = 0;
+    let frameIdx  = 0;
+    let rafPending = false;
+
+    function pad(n) {
+      return String(n).padStart(3, '0');
+    }
+
+    function resizeCanvas() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      renderFrame();
+    }
+
+    function renderFrame() {
+      const img = images[frameIdx];
+      if (!img || !img.complete || !img.naturalWidth) return;
+      const cw = canvas.width, ch = canvas.height;
+      const iw = img.naturalWidth, ih = img.naturalHeight;
+      const scale = Math.max(cw / iw, ch / ih);
+      const dw = iw * scale, dh = ih * scale;
+      ctx.clearRect(0, 0, cw, ch);
+      ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+    }
+
+    function getFrame() {
+      const maxScroll = document.body.scrollHeight - window.innerHeight;
+      if (maxScroll <= 0) return 0;
+      const t = Math.min(window.scrollY / maxScroll, 1);
+      return Math.min(Math.floor(t * TOTAL), TOTAL - 1);
+    }
+
+    window.addEventListener('scroll', () => {
+      const next = getFrame();
+      if (next !== frameIdx) {
+        frameIdx = next;
+        if (!rafPending) {
+          rafPending = true;
+          requestAnimationFrame(() => { renderFrame(); rafPending = false; });
+        }
+      }
+    }, { passive: true });
+
+    window.addEventListener('resize', resizeCanvas);
+
+    // ── PRELOAD ───────────────────────────────────────────────────────
+    const loadingEl  = document.getElementById('loading');
+    const loadingBar = document.getElementById('loading-bar');
+    let firstDrawn   = false;
+
+    for (let i = 0; i < TOTAL; i++) {
+      const img = new Image();
+      const num = i + 1;
+
+      img.onload = () => {
+        loaded++;
+        loadingBar.style.width = ((loaded / TOTAL) * 100) + '%';
+
+        if (!firstDrawn && num === 1) {
+          firstDrawn = true;
+          resizeCanvas();
+        } else if (loaded % 8 === 0 || loaded === TOTAL) {
+          renderFrame();
+        }
+
+        if (loaded === TOTAL) {
+          setTimeout(() => {
+            loadingEl.classList.add('fade-out');
+            setTimeout(() => { loadingEl.style.display = 'none'; }, 650);
+          }, 200);
+        }
+      };
+
+      img.onerror = () => {
+        loaded++;
+        if (loaded === TOTAL) {
+          loadingEl.classList.add('fade-out');
+          setTimeout(() => { loadingEl.style.display = 'none'; }, 650);
+        }
+      };
+
+      img.src = `/landingpagevideo/ezgif-frame-${pad(num)}.jpg`;
+      images[i] = img;
+    }
+
+    // ── INTERSECTION OBSERVER ─────────────────────────────────────────
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

@@ -10,8 +10,8 @@
   --color-surface-container-high: #2A2A2A;
   --color-surface-container-highest: #353534;
   --color-surface-bright: #393939;
-  --color-primary: #A7C8FF;
-  --color-primary-container: #3291FF;
+  --color-primary: #c8a45c;
+  --color-primary-container: #b8903e;
   --color-secondary: #FFBC7C;
   --color-tertiary: #E8B3FF;
   --color-on-surface: #E5E2E1;
@@ -58,8 +58,8 @@ button {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #A7C8FF;
-  color: #003061;
+  background: #c8a45c;
+  color: #0a0e09;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,7 +76,7 @@ button {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: rgba(213, 227, 255, 0.3);
+  background: rgba(200, 164, 92, 0.3);
   animation: pulse-ring 0.6s ease-out forwards;
   top: 50%;
   left: 50%;

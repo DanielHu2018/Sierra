@@ -1,0 +1,168 @@
+## Sierra MVP – Required Fixes and Feature Improvements
+
+### 1. Core UX / Functionality Issues
+
+* **Simulation Flow**
+
+  * Users cannot exit a simulation to start a new one. This must be fixed.
+  * Add a clear “Exit Simulation” or “Reset Scenario” control that returns the app to its initial state.
+
+* **Data Visibility**
+
+  * The **Data Layers** and **Archive** tabs are empty or non-functional.
+  * Ensure datasets are properly loaded, selectable, and visually rendered on the map.
+
+---
+
+### 2. Map & Interaction Improvements
+
+* **Map Styling**
+
+  * Switch to a **dark-themed map** while preserving:
+
+    * Realistic geography
+    * Terrain/topology detail
+    * Global coverage
+  * Avoid overly minimal styles—retain physical realism.
+
+* **Pin Interaction Enhancements**
+
+  * Source and destination pins must:
+
+    * Use **distinct colors**
+    * Provide **clear visual confirmation** when placed (animation, glow, or marker change)
+  * Add:
+
+    * A **cancel/undo pin placement** option
+    * A clear “placement mode” indicator (so users know what they’re doing)
+
+---
+
+### 3. Routing Logic Improvements
+
+* **Optimization Objective**
+
+  * Routes should prioritize **maximizing population served**, not just distance or cost.
+  * Introduce a **population-served metric**:
+
+    * Display total number of people served directly on each route
+    * Make this a primary comparison factor for recommendations
+
+* **Multiple Route Strategies**
+
+  * Generate and display multiple routes:
+
+    * Least-cost route
+    * Maximum population served
+    * Renewable-optimized route
+
+---
+
+### 4. Risk Visualization
+
+* After a simulation:
+
+  * Risks must be **geographically visible on the map**
+  * Each risk should:
+
+    * Be clickable
+    * Automatically navigate/zoom the user to its location
+  * Include visual markers (heatspots, icons, overlays)
+
+---
+
+## 5. Strategic Upgrade: Princeton NZA + REPEAT Integration
+
+### Goal
+
+Transform Sierra from a routing tool into a **grid planning and infrastructure intelligence platform**.
+
+---
+
+### High-Value Data Layers to Integrate
+
+* **Renewable Potential (Wind & Solar)**
+
+  * Use Optimal Renewable Buildout (ORB) data
+  * Identify Candidate Project Areas (CPAs)
+  * Use as weighted nodes in routing
+
+* **Offshore Wind (ERCOT-Relevant)**
+
+  * Incorporate Gulf of Mexico potential from E+ scenarios
+  * Critical for long-term grid reliability
+
+* **Solar Resource Quality**
+
+  * Use irradiance data as routing weights
+  * Prefer high-yield zones
+
+* **CO₂ Storage & Infrastructure**
+
+  * Map:
+
+    * Saline aquifers
+    * Depleted oil/gas reservoirs (Permian Basin, Gulf Coast)
+  * Flag proximity to thermal plants
+
+* **Transmission Expansion Corridors**
+
+  * Use projected GW-km transmission corridors
+  * Treat as “preferred paths” for routing
+
+---
+
+### Integration Strategy (Agent-Based Reasoning)
+
+* **Constraint Surface**
+
+  * Use CLUA (Constrained Land Use Assumptions) to define:
+
+    * No-go zones (protected land, ecological constraints)
+
+* **Scenario-Based Routing**
+
+  * Generate routes based on:
+
+    * Cost optimization
+    * Renewable connectivity (CPA-driven)
+    * Environmental preservation
+
+* **AI Justification Layer**
+
+  * Each recommended route must include reasoning such as:
+
+    * Alignment with projected transmission corridors
+    * Connection to high-value renewable zones
+    * Avoidance of constrained land areas
+
+* **Impact Scoring**
+
+  * Attach metrics to each route:
+
+    * Population served
+    * Jobs created
+    * Emissions reduced
+    * Public health impact
+
+---
+
+### 48-Hour MVP Focus (ERCOT Scope)
+
+Prioritize:
+
+* Texas-specific datasets
+* High-resolution geospatial overlays
+* Fast integration over completeness
+
+Immediate assets to use:
+
+* Texas state-level metrics (jobs, CO₂ storage, air quality)
+* Transmission expansion maps (2030 / 2050)
+* Updated REPEAT data aligned with current policy landscape
+
+---
+
+## Bottom Line
+
+Fix the broken UX first. Then upgrade routing to be population- and infrastructure-aware. Finally, layer in Princeton and REPEAT data to make Sierra’s recommendations defensible, data-driven, and strategically meaningful.

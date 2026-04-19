@@ -137,19 +137,35 @@ export function OverlayLayers() {
             type="heatmap"
             layout={{ visibility: heatmapVisible }}
             paint={{
-              'heatmap-weight': ['get', 'friction'],
-              'heatmap-intensity': 1,
+              'heatmap-weight': [
+                'interpolate', ['linear'], ['get', 'friction'],
+                0, 0,
+                1, 1,
+              ],
+              'heatmap-intensity': [
+                'interpolate', ['linear'], ['zoom'],
+                5, 0.3,
+                8, 0.7,
+              ],
               'heatmap-color': [
                 'interpolate',
                 ['linear'],
                 ['heatmap-density'],
-                0,   'rgba(0,0,0,0)',
-                0.1, '#3291FF',
-                0.5, '#9B6FFF',
-                1,   '#FF4444',
+                0,    'rgba(0,0,0,0)',
+                0.2,  'rgba(50,145,255,0.35)',
+                0.5,  'rgba(155,111,255,0.6)',
+                1,    'rgba(255,68,68,0.88)',
               ],
-              'heatmap-radius': 20,
-              'heatmap-opacity': 0.7,
+              // radius scales exponentially with zoom so physical coverage stays constant
+              // ~3× the grid spacing at default zoom (0.47–0.52° ≈ 21–23px at z6)
+              'heatmap-radius': [
+                'interpolate', ['exponential', 2], ['zoom'],
+                5,  55,
+                6,  80,
+                7, 140,
+                8, 260,
+              ],
+              'heatmap-opacity': 0.72,
             }}
           />
         </Source>

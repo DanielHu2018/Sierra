@@ -14,7 +14,7 @@ export function PinPlacementSection() {
   const statusColors: Record<typeof phase, string> = {
     source: '#22c55e',
     destination: '#ef4444',
-    ready: '#A7C8FF',
+    ready: '#c8a45c',
   };
 
   const statusMessages: Record<typeof phase, string> = {
