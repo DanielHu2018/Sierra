@@ -11,6 +11,7 @@ import { buildMapboxStaticUrl, fetchMapboxThumbnail } from '../pdf/buildMapboxUr
 import { generatePdf } from '../pdf/pdfGenerator.js';
 import { mockContacts } from '../data/mock-contacts.js';
 import { CANNED_NARRATIVES } from '../data/canned-narrative.js';
+import { calculateImpactScores } from '../routing/impactScores.js';
 
 const router = Router();
 
@@ -233,22 +234,17 @@ router.post('/route', async (req, res) => {
       },
     ];
 
-    const popCoeff: Record<string, number> = {
-      'lowest-cost': 8_000,
-      'balanced': 15_000,
-      'lowest-risk': 6_500,
-    };
-
     const routes = routeDefs.map((r) => {
       const miles = totalDistanceMiles(r.path);
       const segs = buildSegmentJustifications(r.path);
       const avgFriction = segs.length
         ? segs.reduce((s, j) => s + j.frictionScore, 0) / segs.length
         : 0.5;
-      // Scale capex and permitting by path friction so chart varies between runs
-      const frictionMultiplier = 0.75 + avgFriction * 0.75; // range ~0.75–1.5
+      const frictionMultiplier = 0.75 + avgFriction * 0.75;
       const [pMin, pMax] = r.permitting;
-      const permittingScale = 0.8 + avgFriction * 0.6; // range ~0.8–1.4
+      const permittingScale = 0.8 + avgFriction * 0.6;
+      const routeNodes = r.path.map(id => graphNodes.find(n => n.id === id)!).filter(Boolean);
+      const impact = calculateImpactScores(routeNodes, miles, avgFriction);
       return {
         id: r.id,
         profile: r.profile,
@@ -265,11 +261,11 @@ router.post('/route', async (req, res) => {
         },
         segmentJustifications: segs,
         narrativeSummary: '',
-        populationServed: Math.round(miles * (popCoeff[r.profile] ?? 8_000)),
+        populationServed: impact.populationServed,
         impactScore: {
-          jobsCreated: Math.round(miles * 25),
-          emissionsReduced_tCO2: Math.round(miles * 8_200),
-          healthImpactScore: Math.round(55 + (popCoeff[r.profile] ?? 8_000) / 1_000),
+          jobsCreated: impact.jobsCreated,
+          emissionsReduced_tCO2: impact.emissionsReduced_tCO2,
+          healthImpactScore: impact.healthImpactScore,
         },
       };
     });
