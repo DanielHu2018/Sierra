@@ -31,7 +31,8 @@ let _browser: Browser | null = null;
 export async function getBrowser(): Promise<Browser> {
   if (!_browser) {
     _browser = await puppeteer.launch({
-      headless: true, // headless: 'new' is deprecated since v22; boolean is correct
+      headless: true,
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
